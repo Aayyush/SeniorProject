@@ -1,5 +1,7 @@
 In the project directory, you can run:
+### `npm install`
 
+Installs the necessary modules to run the app.
 ### `npm start`
 
 Runs the app in the development mode.<br />
