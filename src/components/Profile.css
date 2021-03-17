@@ -1,0 +1,67 @@
+body{
+   margin-top:120px;
+   background:#eee;
+}
+
+.profile-header {
+   position:relative;
+   overflow: hidden
+}
+
+.profile-header .profile-header-cover {
+   background-image: url(https://bootdey.com/img/Content/bg1.jpg);
+   background-size: cover;
+   background-position:center;
+   background-repeat: no-repeat;
+   position: absolute;
+   left: 0;
+   right: 0;
+   top: 0;
+   bottom: 0
+}
+
+.profile-header .profile-header-cover:before {
+   content: '';
+   position: absolute;
+   top: 0;
+   left: 0;
+   right: 0;
+   bottom: 0;
+   background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, .75) 100%)
+}
+
+.profile-header .profile-header-content {
+   color: #fff;
+   padding: 25px
+}
+
+.profile-header-img {
+   float: left;
+   width: 120px;
+   height: 120px;
+   overflow: hidden;
+   position: relative;
+   z-index: 10;
+   margin: 0 0 -20px;
+   padding: 3px;
+   border-radius: 4px;
+   background: #fff
+}
+
+.profile-header-img img {
+   max-width: 100%
+}
+
+.profile-header-info h4 {
+   font-weight: 500;
+   color: #fff
+}
+
+.profile-header-img+.profile-header-info {
+   margin-left: 140px
+}
+
+.profile-header .profile-header-content,
+.profile-header .profile-header-tab {
+   position: relative
+}
