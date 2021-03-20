@@ -2,7 +2,9 @@ import React, { useRef, useState } from "react"
 import { Form, Button, Card, Alert } from "react-bootstrap"
 import { useAuth } from "../contexts/AuthContext"
 import { Link, useHistory } from "react-router-dom"
+import { Route, Switch } from "react-router";
 import "./Profile.css"
+import ProfileAbout from "./ProfileAbout"
 
 export default function Profile() {
     const [error, setError] = useState("")
@@ -44,18 +46,42 @@ export default function Profile() {
                          <div class="profile-header-info">
                             <h4 class="m-t-10 m-b-5">Sean Ngu</h4>
                             <p class="m-b-10">UXUI + Frontend Developer</p>
-                            <a href="#" class="btn btn-sm btn-info mb-2">Edit Profile</a>
+                            <a href="/update-profile" class="btn btn-sm btn-info mb-2">Edit Profile</a>
                          </div>
                          {/* <!-- END profile-header-info --> */}
                       </div>
                       {/* <!-- END profile-header-content -->
                       <!-- BEGIN profile-header-tab --> */}
                       <ul class="profile-header-tab nav nav-tabs">
-                         <li class="nav-item"><a href="#profile-about" class="nav-link" data-toggle="tab">ABOUT</a></li>
-                         <li class="nav-item"><a href="#profile-videos" class="nav-link" data-toggle="tab">INTERESTS</a></li>
-                         <li class="nav-item"><a href="#profile-event" class="nav-link" data-toggle="tab">EVENTS</a></li>
-                         <li class="nav-item"><a href="#profile-friends" class="nav-link  active show" data-toggle="tab">FRIENDS</a></li>
-                         <li class="nav-item"><a href="#profile-photos" class="nav-link" data-toggle="tab">PHOTOS</a></li>
+                        <li class="nav-item"> 
+                            <Link to="/profile-about" class="nav-link" data-toggle="tab">
+                                ABOUT
+                            </Link>
+                            <Switch>
+                                <Route exact path="/profile-about" component={ ProfileAbout } class="nav-link" data-toggle="tab"/>
+                            </Switch>
+                        </li>
+                         <li class="nav-item">
+                            <Link to="/profile-interests" class="nav-link" data-toggle="tab">INTERESTS</Link></li>
+                            <Switch>
+                            <Route exact path="/profile-interests" component={ ProfileAbout } class="nav-link" data-toggle="tab"/>
+                            </Switch>
+                         <li class="nav-item"><Link to="/profile-events" class="nav-link" data-toggle="tab">EVENTS</Link>
+                            <Switch>
+                            <Route exact path="/profile-events" component={ ProfileAbout } class="nav-link" data-toggle="tab"/>
+                            </Switch>
+                         </li>
+                         <li class="nav-item"><Link to="/profile" class="nav-link  active show" data-toggle="tab">FRIENDS</Link>
+                            {/* <Switch>
+                                <Route exact path="/profile" component={ Profile } class="nav-link" data-toggle="tab"/>
+                            </Switch> */}
+                         </li>
+
+                        <li class="nav-item"><Link to="/profile-photos" class="nav-link" data-toggle="tab">PHOTOS</Link>
+                         <Switch>
+                                <Route exact path="/profile-photos" component={ Profile } class="nav-link" data-toggle="tab"/>
+                            </Switch>
+                        </li>
                       </ul>
                       {/* <!-- END profile-header-tab --> */}
                    </div>
