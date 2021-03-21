@@ -19,9 +19,17 @@ export function AuthProvider({ children }) {
   }
   
   function addUserDocuments() {
-	 //console.log(auth.currentUser.uid)
 	var db = firebase.firestore(app);
-	return db.collection('Users').doc(auth.currentUser.uid).set({Name: 'asdf'})
+	return db.collection('Users').doc(auth.currentUser.uid).set({Name: '', 
+																 Age: '', 
+																 Address: '',
+																 Location: new firebase.firestore.GeoPoint(0, 0),
+																 ProfilePic: db.doc('wassup-f05f5.appspot.com/asdf.jpg'),
+																 Bio: '',
+																 Friends: {},
+																 Hobbies: {},
+																 Preferences: {},
+																 Events: {}})
   }
 
   function login(email, password) {
