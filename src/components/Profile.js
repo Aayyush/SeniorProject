@@ -2,9 +2,7 @@ import React, { useRef, useState } from "react"
 import { Form, Button, Card, Alert } from "react-bootstrap"
 import { useAuth } from "../contexts/AuthContext"
 import { Link, useHistory } from "react-router-dom"
-import { Route, Switch } from "react-router";
 import "./Profile.css"
-import ProfileAbout from "./ProfileAbout"
 
 export default function Profile() {
     const [error, setError] = useState("")
@@ -57,31 +55,21 @@ export default function Profile() {
                             <Link to="/profile-about" class="nav-link" data-toggle="tab">
                                 ABOUT
                             </Link>
-                            <Switch>
-                                <Route exact path="/profile-about" component={ ProfileAbout } class="nav-link" data-toggle="tab"/>
-                            </Switch>
                         </li>
                          <li class="nav-item">
                             <Link to="/profile-interests" class="nav-link" data-toggle="tab">INTERESTS</Link></li>
-                            <Switch>
-                            <Route exact path="/profile-interests" component={ ProfileAbout } class="nav-link" data-toggle="tab"/>
-                            </Switch>
+                            
                          <li class="nav-item"><Link to="/profile-events" class="nav-link" data-toggle="tab">EVENTS</Link>
-                            <Switch>
-                            <Route exact path="/profile-events" component={ ProfileAbout } class="nav-link" data-toggle="tab"/>
-                            </Switch>
+                            
                          </li>
                          <li class="nav-item"><Link to="/profile" class="nav-link  active show" data-toggle="tab">FRIENDS</Link>
-                            {/* <Switch>
-                                <Route exact path="/profile" component={ Profile } class="nav-link" data-toggle="tab"/>
-                            </Switch> */}
                          </li>
-
-                        <li class="nav-item"><Link to="/profile-photos" class="nav-link" data-toggle="tab">PHOTOS</Link>
-                         <Switch>
-                                <Route exact path="/profile-photos" component={ Profile } class="nav-link" data-toggle="tab"/>
-                            </Switch>
+                         <li class="nav-item"><Link to="/profile-photos" class="nav-link" data-toggle="tab">PHOTOS</Link>
                         </li>
+
+                         
+
+                        
                       </ul>
                       {/* <!-- END profile-header-tab --> */}
                    </div>
@@ -93,7 +81,16 @@ export default function Profile() {
               <div class="tab-content p-0">
                  {/* <!-- begin #profile-friends tab --> */}
                  <div class="tab-pane fade in active show" id="profile-friends">
-                    <h4 class="m-t-0 m-b-20">Friend List (14)</h4>
+                    <h4 class="m-t-0 m-b-20">
+                    <ul class="profile-header-tab nav nav-tabs">
+                        <li class="nav-item"> 
+                            Friend List (14)
+                        </li>
+                         <li class="nav-item">
+                            <Link to="/find-friends" class="nav-link" data-toggle="tab">Find Friends</Link></li>
+                            </ul>
+                       
+                     </h4>
                     {/* <!-- begin row --> */}
                     <div class="row row-space-2">
                        {/* <!-- begin col-6 --> */}

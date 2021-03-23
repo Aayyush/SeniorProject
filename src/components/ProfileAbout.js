@@ -56,27 +56,18 @@ export default function ProfileAbout() {
                             <Link to="/profile-about" class="nav-link   active show" data-toggle="tab">
                                 ABOUT
                             </Link>
-                            {/* <Switch>
-                                <Route exact path="/profile-about" component={ ProfileAbout } class="nav-link" data-toggle="tab"/>
-                            </Switch> */}
                         </li>
                          <li class="nav-item">
                             <Link to="/profile-interests" class="nav-link" data-toggle="tab">INTERESTS</Link></li>
-                            <Switch>
-                            <Route exact path="/profile-interests" component={ ProfileAbout } class="nav-link" data-toggle="tab"/>
-                            </Switch>
+                            
                          <li class="nav-item"><Link to="/profile-events" class="nav-link" data-toggle="tab">EVENTS</Link>
-                            <Switch>
-                            <Route exact path="/profile-events" component={ ProfileAbout } class="nav-link" data-toggle="tab"/>
-                            </Switch>
+                            
                          </li>
                          <li class="nav-item"><Link to="/profile" class="nav-link" data-toggle="tab">FRIENDS</Link>
                          </li>
 
                         <li class="nav-item"><Link to="/profile-photos" class="nav-link" data-toggle="tab">PHOTOS</Link>
-                         <Switch>
-                                <Route exact path="/profile-photos" component={ ProfileAbout } class="nav-link" data-toggle="tab"/>
-                            </Switch>
+                         
                         </li>
                       </ul>
                       {/* <!-- END profile-header-tab --> */}
