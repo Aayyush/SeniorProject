@@ -11,6 +11,7 @@ import UpdateProfile from "./UpdateProfile"
 import Profile from "./Profile"
 import ProfileAbout from "./ProfileAbout"
 import ProfileInterest from "./ProfileInterest"
+import ProfilePhotos from "./ProfilePhotos"
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
               <PrivateRoute path="/profile" component={Profile} />
               <PrivateRoute path="/profile-interests" component={ProfileInterest} />
               <PrivateRoute path="/profile-about" component={ProfileAbout} />
+              <PrivateRoute path="/profile-photos" component={ProfilePhotos} />
               <Route path="/signup" component={Signup} />
               <Route path="/login" component={Login} />
               <Route path="/forgot-password" component={ForgotPassword} />
