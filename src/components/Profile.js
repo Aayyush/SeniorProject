@@ -66,10 +66,6 @@ export default function Profile() {
                          </li>
                          <li class="nav-item"><Link to="/profile-photos" class="nav-link" data-toggle="tab">PHOTOS</Link>
                         </li>
-
-                         
-
-                        
                       </ul>
                       {/* <!-- END profile-header-tab --> */}
                    </div>

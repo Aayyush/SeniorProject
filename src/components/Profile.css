@@ -32,7 +32,11 @@ body{
 
 .profile-header .profile-header-content {
    color: #fff;
-   padding: 25px
+   padding: 25px;
+}
+
+.profile-header .profile-header-content .button{
+   background-color: #2670a2; /* Green */
 }
 
 .profile-header-img {
@@ -44,8 +48,8 @@ body{
    z-index: 10;
    margin: 0 0 -20px;
    padding: 3px;
-   border-radius: 4px;
-   background: #fff
+   border-radius: 0px;
+   background: rgb(7, 7, 7)
 }
 
 .profile-header-img img {
@@ -58,7 +62,12 @@ body{
 }
 
 .profile-header-img+.profile-header-info {
-   margin-left: 140px
+   margin-left: 140px;
+   margin-bottom: 20px;
+}
+
+.profile-header-img-edit {
+   margin-left: 30px;
 }
 
 .profile-header .profile-header-content,
