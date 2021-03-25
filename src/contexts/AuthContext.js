@@ -26,9 +26,9 @@ export function AuthProvider({ children }) {
 																 Location: new firebase.firestore.GeoPoint(0, 0),
 																 ProfilePic: db.doc('wassup-f05f5.appspot.com/asdf.jpg'),
 																 Bio: '',
-																 Friends: {},
+																 Friends: [],
 																 Hobbies: {},
-																 Preferences: {},
+																 Preferences: {AgeRange: [0,100]},
 																 Events: {}})
   }
 

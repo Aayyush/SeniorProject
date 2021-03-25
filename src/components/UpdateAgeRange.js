@@ -1,10 +1,13 @@
 import React, { useRef, useState } from "react"
 import { Form, Button, Card, Alert } from "react-bootstrap"
-import { useAuth } from "../contexts/AuthContext"
 import { Link, useHistory } from "react-router-dom"
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
+import app from "../firebase"
+import firebase from "firebase/app"
+import 'firebase/firestore'
+import { auth } from "../firebase"
 
 const useStyles = makeStyles({
   root: {
@@ -17,20 +20,22 @@ function valuetext(value) {
 }
 
 export default function UpdateAgeRange() {
-  const rangeRef = useRef()
   const [error, setError] = useState("")
-  const [loading, setLoading] = useState(false)
-  const history = useHistory()
   const classes = useStyles();
-  const [value, setValue] = React.useState([20, 37]);
+  const [value, setValue] = React.useState([0, 100]);
   
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
   
   function handleUpdate(value) {
-	  window.alert(value);
-	  console.log('asdf');
+	  window.alert(`The age range has been updated to ${value[0]} - ${value[1]}`);
+	  var db = firebase.firestore(app);
+	  db.collection('Users').doc(auth.currentUser.uid).update({
+		  Preferences: {
+			  AgeRange: [value[0], value[1]]
+		} 
+	  });
   }
 
   return (
