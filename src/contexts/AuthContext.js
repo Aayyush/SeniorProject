@@ -18,18 +18,11 @@ export function AuthProvider({ children }) {
     return auth.createUserWithEmailAndPassword(email, password)
   }
   
-  function addUserDocuments() {
-	var db = firebase.firestore(app);
-	return db.collection('Users').doc(auth.currentUser.uid).set({Name: '', 
-																 Age: '', 
-																 Address: '',
-																 Location: new firebase.firestore.GeoPoint(0, 0),
-																 ProfilePic: db.doc('wassup-f05f5.appspot.com/asdf.jpg'),
-																 Bio: '',
-																 Friends: [],
-																 Hobbies: {},
-																 Preferences: {AgeRange: [0,100]},
-																 Events: {}})
+  function addUserDocuments(userObject) {
+  var db = firebase.firestore(app);
+  console.log("Adding new User")
+  console.log(userObject)
+	return db.collection('Users').doc(auth.currentUser.uid).set(userObject)
   }
 
   function login(email, password) {
