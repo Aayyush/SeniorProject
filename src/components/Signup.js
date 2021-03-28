@@ -33,6 +33,7 @@ export default function Signup() {
   const [loading, setLoading] = useState(false)
   const [minAgePreference, setMinAgePreference] = useState(18)
   const [maxAgePreference, setMaxAgePreference] = useState(35)
+  const [maxDistancePreference, setMaxDistancePreference] = useState(50) // in miles
   const [dateOfBirth, setDateOfBirth] = useState(new Date())
 
   const history = useHistory()
@@ -86,7 +87,8 @@ export default function Signup() {
         Friends: [],
         Hobbies: interestsRef.current.value.split(','),
         Preferences: {
-          AgeRange: [minAgePreference, maxAgePreference]
+          AgeRange: [minAgePreference, maxAgePreference],
+		  MaxDistance: maxDistancePreference
         }, 
         Events: {}
       }
@@ -145,6 +147,13 @@ export default function Signup() {
                 <RangeSlider
                   value={maxAgePreference}
                   onChange={e => setMaxAgePreference(e.target.value)}
+                />
+            </Form.Group>
+            <Form.Group id="distance-preference-max">
+              <Form.Label>Max distance (miles) to events preference</Form.Label>
+                <RangeSlider
+                  value={maxDistancePreference}
+                  onChange={e => setMaxDistancePreference(e.target.value)}
                 />
             </Form.Group>
             <Form.Group id="bio">
