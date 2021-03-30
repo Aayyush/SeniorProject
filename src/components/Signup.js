@@ -78,6 +78,7 @@ export default function Signup() {
       // Store Form fields.
       const userProfile = {
         Name : nameRef.current.value,
+        DOB: dateOfBirth,
         Age: calculate_age(dateOfBirth),
         Address: address,
         Location: new firebase.firestore.GeoPoint(latitude, longitude),

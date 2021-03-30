@@ -25,6 +25,13 @@ export function AuthProvider({ children }) {
 	return db.collection('Users').doc(auth.currentUser.uid).set(userObject)
   }
 
+  function fetchUserDocument() {
+    var db = firebase.firestore(app);
+    console.log("Fetching User data")
+    return db.collection('Users').doc(auth.currentUser.uid).get();
+    }
+  
+
   function login(email, password) {
     return auth.signInWithEmailAndPassword(email, password)
   }
@@ -57,6 +64,7 @@ export function AuthProvider({ children }) {
   const value = {
     currentUser,
 	addUserDocuments,
+  fetchUserDocument,
     login,
     signup,
     logout,

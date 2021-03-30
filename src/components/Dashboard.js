@@ -32,7 +32,7 @@ export default function Dashboard() {
     <>
       <Card>
         <Card.Body>
-          <h2 className="text-center mb-4">Profile</h2>
+          <h2 className="text-center mb-4">Home</h2>
           {error && <Alert variant="danger">{error}</Alert>}
           { userDataDoc &&
 		  <div>
