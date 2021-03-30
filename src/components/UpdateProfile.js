@@ -133,7 +133,7 @@ export default function UpdateProfile() {
                          { userDataDoc &&
                             <h4 class="m-t-10 m-b-5">{userDataDoc["Name"]}</h4>
                          }
-                            <p class="m-b-10">UXUI + Frontend Developer</p>
+                            <p class="m-b-10">{userDataDoc["Profession"]}</p>
                             <a href="/profile-about" class="btn btn-sm btn-dark mb-2">Go back to Profile</a>
                          </div>
                          <div class="profile-header-img-edit">

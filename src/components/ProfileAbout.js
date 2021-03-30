@@ -14,19 +14,18 @@ function valuetext(value) {
 
 export default function ProfileAbout() {
    const [error, setError] = useState("");
-   const { currentUser, logout } = useAuth();
+   const [userDataDoc, setUserDataDoc] = useState("");
+   const { currentUser, logout, fetchUserDocument } = useAuth();
    const history = useHistory();
    const [value, setValue] = React.useState([0, 100]);
-   const bio = ""; 
 
-   const userBio = (uid, callback) => {
-      return this.db
-          .collection("users")
-          .doc(uid)
-          .doc(bio)
-          .get()
-          .then(callback);
-  };
+  async function getUserData() {
+   const doc = await fetchUserDocument();
+   return doc;
+}
+if (!userDataDoc) {
+   getUserData().then(doc => setUserDataDoc(doc.data()));
+}
    async function handleLogout() {
       setError("")
    
@@ -59,8 +58,10 @@ export default function ProfileAbout() {
                          {/* <!-- END profile-header-img -->
                          <!-- BEGIN profile-header-info --> */}
                          <div class="profile-header-info">
-                            <h4 class="m-t-10 m-b-5">Sean Ngu</h4>
-                            <p class="m-b-10">UXUI + Frontend Developer</p>
+                         { userDataDoc &&
+                            <h4 class="m-t-10 m-b-5">{userDataDoc["Name"]}</h4>
+                         }
+                            <p class="m-b-10">{userDataDoc["Profession"]}</p>
                             <a href="/update-profile" class="btn btn-sm btn-info mb-2">Edit Profile</a>
                          </div>
                          {/* <!-- END profile-header-info --> */}
@@ -106,7 +107,7 @@ export default function ProfileAbout() {
                        <div class="box">
                        <center>
                            <p class="text-left">
-                                 {userBio}
+                           {userDataDoc["Bio"]}
                            
                            </p>
                         </center>
@@ -114,16 +115,17 @@ export default function ProfileAbout() {
                         <p></p>
                         <p>
                            <span> <strong>Profession: </strong></span>
-                           <span class="label label-warning">UXUI + Frontend Developer</span>
+                           <span class="label label-warning">{userDataDoc["Profession"]}</span>
                         </p>
                         {/* <button type="button" align = 'right'> Edit Profession </button> */}
                         <p></p>
                         <p><span>
                            <strong>Skills: </strong></span>
-                        <span class="label label-warning">HTML5/CSS</span>
-                        <span class="label label-info">Adobe CS 5.5</span>
-                        <span class="label label-info">Microsoft Office</span>
-                        <span class="label label-success">Windows XP, Vista, 7</span>
+                           <ul>
+                              {userDataDoc["Skills"].map((value, index) => {
+                              return <li key={index}>{value}</li>
+                              })}
+                           </ul>
                         </p>
                         {/* <button type="button" align = 'right'> Edit Skills </button> */}
                         
