@@ -16,6 +16,8 @@ export default function Signup() {
   const passwordRef = useRef()
   const passwordConfirmRef = useRef()
   const bioRef = useRef() 
+  const professionref = useRef()
+  const skillsref = useRef()
   const interestsRef = useRef()
   const nameRef = useRef()
   
@@ -89,7 +91,9 @@ export default function Signup() {
         Preferences: {
           AgeRange: [minAgePreference, maxAgePreference]
         }, 
-        Events: {}
+        Events: {},
+        Profession:professionref.current.value.split(','),
+        Skills:skillsref.current.value.split(',')
       }
 
       // Sign Up User
@@ -134,20 +138,7 @@ export default function Signup() {
               <Form.Label>Password Confirmation</Form.Label>
               <Form.Control type="password" ref={passwordConfirmRef} required />
             </Form.Group>
-            <Form.Group id="age-preference-min">
-              <Form.Label>Min Age Preference</Form.Label>
-                <RangeSlider
-                  value={minAgePreference}
-                  onChange={e => setMinAgePreference(e.target.value)}
-                />
-            </Form.Group>
-            <Form.Group id="age-preference-max">
-              <Form.Label>Max Age Preference</Form.Label>
-                <RangeSlider
-                  value={maxAgePreference}
-                  onChange={e => setMaxAgePreference(e.target.value)}
-                />
-            </Form.Group>
+            
             <Form.Group id="bio">
               <Form.Label>Bio</Form.Label>
               <Form.Control type="text" ref={bioRef} required />
@@ -163,9 +154,32 @@ export default function Signup() {
               <Form.Label>Interests (Comma Separated)</Form.Label>
               <Form.Control type="text" ref={interestsRef} required />
             </Form.Group>
+            <Form.Group id="profession">
+              <Form.Label>Profession (Comma Separated)</Form.Label>
+              <Form.Control type="text" ref={professionref} required />
+            </Form.Group>
+            <Form.Group id="skills">
+              <Form.Label>Skills (Comma Separated)</Form.Label>
+              <Form.Control type="text" ref={skillsref} required />
+            </Form.Group>
+            <Form.Group id="age-preference-min">
+              <Form.Label>Min Age Preference</Form.Label>
+                <RangeSlider
+                  value={minAgePreference}
+                  onChange={e => setMinAgePreference(e.target.value)}
+                />
+            </Form.Group>
+            <Form.Group id="age-preference-max">
+              <Form.Label>Max Age Preference</Form.Label>
+                <RangeSlider
+                  value={maxAgePreference}
+                  onChange={e => setMaxAgePreference(e.target.value)}
+                />
+            </Form.Group>
             <Form.Group id="user-location">
               <Form.Label>User Location <b>{latitude} {longitude}</b></Form.Label>
             </Form.Group>
+            
             <Button disabled={loading} className="w-100" type="submit">
               Sign Up
             </Button>

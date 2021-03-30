@@ -26,6 +26,10 @@ function App() {
             <Switch>
               <PrivateRoute exact path="/" component={Dashboard} />
               <PrivateRoute path="/update-profile" component={UpdateProfile} />
+              <PrivateRoute path="/update-profile-about" component={UpdateProfile} />
+              <PrivateRoute path="/update-profile-friends" component={UpdateProfile} />
+              <PrivateRoute path="/update-profile-events" component={UpdateProfile} />
+              <PrivateRoute path="/update-profile-interests" component={UpdateProfile} />
               <PrivateRoute path="/profile" component={Profile} />
               <PrivateRoute path="/profile-interests" component={ProfileInterest} />
               <PrivateRoute path="/profile-about" component={ProfileAbout} />

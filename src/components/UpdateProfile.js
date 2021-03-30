@@ -149,25 +149,24 @@ export default function UpdateProfile() {
                       <!-- BEGIN profile-header-tab --> */}
                       <ul class="profile-header-tab nav nav-tabs">
                       <li class="nav-item"> 
-                            <Link to="/profile-login-update" class="nav-link active show" data-toggle="tab">
+                            <Link to="/update-profile" class="nav-link active show" data-toggle="tab">
                                 ACCOUNT
                             </Link>
                         </li>
                         <li class="nav-item"> 
-                            <Link to="/profile-about" class="nav-link" data-toggle="tab">
+                            <Link to="/update-profile-about" class="nav-link" data-toggle="tab">
                                 ABOUT
                             </Link>
                         </li>
                          <li class="nav-item">
-                            <Link to="/profile-interests" class="nav-link" data-toggle="tab">INTERESTS</Link></li>
+                            <Link to="/update-profile-interests" class="nav-link" data-toggle="tab">INTERESTS</Link></li>
                             
-                         <li class="nav-item"><Link to="/profile-events" class="nav-link" data-toggle="tab">EVENTS</Link>
+                         <li class="nav-item"><Link to="/update-profile-events" class="nav-link" data-toggle="tab">EVENTS</Link>
                             
                          </li>
-                         <li class="nav-item"><Link to="/profile" class="nav-link" data-toggle="tab">FRIENDS</Link>
+                         <li class="nav-item"><Link to="/update-profile-friends" class="nav-link" data-toggle="tab">FRIENDS</Link>
                          </li>
-                         <li class="nav-item"><Link to="/profile-photos" class="nav-link" data-toggle="tab">PHOTOS</Link>
-                        </li>
+                         
                       </ul>
                       {/* <!-- END profile-header-tab --> */}
                       </div>
