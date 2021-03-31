@@ -8,10 +8,6 @@ import 'firebase/firestore'
 import { auth } from "../firebase"
 import "./Profile.css"
 
-function valuetext(value) {
-   return `${value}`;
- }
-
 export default function ProfileAbout() {
    const [error, setError] = useState("");
    const [userDataDoc, setUserDataDoc] = useState("");
@@ -23,9 +19,9 @@ export default function ProfileAbout() {
    const doc = await fetchUserDocument();
    return doc;
 }
-if (!userDataDoc) {
-   getUserData().then(doc => setUserDataDoc(doc.data()));
-}
+   if (!userDataDoc) {
+      getUserData().then(doc => setUserDataDoc(doc.data()));
+   }
    async function handleLogout() {
       setError("")
    
@@ -115,17 +111,25 @@ if (!userDataDoc) {
                         <p></p>
                         <p>
                            <span> <strong>Profession: </strong></span>
-                           <span class="label label-warning">{userDataDoc["Profession"]}</span>
-                        </p>
+                           { userDataDoc &&
+                            <ul>
+                              {userDataDoc["Profession"].map((value, index) => {
+                              return <li key={index}>{value}</li>
+                              })}
+                           </ul>
+                           }
+                           </p>
                         {/* <button type="button" align = 'right'> Edit Profession </button> */}
                         <p></p>
                         <p><span>
                            <strong>Skills: </strong></span>
-                           <ul>
+                           { userDataDoc &&
+                            <ul>
                               {userDataDoc["Skills"].map((value, index) => {
                               return <li key={index}>{value}</li>
                               })}
                            </ul>
+                           }
                         </p>
                         {/* <button type="button" align = 'right'> Edit Skills </button> */}
                         
