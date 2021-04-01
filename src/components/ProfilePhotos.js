@@ -6,20 +6,28 @@ import "./Profile.css"
 import "./ProfilePhotos.css"
 
 export default function ProfilePhotos() {
-    const [error, setError] = useState("")
-    const { currentUser, logout } = useAuth()
-    const history = useHistory()
-    
-    async function handleLogout() {
-        setError("")
-    
-        try {
-        await logout()
-        history.push("/login")
-        } catch {
-        setError("Failed to log out")
-        }
+  const [error, setError] = useState("");
+  const [userDataDoc, setUserDataDoc] = useState("");
+  const { logout, fetchUserDocument } = useAuth();
+  const history = useHistory();
+  
+  async function getUserData() {
+    const doc = await fetchUserDocument();
+    return doc;
     }
+    if (!userDataDoc) {
+       getUserData().then(doc => setUserDataDoc(doc.data()));
+  }
+  async function handleLogout() {
+      setError("")
+  
+      try {
+      await logout()
+      history.push("/login")
+      } catch {
+      setError("Failed to log out")
+      }
+  }
 
   return (
     
@@ -43,9 +51,13 @@ export default function ProfilePhotos() {
                          {/* <!-- END profile-header-img -->
                          <!-- BEGIN profile-header-info --> */}
                          <div class="profile-header-info">
-                            <h4 class="m-t-10 m-b-5">Sean Ngu</h4>
-                            <p class="m-b-10">UXUI + Frontend Developer</p>
-                            <a href="/update-profile" class="btn btn-sm btn-info mb-2">Edit Profile</a>
+                         { userDataDoc &&
+                              <h4 class="m-t-10 m-b-5">{userDataDoc["Name"]}</h4>
+                           }
+                            <div>
+                              {userDataDoc && userDataDoc["Profession"].join(',')}
+                           </div>
+                           <a href="/update-profile" class="btn btn-sm btn-info mb-2">Edit Profile</a>
                          </div>
                          {/* <!-- END profile-header-info --> */}
                       </div>
