@@ -1,0 +1,22 @@
+.btn-toolbar button {
+   background-color: #abc6d8; /* Green background */
+   border: 1px solid black; /* Green border */
+   color: black; /* White text */
+   padding: 10px 24px; /* Some padding */
+   cursor: pointer; /* Pointer/hand icon */
+   float: left; /* Float the buttons side by side */
+   margin: 1em;
+   border-radius: 40%;
+ }
+ 
+ /* Clear floats (clearfix hack) */
+ .btn-toolbar:after {
+   content: "";
+   clear: both;
+   display: table;
+ }
+ 
+ /* Add a background color on hover */
+ .btn-toolbar button:hover {
+   background-color: #a5a9aa;
+ }

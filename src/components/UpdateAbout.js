@@ -6,37 +6,20 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import app from "../firebase"
 import firebase from "firebase/app"
-import { auth } from "../firebase"
+import { auth, firestore } from "../firebase"
+import 'firebase/firestore';
 
-export default function UpdateProfile() {
+export default function UpdateAbout() {
   const [userDataDoc, setUserDataDoc] = useState("")
 
   // References for form fields
-  const nameRef = useRef()
-  const ageRef = useRef()
-  const emailRef = useRef()
-  const passwordRef = useRef()
-  const passwordConfirmRef = useRef()
-  const { currentUser, updatePassword, updateEmail, fetchUserDocument } = useAuth()
+  const bioRef = useRef()
+  const professionRef = useRef()
+  const skillsRef = useRef()
+  const { fetchUserDocument } = useAuth()
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
   const history = useHistory()
-
-  const [name, setName] = useState();
-
-  const [dateOfBirth, setDateOfBirth] = useState(new Date())
-
-  const calculate_age = (dateOfBirth) => {
-    var today = new Date();
-    var birthDate = new Date(dateOfBirth); 
-    var age_now = today.getFullYear() - birthDate.getFullYear();
-    var m = today.getMonth() - birthDate.getMonth();
-    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) 
-    {
-      age_now--;
-    }
-    return age_now;
-  }
 
   async function getUserData() {
 	  const doc = await fetchUserDocument();
@@ -46,51 +29,79 @@ export default function UpdateProfile() {
 	  getUserData().then(doc => setUserDataDoc(doc.data()));
   }
 
-  function updateName(name) {
-    console.log(name);
+  function updateBio(bio) {
     var db = firebase.firestore(app);
     db.collection('Users').doc(auth.currentUser.uid).update({
-      Name: name
+      Bio: bio
     });
   }
 
-  function updateAge(date) {
-    console.log(name);
+  function updateSkills(skills, oldSkills) {
     var db = firebase.firestore(app);
-    db.collection('Users').doc(auth.currentUser.uid).update({
-      DOB: dateOfBirth,
-      Age: calculate_age(dateOfBirth),
-    });
+    var skill;
+    var idx;
+    const newSkills = skills.split(',');
+    for (skill in newSkills) {
+        if (newSkills[skill] && typeof(newSkills[skill]) === 'string') {
+            db.collection('Users').doc(auth.currentUser.uid).update({
+                Skills: firebase.firestore.FieldValue.arrayUnion(newSkills[skill])
+            });
+        }
+    }
+
+    for (idx in oldSkills) {
+        if (!newSkills.includes(oldSkills[idx]) && typeof(oldSkills[idx]) === 'string') {
+            db.collection('Users').doc(auth.currentUser.uid).update({
+                Skills: firebase.firestore.FieldValue.arrayRemove(oldSkills[idx])
+            });
+        }
+    }
+  }
+
+  function updateProfession(profession, oldProfs) {
+    var db = firebase.firestore(app);
+    const newProf = profession.split(',');
+    var prof;
+    var idx;
+    for (prof in newProf) {
+        if (newProf[prof] && typeof(newProf[prof]) === 'string') {
+            db.collection('Users').doc(auth.currentUser.uid).update({
+                Profession: firebase.firestore.FieldValue.arrayUnion(newProf[prof])
+            });
+        }
+    }
+
+    for (idx in oldProfs) {
+        if (!newProf.includes(oldProfs[idx]) && typeof(oldProfs[idx]) === 'string') {
+            db.collection('Users').doc(auth.currentUser.uid).update({
+                Profession: firebase.firestore.FieldValue.arrayRemove(oldProfs[idx])
+            });
+        }
+    }
   }
 
   function handleSubmit(e) {
     e.preventDefault()
-    if (passwordRef.current.value !== passwordConfirmRef.current.value) {
-      return setError("Passwords do not match")
-    }
 
     const promises = []
     setLoading(true)
     setError("")
 
-    if (emailRef.current.value !== currentUser.email) {
-      promises.push(updateEmail(emailRef.current.value))
-    }
-    if (passwordRef.current.value) {
-      promises.push(updatePassword(passwordRef.current.value))
+    if (bioRef.current.value !== userDataDoc["Bio"]) {
+      promises.push(updateBio(bioRef.current.value ))
     }
 
-    if (nameRef.current.value !== userDataDoc["Name"]) {
-      promises.push(updateName(nameRef.current.value ))
-    }
+    if (skillsRef.current.value !== userDataDoc["Skills"]) {
+        promises.push(updateSkills(skillsRef.current.value, userDataDoc["Skills"]))
+      }
 
-    if (dateOfBirth.current.value !== userDataDoc["DOB"]) {
-      promises.push(updateAge(dateOfBirth.current.value ))
-    }
+    if (professionRef.current.value !== userDataDoc["Profession"]) {
+        promises.push(updateProfession(professionRef.current.value, userDataDoc["Profession"]))
+      }
 
     Promise.all(promises)
       .then(() => {
-        history.push("/")
+        history.push("/profile-about")
       })
       .catch(() => {
         setError("Failed to update account")
@@ -130,9 +141,9 @@ export default function UpdateProfile() {
                          {/* <!-- END profile-header-img -->
                          <!-- BEGIN profile-header-info --> */}
                          <div class="profile-header-info">
-                         { userDataDoc &&
-                            <h4 class="m-t-10 m-b-5">{userDataDoc["Name"]}</h4>
-                         }
+                            { userDataDoc &&
+                                <h4 class="m-t-10 m-b-5">{userDataDoc["Name"]}</h4>
+                            }
                             <div>
                               {userDataDoc && userDataDoc["Profession"].join(',')}
                            </div>
@@ -151,12 +162,12 @@ export default function UpdateProfile() {
                       <!-- BEGIN profile-header-tab --> */}
                       <ul class="profile-header-tab nav nav-tabs">
                       <li class="nav-item"> 
-                            <Link to="/update-profile" class="nav-link active show" data-toggle="tab">
+                            <Link to="/update-profile" class="nav-link " data-toggle="tab">
                                 ACCOUNT
                             </Link>
                         </li>
                         <li class="nav-item"> 
-                            <Link to="/update-profile-about" class="nav-link" data-toggle="tab">
+                            <Link to="/update-profile-about" class="nav-link active show" data-toggle="tab">
                                 ABOUT
                             </Link>
                         </li>
@@ -177,54 +188,38 @@ export default function UpdateProfile() {
                 <!-- begin profile-content -->*/}
       <Card>
         <Card.Body>
-          <h2 className="text-center mb-4">Update Account Info</h2>
+          <h2 className="text-center mb-4">Updates About You</h2>
           {error && <Alert variant="danger">{error}</Alert>}<Form onSubmit={handleSubmit}>
           <Form onSubmit={handleSubmit}>
-          <Form.Group id="name">
-              <Form.Label>Full Name</Form.Label>
+          <Form.Group id="Bio">
+              <Form.Label>Bio</Form.Label>
               <Form.Control
                 type="text"
-                ref={nameRef}
+                ref={bioRef}
                 required
-                placeholder={userDataDoc["Name"]}
-                defaultValue={userDataDoc["Name"]}
+                placeholder={userDataDoc["Bio"]}
+                defaultValue={userDataDoc["Bio"]}
               />
             </Form.Group>
-            <Form.Group id="email">
-              <Form.Label>Email</Form.Label>
-              <Form.Control
-                type="email"
-                ref={emailRef}
-                required
-                placeholder={currentUser.email}
-                defaultValue={currentUser.email}
+            <Form.Group id="profession">
+              <Form.Label>Profession (Comma Separated)</Form.Label>
+              <Form.Control 
+              type="text" 
+              ref={professionRef} 
+              placeholder={userDataDoc["Profession"]}
+              defaultValue={userDataDoc["Profession"]}
+               />
+            </Form.Group>
+            <Form.Group id="skills">
+              <Form.Label>Skills (Comma Separated)</Form.Label>
+              <Form.Control 
+              type="text" 
+              ref={skillsRef} 
+              placeholder={userDataDoc["Skills"]}
+              defaultValue={userDataDoc["Skills"]}
               />
             </Form.Group>
-            <Form.Group id="password">
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                type="password"
-                ref={passwordRef}
-                placeholder="Leave blank to keep the same"
-              />
-            </Form.Group>
-            <Form.Group id="password-confirm">
-              <Form.Label>Password Confirmation</Form.Label>
-              <Form.Control
-                type="password"
-                ref={passwordConfirmRef}
-                placeholder="Leave blank to keep the same"
-              />
-            </Form.Group>
-            <Form.Group id="date-of-birth">
-              <Form.Label>Date Of Birth</Form.Label>
-                <DatePicker
-                  onChange={date => setDateOfBirth(date)}
-                  ref={dateOfBirth}
-                  selected={dateOfBirth}
-                  defaultValue={userDataDoc["DOB"]}
-                />
-            </Form.Group>
+            
             <Button className="w-100" type="submit">
               Update
             </Button>
