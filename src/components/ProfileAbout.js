@@ -18,10 +18,11 @@ export default function ProfileAbout() {
   async function getUserData() {
    const doc = await fetchUserDocument();
    return doc;
-}
+   }
    if (!userDataDoc) {
       getUserData().then(doc => setUserDataDoc(doc.data()));
    }
+
    async function handleLogout() {
       setError("")
    
@@ -54,10 +55,12 @@ export default function ProfileAbout() {
                          {/* <!-- END profile-header-img -->
                          <!-- BEGIN profile-header-info --> */}
                          <div class="profile-header-info">
-                         { userDataDoc &&
-                            <h4 class="m-t-10 m-b-5">{userDataDoc["Name"]}</h4>
-                         }
-                            <p class="m-b-10">{userDataDoc["Profession"]}</p>
+                           { userDataDoc &&
+                              <h4 class="m-t-10 m-b-5">{userDataDoc["Name"]}</h4>
+                           }
+                            <div>
+                              {userDataDoc && userDataDoc["Profession"].join(',')}
+                           </div>
                             <a href="/update-profile" class="btn btn-sm btn-info mb-2">Edit Profile</a>
                          </div>
                          {/* <!-- END profile-header-info --> */}

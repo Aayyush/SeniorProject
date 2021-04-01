@@ -16,9 +16,7 @@ export default function UpdateAbout() {
   const bioRef = useRef()
   const professionRef = useRef()
   const skillsRef = useRef()
-  const passwordRef = useRef()
-  const passwordConfirmRef = useRef()
-  const { updatePassword, fetchUserDocument } = useAuth()
+  const { fetchUserDocument } = useAuth()
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
   const history = useHistory()
@@ -66,17 +64,10 @@ export default function UpdateAbout() {
 
   function handleSubmit(e) {
     e.preventDefault()
-    if (passwordRef.current.value !== passwordConfirmRef.current.value) {
-      return setError("Passwords do not match")
-    }
 
     const promises = []
     setLoading(true)
     setError("")
-
-    if (passwordRef.current.value) {
-      promises.push(updatePassword(passwordRef.current.value))
-    }
 
     if (bioRef.current.value !== userDataDoc["Bio"]) {
       promises.push(updateBio(bioRef.current.value ))
@@ -189,6 +180,7 @@ export default function UpdateAbout() {
                 placeholder={userDataDoc["Bio"]}
                 defaultValue={userDataDoc["Bio"]}
               />
+            </Form.Group>
             <Form.Group id="profession">
               <Form.Label>Profession (Comma Separated)</Form.Label>
               <Form.Control 
@@ -205,23 +197,6 @@ export default function UpdateAbout() {
               ref={skillsRef} 
               placeholder={userDataDoc["Skills"]}
               defaultValue={userDataDoc["Skills"]}
-              />
-            </Form.Group>
-            </Form.Group>
-            <Form.Group id="password">
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                type="password"
-                ref={passwordRef}
-                placeholder="Leave blank to keep the same"
-              />
-            </Form.Group>
-            <Form.Group id="password-confirm">
-              <Form.Label>Password Confirmation</Form.Label>
-              <Form.Control
-                type="password"
-                ref={passwordConfirmRef}
-                placeholder="Leave blank to keep the same"
               />
             </Form.Group>
             

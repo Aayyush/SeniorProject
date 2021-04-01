@@ -7,9 +7,18 @@ import "./ProfileInterests.css"
 
 export default function ProfileInterest() {
     const [error, setError] = useState("")
-    const { currentUser, logout } = useAuth()
+    const [userDataDoc, setUserDataDoc] = useState("");
+    const { currentUser, logout, fetchUserDocument } = useAuth();
     const history = useHistory()
     
+    async function getUserData() {
+      const doc = await fetchUserDocument();
+      return doc;
+      }
+      if (!userDataDoc) {
+         getUserData().then(doc => setUserDataDoc(doc.data()));
+      }
+
     async function handleLogout() {
         setError("")
     
@@ -43,10 +52,16 @@ export default function ProfileInterest() {
                          {/* <!-- END profile-header-img -->
                          <!-- BEGIN profile-header-info --> */}
                          <div class="profile-header-info">
-                            <h4 class="m-t-10 m-b-5">Sean Ngu</h4>
-                            <p class="m-b-10">UXUI + Frontend Developer</p>
-                            <a href="/update-profile" class="btn btn-sm btn-info mb-2">Edit Profile</a>
-                         </div>
+                           { userDataDoc &&
+                              <h4 class="m-t-10 m-b-5">{userDataDoc["Name"]}</h4>
+                           }
+                           <div>
+                              {userDataDoc && userDataDoc["Profession"].join(',')}
+                           </div>
+                           <div>
+                              <a href="/update-profile-interests" class="btn btn-sm btn-info mb-2">Edit Profile</a>
+                           </div>
+                        </div>
                          {/* <!-- END profile-header-info --> */}
                       </div>
                       {/* <!-- END profile-header-content -->
@@ -85,11 +100,13 @@ export default function ProfileInterest() {
                     <div class="row row-space-2">
                        {/* <!-- begin col-6 --> */}
                        <div class="btn-toolbar">
-                        <button>Soccer</button>
-                        <button>Cricket</button>
-                        <button>Party</button>
-                        <button>Arcade Games</button>
-                        <button>Piano</button>
+                       { userDataDoc &&
+                            <ul>
+                              {userDataDoc["Hobbies"].map((value, index) => {
+                              return <button key={index}>{value}</button>
+                              })}
+                           </ul>
+                           }
                         </div>
                      </div>
                   </div>
