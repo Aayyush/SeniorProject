@@ -55,7 +55,7 @@ export default function Profile() {
                               <h4 class="m-t-10 m-b-5">{userDataDoc["Name"]}</h4>
                            }
                             <div>
-                              {userDataDoc && userDataDoc["Profession"].join(',')}
+                              {userDataDoc && userDataDoc["Profession"] && userDataDoc["Profession"].join(',')}
                            </div>
                            <a href="/update-profile" class="btn btn-sm btn-info mb-2">Edit Profile</a>
                          </div>
