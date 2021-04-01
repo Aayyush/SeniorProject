@@ -491,8 +491,14 @@ export default function Profile() {
            </div>
            {/* <!-- end profile-content --> */}
         </div>
+        <div className="w-100 text-center mt-2">
+         <Button variant="link" onClick={handleLogout}>
+            Log Out
+         </Button>
+      </div>
         </div>
         </div>
     </div>
+    
   )
 }

@@ -155,15 +155,21 @@ export default function ProfilePhotos() {
             <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 profile">
               <div class="img-box">
                 <img src="http://nabeel.co.in/files/bootsnipp/team/12.jpg" class="img-responsive"></img>
-               </div>
-            </div>
-          </div>
-                        </div>
-                     </div>
+                    </div>
                   </div>
-               </div>
-            </div> 
-         {/* <!-- end profile-content --> */}
+                </div>
+                </div>
+              </div>
+          </div>
+
+            {/* <!-- end profile-content --> */}
+          <div className="w-100 text-center mt-2">
+            <Button variant="link" onClick={handleLogout}>
+               Log Out
+            </Button>
          </div>
+        </div>
+    </div> 
+  </div>
   )
 }
