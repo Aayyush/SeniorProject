@@ -61,7 +61,7 @@ export default function ProfileAbout() {
                             <div>
                               {userDataDoc && userDataDoc["Profession"].join(',')}
                            </div>
-                            <a href="/update-profile" class="btn btn-sm btn-info mb-2">Edit Profile</a>
+                            <a href="/update-profile-about" class="btn btn-sm btn-info mb-2">Edit Profile</a>
                          </div>
                          {/* <!-- END profile-header-info --> */}
                       </div>

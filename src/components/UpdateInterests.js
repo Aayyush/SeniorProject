@@ -61,7 +61,7 @@ export default function UpdateInterests() {
 
     Promise.all(promises)
       .then(() => {
-        history.push("/")
+        history.push("/profile-interests")
       })
       .catch(() => {
         setError("Failed to update account")

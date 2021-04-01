@@ -36,29 +36,47 @@ export default function UpdateAbout() {
     });
   }
 
-  function updateSkills(skills) {
+  function updateSkills(skills, oldSkills) {
     var db = firebase.firestore(app);
     var skill;
+    var idx;
     const newSkills = skills.split(',');
     for (skill in newSkills) {
         if (newSkills[skill] && typeof(newSkills[skill]) === 'string') {
             db.collection('Users').doc(auth.currentUser.uid).update({
                 Skills: firebase.firestore.FieldValue.arrayUnion(newSkills[skill])
             });
+        }
     }
+
+    for (idx in oldSkills) {
+        if (!newSkills.includes(oldSkills[idx]) && typeof(oldSkills[idx]) === 'string') {
+            db.collection('Users').doc(auth.currentUser.uid).update({
+                Skills: firebase.firestore.FieldValue.arrayRemove(oldSkills[idx])
+            });
+        }
     }
   }
 
-  function updateProfession(profession) {
+  function updateProfession(profession, oldProfs) {
     var db = firebase.firestore(app);
     const newProf = profession.split(',');
     var prof;
+    var idx;
     for (prof in newProf) {
         if (newProf[prof] && typeof(newProf[prof]) === 'string') {
             db.collection('Users').doc(auth.currentUser.uid).update({
                 Profession: firebase.firestore.FieldValue.arrayUnion(newProf[prof])
             });
+        }
     }
+
+    for (idx in oldProfs) {
+        if (!newProf.includes(oldProfs[idx]) && typeof(oldProfs[idx]) === 'string') {
+            db.collection('Users').doc(auth.currentUser.uid).update({
+                Profession: firebase.firestore.FieldValue.arrayRemove(oldProfs[idx])
+            });
+        }
     }
   }
 
@@ -74,16 +92,16 @@ export default function UpdateAbout() {
     }
 
     if (skillsRef.current.value !== userDataDoc["Skills"]) {
-        promises.push(updateSkills(skillsRef.current.value ))
+        promises.push(updateSkills(skillsRef.current.value, userDataDoc["Skills"]))
       }
 
     if (professionRef.current.value !== userDataDoc["Profession"]) {
-        promises.push(updateProfession(professionRef.current.value ))
+        promises.push(updateProfession(professionRef.current.value, userDataDoc["Profession"]))
       }
 
     Promise.all(promises)
       .then(() => {
-        history.push("/")
+        history.push("/profile-about")
       })
       .catch(() => {
         setError("Failed to update account")
@@ -123,10 +141,12 @@ export default function UpdateAbout() {
                          {/* <!-- END profile-header-img -->
                          <!-- BEGIN profile-header-info --> */}
                          <div class="profile-header-info">
-                         { userDataDoc &&
-                            <h4 class="m-t-10 m-b-5">{userDataDoc["Name"]}</h4>
-                         }
-                            <p class="m-b-10">{userDataDoc["Profession"]}</p>
+                            { userDataDoc &&
+                                <h4 class="m-t-10 m-b-5">{userDataDoc["Name"]}</h4>
+                            }
+                            <div>
+                              {userDataDoc && userDataDoc["Profession"].join(',')}
+                           </div>
                             <a href="/profile-about" class="btn btn-sm btn-dark mb-2">Go back to Profile</a>
                          </div>
                          <div class="profile-header-img-edit">
