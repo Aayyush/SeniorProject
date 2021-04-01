@@ -63,13 +63,10 @@ export default function Signup() {
       setLoading(true);
 
       // Temporary Fix
-      latitude = 38.907192;
-      longitude = -77.036873;
-
       // Get formatted address from geolocation.
-      const address = await Geocode.fromLatLng(latitude, longitude).then(
+      const address = await Geocode.fromLatLng(38.907192, -77.036873).then(
         (response) => {
-          console.log(latitude, longitude);
+          console.log("here");
           const address = response.results[0].formatted_address;
           return address;
         },
@@ -84,7 +81,7 @@ export default function Signup() {
         DOB: dateOfBirth,
         Age: calculate_age(dateOfBirth),
         Address: address,
-        Location: new firebase.firestore.GeoPoint(latitude, longitude),
+        Location: new firebase.firestore.GeoPoint(38.907192, -77.036873), // Temporary fix, useLocation() not working
         ProfilePic: "", // TODO: Add logic to upload profile picture.
         Bio: bioRef.current.value,
         Friends: [],
@@ -107,8 +104,9 @@ export default function Signup() {
         });
       });
       history.push("/");
-    } catch {
+    } catch (err) {
       setError("Failed to create an account");
+      console.log(err);
     }
 
     setLoading(false);
