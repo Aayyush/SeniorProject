@@ -15,6 +15,7 @@ import ProfilePhotos from "./ProfilePhotos"
 import UpdateAgeRange from "./UpdateAgeRange"
 import UpdateAbout from "./UpdateAbout"
 import UpdateInterests from "./UpdateInterests"
+import FindFriends from "./FindFriends"
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
               <PrivateRoute path="/update-profile" component={UpdateProfile} />
               <PrivateRoute path="/update-profile-about" component={UpdateAbout} />
               <PrivateRoute path="/update-profile-friends" component={UpdateProfile} />
+              <PrivateRoute path="/find-friends" component={FindFriends} />
               <PrivateRoute path="/update-profile-events" component={UpdateProfile} />
               <PrivateRoute path="/update-profile-interests" component={UpdateInterests} />
               <PrivateRoute path="/profile" component={Profile} />
