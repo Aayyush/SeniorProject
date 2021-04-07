@@ -1,22 +1,82 @@
 import React, { useRef, useState } from "react"
 import { Form, Button, Card, Alert } from "react-bootstrap"
-import { useAuth } from "../contexts/AuthContext"
 import { Link, useHistory } from "react-router-dom"
+import { makeStyles } from '@material-ui/core/styles';
+import app from "../firebase"
+import { useAuth } from "../contexts/AuthContext"
+import firebase from "firebase/app"
+import 'firebase/firestore'
+import { auth, firestore } from "../firebase"
 import "./Profile.css"
 
+const useStyles = makeStyles({
+root: {
+    width: 300,
+},
+});
+
+function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+var R = 6371; // Radius of the earth in km
+var dLat = deg2rad(lat2-lat1);  // deg2rad below
+var dLon = deg2rad(lon2-lon1); 
+var a = 
+    Math.sin(dLat/2) * Math.sin(dLat/2) +
+    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+    Math.sin(dLon/2) * Math.sin(dLon/2)
+    ; 
+var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+var d = R * c; // Distance in km
+return d;
+}
+
+function deg2rad(deg) {
+return deg * (Math.PI/180)
+}
+
 export default function FindFriends() {
-    const [error, setError] = useState("");
     const [userDataDoc, setUserDataDoc] = useState("");
-    const { logout, fetchUserDocument } = useAuth();
+    const [suggestedFriends, setSuggestedFriends] = useState("");
+    const {logout, fetchAllUsers, fetchUserDocument } = useAuth();
     const history = useHistory();
-    
+    const [error, setError] = useState("");
+    const classes = useStyles();
+
     async function getUserData() {
-      const doc = await fetchUserDocument();
-      return doc;
-      }
-      if (!userDataDoc) {
-         getUserData().then(doc => setUserDataDoc(doc.data()));
-   }
+        const doc = await fetchUserDocument();
+        return doc;
+        }
+        if (!userDataDoc) {
+           getUserData().then(doc => setUserDataDoc(doc.data()));
+     }
+
+    async function getSuggestedFriends() {
+        var suggestedFriendsTemp = []
+        const doc = await fetchUserDocument();
+        const docs = await fetchAllUsers();
+
+        const maxDis = 100; //doc.data()["Preferences"]["MaxDistance"];
+        const ageRange = doc.data()["Preferences"]["AgeRange"];
+
+        await docs.get().then((userDocs) => {
+            userDocs.forEach((userDoc) => {
+            // check if user already in friend list, if so, skip
+            if (doc.data()["Friends"].includes(userDoc.id)) {
+                return;
+            }
+            var disDiff = getDistanceFromLatLonInKm(doc.data()["Location"]["u_"], doc.data()["Location"]["h_"],
+                                                    userDoc.data()["Location"]["u_"], userDoc.data()["Location"]["h_"]);
+
+            if ((disDiff <= maxDis) && 
+                ((userDoc.data()["Age"] >= ageRange[0]) && (userDoc.data()["Age"] <= ageRange[1]))) {
+                suggestedFriendsTemp.push([userDoc.id, userDoc.data()["Name"], userDoc.data()["Age"]], userDoc.data()["Profession"], userDoc.data()["Location"]);
+            }
+            });
+        });
+        return suggestedFriendsTemp;
+    }
+    if (!suggestedFriends) {
+        getSuggestedFriends().then(suggested => setSuggestedFriends(suggested));
+    }
 
     async function handleLogout() {
         setError("")
@@ -93,7 +153,7 @@ export default function FindFriends() {
                  <h4 class="m-t-0 m-b-20">
                     <ul class="profile-header-tab nav nav-tabs">
                         <li class="nav-item"> 
-                            Find Friends
+                            Suggested Friends
                         </li>
                        </ul>
                      </h4>
@@ -102,154 +162,36 @@ export default function FindFriends() {
                 <div id="map" class="map" style="position: relative; overflow: hidden;"><div style="height: 100%; width: 100%; position: absolute; top: 0px; left: 0px; background-color: rgb(229, 227, 223);"><div class="gm-err-container"><div class="gm-err-content"><div class="gm-err-icon"><img src="https://maps.gstatic.com/mapfiles/api-3/images/icon_error.png" draggable="false" style="user-select: none;"></img></div><div class="gm-err-title">Oops! Something went wrong.</div><div class="gm-err-message">This page didn't load Google Maps correctly. See the JavaScript console for technical details.</div></div></div></div></div>
               </div> */}
               <div class="nearby-user">
-                <div class="row">
-                  <div class="col-md-2 col-sm-2">
-                    <img src="images/users/user-15.jpg" alt="user" class="profile-photo-lg"></img>
+              {error && <Alert variant="danger">{error}</Alert>}
+                  <div className={classes.root}>
+                        {suggestedFriends && 
+                        <div>
+                            {suggestedFriends.map((friend =>
+                            <div class="row">
+                                <div class="col-md-2 col-sm-2">
+                                    <img src="images/users/user-15.jpg" alt="user" class="profile-photo-lg"></img>
+                                </div>
+
+                                {friend && 
+                                <div>
+                                <div class="col-md-7 col-sm-7">
+                                    <p key={friend[0]}> <a href="#" class="profile-link"> {friend[1]}</a>
+                                    <p>Age : {friend[2]}</p>
+                                    <p>Profession : {friend[3]}</p>
+                                {/* <p key={friend[0]}> Name : {friend[1]} <br/> Age : {friend[2]} <br/> */}
+                                </p>
+                                {/* </p> */}
+                                </div>
+
+                                <div class="col-md-3 col-sm-3">
+                                    <button class="btn btn-primary pull-right">Add Friend</button>
+                                </div>
+                                </div>}
+
+                            </div>
+                            ))} 
+                        </div>}
                   </div>
-                  <div class="col-md-7 col-sm-7">
-                    <h5><a href="#" class="profile-link">Sophia Page</a></h5>
-                    <p>Software Engineer</p>
-                    <p class="text-muted">500m away</p>
-                  </div>
-                  <div class="col-md-3 col-sm-3">
-                    <button class="btn btn-primary pull-right">Add Friend</button>
-                  </div>
-                </div>
-              </div>
-              <div class="nearby-user">
-                <div class="row">
-                  <div class="col-md-2 col-sm-2">
-                    <img src="images/users/user-16.jpg" alt="user" class="profile-photo-lg"></img>
-                  </div>
-                  <div class="col-md-7 col-sm-7">
-                    <h5><a href="#" class="profile-link">Emma Johnson</a></h5>
-                    <p>Model at Fashion</p>
-                    <p class="text-muted">800m away</p>
-                  </div>
-                  <div class="col-md-3 col-sm-3">
-                    <button class="btn btn-primary pull-right">Add Friend</button>
-                  </div>
-                </div>
-              </div>
-              <div class="nearby-user">
-                <div class="row">
-                  <div class="col-md-2 col-sm-2">
-                    <img src="images/users/user-17.jpg" alt="user" class="profile-photo-lg"></img>
-                  </div>
-                  <div class="col-md-7 col-sm-7">
-                    <h5><a href="#" class="profile-link">Nora Wilson</a></h5>
-                    <p>Writer at Newspaper</p>
-                    <p class="text-muted">2.5km away</p>
-                  </div>
-                  <div class="col-md-3 col-sm-3">
-                    <button class="btn btn-primary pull-right">Add Friend</button>
-                  </div>
-                </div>
-              </div>
-              <div class="nearby-user">
-                <div class="row">
-                  <div class="col-md-2 col-sm-2">
-                    <img src="images/users/user-11.jpg" alt="user" class="profile-photo-lg"></img>
-                  </div>
-                  <div class="col-md-7 col-sm-7">
-                    <h5><a href="#" class="profile-link">Diana Amber</a></h5>
-                    <p>Student</p>
-                    <p class="text-muted">700m away</p>
-                  </div>
-                  <div class="col-md-3 col-sm-3">
-                    <button class="btn btn-primary pull-right">Add Friend</button>
-                  </div>
-                </div>
-              </div>
-              <div class="nearby-user">
-                <div class="row">
-                  <div class="col-md-2 col-sm-2">
-                    <img src="images/users/user-18.jpg" alt="user" class="profile-photo-lg"></img>
-                  </div>
-                  <div class="col-md-7 col-sm-7">
-                    <h5><a href="#" class="profile-link">Addison Thomas</a></h5>
-                    <p>Barber at Fashion</p>
-                    <p class="text-muted">1.5km away</p>
-                  </div>
-                  <div class="col-md-3 col-sm-3">
-                    <button class="btn btn-primary pull-right">Add Friend</button>
-                  </div>
-                </div>
-              </div>
-              <div class="nearby-user">
-                <div class="row">
-                  <div class="col-md-2 col-sm-2">
-                    <img src="images/users/user-19.jpg" alt="user" class="profile-photo-lg"></img>
-                  </div>
-                  <div class="col-md-7 col-sm-7">
-                    <h5><a href="#" class="profile-link">Jonathon Thompson</a></h5>
-                    <p>Fashion Designer</p>
-                    <p class="text-muted">2km away</p>
-                  </div>
-                  <div class="col-md-3 col-sm-3">
-                    <button class="btn btn-primary pull-right">Add Friend</button>
-                  </div>
-                </div>
-              </div>
-              <div class="nearby-user">
-                <div class="row">
-                  <div class="col-md-2 col-sm-2">
-                    <img src="images/users/user-14.jpg" alt="user" class="profile-photo-lg"></img>
-                  </div>
-                  <div class="col-md-7 col-sm-7">
-                    <h5><a href="#" class="profile-link">Olivia Steward</a></h5>
-                    <p>Creative Director</p>
-                    <p class="text-muted">2km away</p>
-                  </div>
-                  <div class="col-md-3 col-sm-3">
-                    <button class="btn btn-primary pull-right">Add Friend</button>
-                  </div>
-                </div>
-              </div>
-              <div class="nearby-user">
-                <div class="row">
-                  <div class="col-md-2 col-sm-2">
-                    <img src="images/users/user-20.jpg" alt="user" class="profile-photo-lg"></img>
-                  </div>
-                  <div class="col-md-7 col-sm-7">
-                    <h5><a href="#" class="profile-link">Elena Foster</a></h5>
-                    <p>Executive Officer</p>
-                    <p class="text-muted">4km away</p>
-                  </div>
-                  <div class="col-md-3 col-sm-3">
-                    <button class="btn btn-primary pull-right">Add Friend</button>
-                  </div>
-                </div>
-              </div>
-              <div class="nearby-user">
-                <div class="row">
-                  <div class="col-md-2 col-sm-2">
-                    <img src="images/users/user-13.jpg" alt="user" class="profile-photo-lg"></img>
-                  </div>
-                  <div class="col-md-7 col-sm-7">
-                    <h5><a href="#" class="profile-link">Brian Walton</a></h5>
-                    <p>Designer at Designer</p>
-                    <p class="text-muted">3km away</p>
-                  </div>
-                  <div class="col-md-3 col-sm-3">
-                    <button class="btn btn-primary pull-right">Add Friend</button>
-                  </div>
-                </div>
-              </div>
-              <div class="nearby-user">
-                <div class="row">
-                  <div class="col-md-2 col-sm-2">
-                    <img src="images/users/user-12.jpg" alt="user" class="profile-photo-lg"></img>
-                  </div>
-                  <div class="col-md-7 col-sm-7">
-                    <h5><a href="#" class="profile-link">Cris Haris</a></h5>
-                    <p>General Manager at Manager</p>
-                    <p class="text-muted">1km away</p>
-                  </div>
-                  <div class="col-md-3 col-sm-3">
-                    <button class="btn btn-primary pull-right">Add Friend</button>
-                  </div>
-                </div>
               </div>
             </div>
                 </div>        
