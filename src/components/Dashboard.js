@@ -53,8 +53,8 @@ export default function Dashboard() {
           <Link to="/profile" className="btn btn-primary w-100 mt-3">
             Profile
             </Link>
-		  <Link to="/update-age-range" className="btn btn-primary w-100 mt-3">
-            Update Age Range
+		  <Link to="/update-preferences" className="btn btn-primary w-100 mt-3">
+            Update Preferences
           </Link>
           <Link to="/update-profile" className="btn btn-primary w-100 mt-3">
             Update Profile
