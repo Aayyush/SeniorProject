@@ -14,8 +14,8 @@ import ProfileInterest from "./ProfileInterest"
 import ProfilePhotos from "./ProfilePhotos"
 import UpdateAbout from "./UpdateAbout"
 import UpdateInterests from "./UpdateInterests"
+import UpdatePreferences from "./UpdatePreferences"
 import FindFriends from "./FindFriends"
-import UpdatePreferences from "./Test"
 import ProfilePreferences from "./ProfilePreferences"
 
 function App() {
