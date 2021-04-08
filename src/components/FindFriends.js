@@ -167,29 +167,26 @@ export default function FindFriends() {
                         {suggestedFriends && 
                         <div>
                             {suggestedFriends.map((friend =>
-                            <div class="row">
-                                <div class="col-md-2 col-sm-2">
-                                    <img src="images/users/user-15.jpg" alt="user" class="profile-photo-lg"></img>
-                                </div>
+                             <div>
+                                {friend && friend[1] &&
+                                <div class="row">
+                                    <div class="col-md-2 col-sm-2">
+                                        <img src="images/users/user-15.jpg" alt="user" class="profile-photo-lg"></img>
+                                    </div>
 
-                                {friend && 
-                                <div>
-                                <div class="col-md-7 col-sm-7">
-                                    <p key={friend[0]}> <a href="#" class="profile-link"> {friend[1]}</a>
-                                    <p>Age : {friend[2]}</p>
-                                    <p>Profession : {friend[3]}</p>
-                                {/* <p key={friend[0]}> Name : {friend[1]} <br/> Age : {friend[2]} <br/> */}
-                                </p>
-                                {/* </p> */}
-                                </div>
+                                    <div class="col-md-7 col-sm-7">
+                                        <p key={friend[0]}> <a href="#" class="profile-link"> {friend[1]}</a>
+                                        <p>Age : {friend[2]}</p>
+                                        {/* <p>Profession : {friend[3]}</p> */}
+                                    </p>
+                                    </div>
 
-                                <div class="col-md-3 col-sm-3">
-                                    <button class="btn btn-primary pull-right">Add Friend</button>
+                                    <div class="col-md-3 col-sm-3">
+                                        <button class="btn btn-primary pull-right">Add Friend</button>
+                                    </div>
                                 </div>
-                                </div>}
-
-                            </div>
-                            ))} 
+                                }
+                            </div>))} 
                         </div>}
                   </div>
               </div>
