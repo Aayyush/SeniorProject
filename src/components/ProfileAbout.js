@@ -37,8 +37,8 @@ export default function ProfileAbout() {
   return (
     <div class="container">
       <div class="row">
-        <div class="col-md-12">
-          <div id="content" class="content content-full-width">
+        <div class="col-xl-12">
+          <div id="content" class="content">
             {/* <!-- begin profile --> */}
             <div class="profile">
               <div class="profile-header">
@@ -95,6 +95,12 @@ export default function ProfileAbout() {
                       INTERESTS
                     </Link>
                   </li>
+
+                  <li class="nav-item">
+                     <Link to="/profile-preferences" class="nav-link" data-toggle="tab">
+                        PREFERENCES
+                     </Link>
+                         </li>
 
                   <li class="nav-item">
                     <Link

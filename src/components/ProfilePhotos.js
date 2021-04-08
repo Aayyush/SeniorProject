@@ -87,7 +87,11 @@ export default function ProfilePhotos() {
                       INTERESTS
                     </Link>
                   </li>
-
+                  <li class="nav-item">
+                    <Link to="/profile-preferences" class="nav-link" data-toggle="tab">
+                      PREFERENCES
+                    </Link>
+                  </li>
                   <li class="nav-item">
                     <Link
                       to="/profile-events"

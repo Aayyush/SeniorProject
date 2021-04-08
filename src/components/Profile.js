@@ -33,12 +33,11 @@ export default function Profile() {
     
     <div class="container">
        <div class="row">
-          <div class="col-md-12">
+          <div class="col-xl-12">
              <div id="content" class="content content-full-width">
                 {/* <!-- begin profile --> */}
                 <div class="profile">
                    <div class="profile-header">
-                       
                       {/* <!-- BEGIN profile-header-cover --> */}
                       <div class="profile-header-cover"></div>
                       {/* <!-- END profile-header-cover -->
@@ -71,7 +70,8 @@ export default function Profile() {
                         </li>
                          <li class="nav-item">
                             <Link to="/profile-interests" class="nav-link" data-toggle="tab">INTERESTS</Link></li>
-                            
+                            <li class="nav-item"><Link to="/profile-preferences" class="nav-link" data-toggle="tab">PREFERENCES</Link>
+                         </li>
                          <li class="nav-item"><Link to="/profile-events" class="nav-link" data-toggle="tab">EVENTS</Link>
                             
                          </li>
@@ -92,12 +92,12 @@ export default function Profile() {
                  <div class="tab-pane fade in active show" id="profile-friends">
                     <h4 class="m-t-0 m-b-20">
                     <ul class="profile-header-tab nav nav-tabs">
-                        <li class="nav-item"> 
+                        <li class="nav-item flex-grow-1 bd-highlight"> 
                             Friend List (14)
                         </li>
                          <li class="nav-item">
                             <Link to="/find-friends" class="nav-link" data-toggle="tab">Find Friends</Link></li>
-                            </ul>
+                     </ul>
                        
                      </h4>
                     {/* <!-- begin row --> */}

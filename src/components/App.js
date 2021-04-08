@@ -16,14 +16,16 @@ import UpdateAgeRange from "./UpdateAgeRange"
 import UpdateAbout from "./UpdateAbout"
 import UpdateInterests from "./UpdateInterests"
 import FindFriends from "./FindFriends"
+import UpdatePreferences from "./UpdatePreferences"
+import ProfilePreferences from "./ProfilePreferences"
 
 function App() {
   return (
     <Container
       className="d-flex"
-      style={{ minHeight: "100vh" }}
+      style={{ minHeight: "100vh"}}
     >
-      <div className="app" style={{ maxWidth: "100000px" }}>
+      <div className="app" style={{ width: "100%"}}>
         <Router>
           <AuthProvider>
             <Switch>
@@ -37,8 +39,10 @@ function App() {
               <PrivateRoute path="/profile" component={Profile} />
               <PrivateRoute path="/profile-interests" component={ProfileInterest} />
               <PrivateRoute path="/profile-about" component={ProfileAbout} />
+              <PrivateRoute path="/profile-preferences" component={ProfilePreferences} />
               <PrivateRoute path="/profile-photos" component={ProfilePhotos} />
               <PrivateRoute path="/update-age-range" component={UpdateAgeRange} />
+              <PrivateRoute path="/update-preferences" component={UpdatePreferences} />
               <Route path="/signup" component={Signup} />
               <Route path="/login" component={Login} />
               <Route path="/forgot-password" component={ForgotPassword} />

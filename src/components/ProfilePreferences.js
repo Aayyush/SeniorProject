@@ -2,14 +2,18 @@ import React, { useRef, useState } from "react";
 import { Form, Button, Card, Alert } from "react-bootstrap";
 import { useAuth } from "../contexts/AuthContext";
 import { Link, useHistory } from "react-router-dom";
+import app from "../firebase";
+import firebase from "firebase/app";
+import "firebase/firestore";
+import { auth } from "../firebase";
 import "./Profile.css";
-import "./ProfileInterests.css";
 
-export default function ProfileInterest() {
+export default function ProfilePreferences() {
   const [error, setError] = useState("");
   const [userDataDoc, setUserDataDoc] = useState("");
   const { currentUser, logout, fetchUserDocument } = useAuth();
   const history = useHistory();
+  const [value, setValue] = React.useState([0, 100]);
 
   async function getUserData() {
     const doc = await fetchUserDocument();
@@ -61,14 +65,12 @@ export default function ProfileInterest() {
                         userDataDoc["Profession"] &&
                         userDataDoc["Profession"].join(",")}
                     </div>
-                    <div>
-                      <a
-                        href="/update-profile-interests"
-                        class="btn btn-sm btn-info mb-2"
-                      >
-                        Edit Profile
-                      </a>
-                    </div>
+                    <a
+                      href="/update-profile-about"
+                      class="btn btn-sm btn-info mb-2"
+                    >
+                      Edit Profile
+                    </a>
                   </div>
                   {/* <!-- END profile-header-info --> */}
                 </div>
@@ -87,17 +89,19 @@ export default function ProfileInterest() {
                   <li class="nav-item">
                     <Link
                       to="/profile-interests"
-                      class="nav-link active show"
+                      class="nav-link"
                       data-toggle="tab"
                     >
                       INTERESTS
                     </Link>
                   </li>
+
                   <li class="nav-item">
-                     <Link to="/profile-preferences" class="nav-link" data-toggle="tab">
+                     <Link to="/profile-preferences" class="nav-link active show" data-toggle="tab">
                         PREFERENCES
                      </Link>
-                  </li>
+                         </li>
+
                   <li class="nav-item">
                     <Link
                       to="/profile-events"
@@ -133,19 +137,28 @@ export default function ProfileInterest() {
             {/* <!-- begin tab-content --> */}
             <div class="tab-content p-0">
               {/* <!-- begin #profile-about tab --> */}
-              <div class="tab-pane fade in active show" id="profile-interests">
+              <div class="tab-pane fade in active show" id="profile-about">
+                <h4 id="bio">
+                  <p align="left"> Preferences</p>
+                </h4>
                 {/* <!-- begin row --> */}
                 <div class="row row-space-2">
                   {/* <!-- begin col-6 --> */}
-                  <div class="btn-toolbar">
-                    {userDataDoc && (
-                      <ul>
-                        {userDataDoc["Hobbies"].map((value, index) => {
-                          return <button key={index}>{value}</button>;
-                        })}
-                      </ul>
+                  <div class="box">
+                    <span>
+                        <strong>Age Range: </strong>
+                    </span>
+                    <center>
+                    {userDataDoc && userDataDoc["Preferences"] && (
+                        <div>
+                            <span class="text-left"> Minimum: {userDataDoc["Preferences"]["AgeRange"][0]} </span>
+                            <p class="text-left"> Maximum: {userDataDoc["Preferences"]["AgeRange"][1]}</p>
+                        </div>
                     )}
-                  </div>
+                    </center>
+                    {/* <button type="button" align = 'right'> Edit Bio </button> */}
+                    <p></p>
+                    </div>
                 </div>
               </div>
             </div>
