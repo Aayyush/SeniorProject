@@ -19,10 +19,11 @@ function valuetext(value) {
   return `${value}`;
 }
 
-export default function UpdateAgeRange() {
+export default function UpdatePreferences() {
   const [error, setError] = useState("")
   const classes = useStyles();
   const [value, setValue] = React.useState([0, 100]);
+  const [currValue = fetchAgeRange(), setCurrValue] = React.useState();
   
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -36,13 +37,30 @@ export default function UpdateAgeRange() {
 			  AgeRange: [value[0], value[1]]
 		} 
 	  });
+	  setCurrValue(value);
   }
-
+  
+  function fetchAgeRange() {
+	  var db = firebase.firestore(app);
+	  db.collection('Users').doc(auth.currentUser.uid).get().then((doc) => {
+		  if (doc.exists) {
+			  setCurrValue(doc.data()["Preferences"]["AgeRange"]);
+		  } else {
+			  console.log("Document does not exist");
+		  }
+	  }).catch((error) => {
+		  console.log("Error fetching document:", error);
+	  })
+  }
+  
   return (
     <>
       <Card>
         <Card.Body>
           <h2 className="text-center mb-4">Update Age Range</h2>
+		  {currValue ? 
+		  <h2 className="text-center mb-4">Current age range set to : {currValue[0]} - {currValue[1]}</h2>
+		  : null}
           {error && <Alert variant="danger">{error}</Alert>}
             <div className={classes.root}>
 			<Typography id="range-slider" gutterBottom>

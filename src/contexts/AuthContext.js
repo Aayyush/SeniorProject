@@ -30,6 +30,12 @@ export function AuthProvider({ children }) {
     console.log("Fetching User data")
     return db.collection('Users').doc(auth.currentUser.uid).get();
     }
+
+  function fetchAllUsers() {
+    var db = firebase.firestore(app);
+    console.log("Fetching all User data")
+    return db.collection('Users');
+    }
   
   function fetchAllUsers() {
     var db = firebase.firestore(app);
