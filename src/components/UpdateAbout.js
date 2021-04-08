@@ -172,12 +172,10 @@ export default function UpdateAbout() {
                             </Link>
                         </li>
                          <li class="nav-item">
-                            <Link to="/update-profile-interests" class="nav-link" data-toggle="tab">INTERESTS</Link></li>
+                            <Link to="/update-profile-interests" class="nav-link" data-toggle="tab">INTERESTS</Link>
+                        </li>
                             
                          <li class="nav-item"><Link to="/update-profile-events" class="nav-link" data-toggle="tab">EVENTS</Link>
-                            
-                         </li>
-                         <li class="nav-item"><Link to="/update-profile-friends" class="nav-link" data-toggle="tab">FRIENDS</Link>
                          </li>
                          
                       </ul>

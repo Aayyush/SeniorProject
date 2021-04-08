@@ -135,9 +135,6 @@ export default function UpdateInterests() {
                             <Link to="/update-profile-interests" class="nav-link  active show" data-toggle="tab">INTERESTS</Link></li>
                             
                          <li class="nav-item"><Link to="/update-profile-events" class="nav-link" data-toggle="tab">EVENTS</Link>
-                            
-                         </li>
-                         <li class="nav-item"><Link to="/update-profile-friends" class="nav-link" data-toggle="tab">FRIENDS</Link>
                          </li>
                          
                       </ul>
