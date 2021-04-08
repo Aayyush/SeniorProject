@@ -174,7 +174,8 @@ export default function UpdateAbout() {
                          <li class="nav-item">
                             <Link to="/update-profile-interests" class="nav-link" data-toggle="tab">INTERESTS</Link>
                         </li>
-                            
+                        <li class="nav-item"><Link to="/update-preferences" class="nav-link" data-toggle="tab">PREFERENCES</Link>
+                         </li> 
                          <li class="nav-item"><Link to="/update-profile-events" class="nav-link" data-toggle="tab">EVENTS</Link>
                          </li>
                          
