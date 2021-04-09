@@ -134,7 +134,7 @@ export default function ProfileInterest() {
                     </Link>
                   </li>
                   <li class="nav-item">
-                    <Link to="/profile" class="nav-link" data-toggle="tab">
+                    <Link to="/profile-friends" class="nav-link" data-toggle="tab">
                       FRIENDS
                     </Link>
                   </li>

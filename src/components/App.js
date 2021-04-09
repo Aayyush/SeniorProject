@@ -35,7 +35,7 @@ function App() {
               <PrivateRoute path="/find-friends" component={FindFriends} />
               <PrivateRoute path="/update-profile-events" component={UpdateProfile} />
               <PrivateRoute path="/update-profile-interests" component={UpdateInterests} />
-              <PrivateRoute path="/profile" component={Profile} />
+              <PrivateRoute path="/profile-friends" component={Profile} />
               <PrivateRoute path="/profile-interests" component={ProfileInterest} />
               <PrivateRoute path="/profile-about" component={ProfileAbout} />
               <PrivateRoute path="/profile-preferences" component={ProfilePreferences} />

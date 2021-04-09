@@ -159,7 +159,7 @@ export default function FindFriends() {
                          <li class="nav-item"><Link to="/profile-events" class="nav-link" data-toggle="tab">EVENTS</Link>
                             
                          </li>
-                         <li class="nav-item"><Link to="/profile" class="nav-link  active show" data-toggle="tab">FRIENDS</Link>
+                         <li class="nav-item"><Link to="/profile-friends" class="nav-link  active show" data-toggle="tab">FRIENDS</Link>
                          </li>
                          <li class="nav-item"><Link to="/profile-photos" class="nav-link" data-toggle="tab">PHOTOS</Link>
                         </li>
