@@ -1,11 +1,12 @@
 body{
-   margin-top:120px;
    background:#eee;
+   width:100%;
 }
 
 .profile-header {
    position:relative;
-   overflow: hidden
+   overflow: hidden;
+   width: 100%;
 }
 
 .profile-header .profile-header-cover {
@@ -227,7 +228,7 @@ body{
    margin-bottom: 10px;
    border: 2px solid #E2E7EB;
    overflow: hidden;
-   border-radius: 4px
+   border-radius: 2px
 }
 
 .profile-image img {

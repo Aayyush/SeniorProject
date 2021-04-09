@@ -12,18 +12,19 @@ import Profile from "./Profile"
 import ProfileAbout from "./ProfileAbout"
 import ProfileInterest from "./ProfileInterest"
 import ProfilePhotos from "./ProfilePhotos"
-import UpdatePreferences from "./UpdatePreferences"
-import FindFriends from "./FindFriends"
 import UpdateAbout from "./UpdateAbout"
 import UpdateInterests from "./UpdateInterests"
+import UpdatePreferences from "./UpdatePreferences"
+import FindFriends from "./FindFriends"
+import ProfilePreferences from "./ProfilePreferences"
 
 function App() {
   return (
     <Container
       className="d-flex"
-      style={{ minHeight: "100vh" }}
+      style={{ minHeight: "100vh"}}
     >
-      <div className="app" style={{ maxWidth: "100000px" }}>
+      <div className="app" style={{ width: "100%"}}>
         <Router>
           <AuthProvider>
             <Switch>
@@ -31,14 +32,15 @@ function App() {
               <PrivateRoute path="/update-profile" component={UpdateProfile} />
               <PrivateRoute path="/update-profile-about" component={UpdateAbout} />
               <PrivateRoute path="/update-profile-friends" component={UpdateProfile} />
+              <PrivateRoute path="/find-friends" component={FindFriends} />
               <PrivateRoute path="/update-profile-events" component={UpdateProfile} />
               <PrivateRoute path="/update-profile-interests" component={UpdateInterests} />
-              <PrivateRoute path="/profile" component={Profile} />
+              <PrivateRoute path="/profile-friends" component={Profile} />
               <PrivateRoute path="/profile-interests" component={ProfileInterest} />
               <PrivateRoute path="/profile-about" component={ProfileAbout} />
+              <PrivateRoute path="/profile-preferences" component={ProfilePreferences} />
               <PrivateRoute path="/profile-photos" component={ProfilePhotos} />
               <PrivateRoute path="/update-preferences" component={UpdatePreferences} />
-			  <PrivateRoute path="/find-friends" component={FindFriends} />
               <Route path="/signup" component={Signup} />
               <Route path="/login" component={Login} />
               <Route path="/forgot-password" component={ForgotPassword} />

@@ -37,6 +37,11 @@ export function AuthProvider({ children }) {
     return db.collection('Users');
     }
   
+  function fetchAllUsers() {
+    var db = firebase.firestore(app);
+    console.log("Fetching all User data")
+    return db.collection('Users');
+    }
 
   function login(email, password) {
     return auth.signInWithEmailAndPassword(email, password)

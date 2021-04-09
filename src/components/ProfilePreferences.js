@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { Card, Button, Alert, Nav, NavDropdown, Form, FormControl } from "react-bootstrap"
+import { Button, Alert, Nav, NavDropdown, Form, FormControl } from "react-bootstrap"
 import { useAuth } from "../contexts/AuthContext";
 import { Link, useHistory } from "react-router-dom";
 import app from "../firebase";
@@ -7,9 +7,9 @@ import firebase from "firebase/app";
 import "firebase/firestore";
 import { auth } from "../firebase";
 import "./Profile.css";
-import Navbar from 'react-bootstrap/Navbar'
+import Navbar from 'react-bootstrap/Navbar';
 
-export default function ProfileAbout() {
+export default function ProfilePreferences() {
   const [error, setError] = useState("");
   const [userDataDoc, setUserDataDoc] = useState("");
   const { currentUser, logout, fetchUserDocument } = useAuth();
@@ -38,8 +38,8 @@ export default function ProfileAbout() {
   return (
     <div class="container">
       <div class="row">
-        <div class="col-xl-12">
-          <div id="content" class="content">
+        <div class="col-md-12">
+          <div id="content" class="content content-full-width">
           <Navbar bg="light" expand="lg">
                   <Navbar.Brand href="/">Wassup</Navbar.Brand>
                      <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -92,7 +92,7 @@ export default function ProfileAbout() {
                         userDataDoc["Profession"].join(",")}
                     </div>
                     <a
-                      href="/update-profile-about"
+                      href="/update-preferences"
                       class="btn btn-sm btn-info mb-2"
                     >
                       Edit Profile
@@ -106,7 +106,7 @@ export default function ProfileAbout() {
                   <li class="nav-item">
                     <Link
                       to="/profile-about"
-                      class="nav-link   active show"
+                      class="nav-link"
                       data-toggle="tab"
                     >
                       ABOUT
@@ -123,7 +123,7 @@ export default function ProfileAbout() {
                   </li>
 
                   <li class="nav-item">
-                     <Link to="/profile-preferences" class="nav-link" data-toggle="tab">
+                     <Link to="/profile-preferences" class="nav-link active show" data-toggle="tab">
                         PREFERENCES
                      </Link>
                          </li>
@@ -165,47 +165,26 @@ export default function ProfileAbout() {
               {/* <!-- begin #profile-about tab --> */}
               <div class="tab-pane fade in active show" id="profile-about">
                 <h4 id="bio">
-                  <p align="left"> Bio</p>
+                  <p align="left"> Preferences</p>
                 </h4>
                 {/* <!-- begin row --> */}
                 <div class="row row-space-2">
                   {/* <!-- begin col-6 --> */}
                   <div class="box">
+                    <span>
+                        <strong>Age Range: </strong>
+                    </span>
                     <center>
-                      <p class="text-left">{userDataDoc["Bio"]}</p>
+                    {userDataDoc && userDataDoc["Preferences"] && (
+                        <div>
+                            <span class="text-left"> Minimum: {userDataDoc["Preferences"]["AgeRange"][0]} </span>
+                            <p class="text-left"> Maximum: {userDataDoc["Preferences"]["AgeRange"][1]}</p>
+                        </div>
+                    )}
                     </center>
                     {/* <button type="button" align = 'right'> Edit Bio </button> */}
                     <p></p>
-                    <p>
-                      <span>
-                        {" "}
-                        <strong>Profession: </strong>
-                      </span>
-                      {userDataDoc && (
-                        <ul>
-                          {userDataDoc["Profession"] &&
-                            userDataDoc["Profession"].map((value, index) => {
-                              return <li key={index}>{value}</li>;
-                            })}
-                        </ul>
-                      )}
-                    </p>
-                    {/* <button type="button" align = 'right'> Edit Profession </button> */}
-                    <p></p>
-                    <p>
-                      <span>
-                        <strong>Skills: </strong>
-                      </span>
-                      {userDataDoc && userDataDoc["Skills"] && (
-                        <ul>
-                          {userDataDoc["Skills"].map((value, index) => {
-                            return <li key={index}>{value}</li>;
-                          })}
-                        </ul>
-                      )}
-                    </p>
-                    {/* <button type="button" align = 'right'> Edit Skills </button> */}
-                  </div>
+                    </div>
                 </div>
               </div>
             </div>
