@@ -119,55 +119,8 @@ export default function FindFriends() {
                     </Form>
                     </Navbar.Collapse>
                 </Navbar>
-                {/* <!-- begin profile --> */}
-                <div class="profile">
-                   <div class="profile-header">
-                       
-                      {/* <!-- BEGIN profile-header-cover --> */}
-                      <div class="profile-header-cover"></div>
-                      {/* <!-- END profile-header-cover -->
-                      <!-- BEGIN profile-header-content --> */}
-                      <div class="profile-header-content">
-                         {/* <!-- BEGIN profile-header-img --> */}
-                         <div class="profile-header-img">
-                            <img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt=""></img>
-                         </div>
-                         {/* <!-- END profile-header-img -->
-                         <!-- BEGIN profile-header-info --> */}
-                         <div class="profile-header-info">
-                           { userDataDoc &&
-                              <h4 class="m-t-10 m-b-5">{userDataDoc["Name"]}</h4>
-                           }
-                            <div>
-                              {userDataDoc && userDataDoc["Profession"] && userDataDoc["Profession"].join(',')}
-                           </div>
-                           <a href="/update-profile" class="btn btn-sm btn-info mb-2">Edit Profile</a>
-                         </div>
-                         {/* <!-- END profile-header-info --> */}
-                      </div>
-                      {/* <!-- END profile-header-content -->
-                      <!-- BEGIN profile-header-tab --> */}
-                      <ul class="profile-header-tab nav nav-tabs">
-                        <li class="nav-item"> 
-                            <Link to="/profile-about" class="nav-link" data-toggle="tab">
-                                ABOUT
-                            </Link>
-                        </li>
-                         <li class="nav-item">
-                            <Link to="/profile-interests" class="nav-link" data-toggle="tab">INTERESTS</Link></li>
-                            
-                         <li class="nav-item"><Link to="/profile-events" class="nav-link" data-toggle="tab">EVENTS</Link>
-                            
-                         </li>
-                         <li class="nav-item"><Link to="/profile-friends" class="nav-link  active show" data-toggle="tab">FRIENDS</Link>
-                         </li>
-                         <li class="nav-item"><Link to="/profile-photos" class="nav-link" data-toggle="tab">PHOTOS</Link>
-                        </li>
-                      </ul>
-                      {/* <!-- END profile-header-tab --> */}
-                   </div>
-                </div>
-                {/* <!-- end profile -->
+                
+                {/* <!-- end navbar -->
                 <!-- begin profile-content --> */}
             <div class="profile-content">
               {/* <!-- begin tab-content --> */}
