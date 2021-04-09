@@ -1,9 +1,10 @@
 import React, { useRef, useState } from "react";
-import { Form, Button, Card, Alert } from "react-bootstrap";
+import { Button, Alert, Nav, NavDropdown, Form, FormControl } from "react-bootstrap"
 import { useAuth } from "../contexts/AuthContext";
 import { Link, useHistory } from "react-router-dom";
 import "./Profile.css";
 import "./ProfileInterests.css";
+import Navbar from 'react-bootstrap/Navbar'
 
 export default function ProfileInterest() {
   const [error, setError] = useState("");
@@ -35,6 +36,31 @@ export default function ProfileInterest() {
       <div class="row">
         <div class="col-md-12">
           <div id="content" class="content content-full-width">
+          <Navbar bg="light" expand="lg">
+                  <Navbar.Brand href="/">Wassup</Navbar.Brand>
+                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                     <Navbar.Collapse id="basic-navbar-nav">
+                     <Nav className="mr-auto">
+                           <Nav.Link href="/">Home</Nav.Link>
+                           <Nav.Link href="/events">Events</Nav.Link>
+                           <Nav.Link href="/find-friends" >Find Friends</Nav.Link>
+                           <NavDropdown title="Profile" id="basic-nav-dropdown" active>
+                           <NavDropdown.Item href="/profile-about">About</NavDropdown.Item>
+                           <NavDropdown.Item href="/profile-interests">Interests</NavDropdown.Item>
+                           <NavDropdown.Item href="/profile-preferences">Preferences</NavDropdown.Item>
+                           <NavDropdown.Item href="/profile-friends">Friends</NavDropdown.Item>
+                           <NavDropdown.Item href="/profile-events">Events</NavDropdown.Item>
+                           <NavDropdown.Item href="/profile-photos">Photos</NavDropdown.Item>
+                           <NavDropdown.Divider />
+                           <NavDropdown.Item href="/update-profile">Update Profile</NavDropdown.Item>
+                           </NavDropdown>
+                     </Nav>
+                     <Form inline>
+                     <FormControl type="text" placeholder="Search Events" className="mr-md-4" />
+                           <Button variant="outline-success">Search</Button>
+                     </Form>
+                     </Navbar.Collapse>
+                  </Navbar>
             {/* <!-- begin profile --> */}
             <div class="profile">
               <div class="profile-header">

@@ -1,7 +1,8 @@
 import React, { useState } from "react"
-import { Card, Button, Alert } from "react-bootstrap"
+import { Card, Button, Alert, Nav, NavDropdown, Form, FormControl } from "react-bootstrap"
 import { useAuth } from "../contexts/AuthContext"
 import { Link, useHistory } from "react-router-dom"
+import Navbar from 'react-bootstrap/Navbar'
 
 export default function Dashboard() {
   const [error, setError] = useState("")
@@ -30,6 +31,31 @@ export default function Dashboard() {
 
   return (
     <>
+    <Navbar bg="light" expand="lg">
+      <Navbar.Brand href="/">Wassup</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="mr-auto">
+            <Nav.Link href="/">Home</Nav.Link>
+            <Nav.Link href="/events">Events</Nav.Link>
+            <Nav.Link href="/find-friends">Find Friends</Nav.Link>
+            <NavDropdown title="Profile" id="basic-nav-dropdown">
+              <NavDropdown.Item href="/profile-about">About</NavDropdown.Item>
+              <NavDropdown.Item href="/profile-interests">Interests</NavDropdown.Item>
+              <NavDropdown.Item href="/profile-preferences">Preferences</NavDropdown.Item>
+              <NavDropdown.Item href="/profile-friends">Friends</NavDropdown.Item>
+              <NavDropdown.Item href="/profile-events">Events</NavDropdown.Item>
+              <NavDropdown.Item href="/profile-photos">Photos</NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item href="/update-profile">Update Profile</NavDropdown.Item>
+            </NavDropdown>
+          </Nav>
+          <Form inline>
+          <FormControl type="text" placeholder="Search Events" className="mr-md-4" />
+                           <Button variant="outline-success">Search</Button>
+          </Form>
+        </Navbar.Collapse>
+      </Navbar>
       <Card>
         <Card.Body>
           <h2 className="text-center mb-4">Home</h2>
@@ -50,15 +76,6 @@ export default function Dashboard() {
 		  <br/>
 		  </div>
 		  }
-          <Link to="/profile" className="btn btn-primary w-100 mt-3">
-            Profile
-            </Link>
-		  <Link to="/update-preferences" className="btn btn-primary w-100 mt-3">
-            Update Preferences
-          </Link>
-          <Link to="/update-profile" className="btn btn-primary w-100 mt-3">
-            Update Profile
-          </Link>
         </Card.Body>
       </Card>
       <div className="w-100 text-center mt-2">
