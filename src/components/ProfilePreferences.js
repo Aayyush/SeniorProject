@@ -92,7 +92,7 @@ export default function ProfilePreferences() {
                         userDataDoc["Profession"].join(",")}
                     </div>
                     <a
-                      href="/update-profile-about"
+                      href="/update-preferences"
                       class="btn btn-sm btn-info mb-2"
                     >
                       Edit Profile

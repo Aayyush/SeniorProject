@@ -27,6 +27,7 @@ export default function UpdatePreferences() {
   const [value, setValue] = React.useState([0, 100]);
   const {fetchUserDocument } = useAuth();
   const [currValue = fetchAgeRange(), setCurrValue] = React.useState();
+  const history = useHistory()
   
   async function getUserData() {
 	  const doc = await fetchUserDocument();
@@ -49,6 +50,7 @@ export default function UpdatePreferences() {
 		} 
 	  });
 	  setCurrValue(value);
+    history.push("/profile-preferences")
   }
   
   function fetchAgeRange() {
@@ -125,7 +127,7 @@ export default function UpdatePreferences() {
                         <div>
                           {userDataDoc && userDataDoc["Profession"].join(',')}
                        </div>
-                        <a href="/profile-interests" class="btn btn-sm btn-dark mb-2">Go back to Profile</a>
+                        <a href="/profile-preferences" class="btn btn-sm btn-dark mb-2">Go back to Profile</a>
                      </div>
                      <div class="profile-header-img-edit">
                      <a href="#" class="btn btn-info btn-sm"> 
