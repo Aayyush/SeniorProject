@@ -182,6 +182,17 @@ export default function ProfilePreferences() {
                         </div>
                     )}
                     </center>
+					
+					<span>
+                        <strong>Max Distance: </strong>
+                    </span>
+                    <center>
+                    {userDataDoc && userDataDoc["Preferences"] && (
+                        <div>
+                            <span class="text-left"> Distance set: {userDataDoc["Preferences"]["MaxDistance"]} </span>
+                        </div>
+                    )}
+                    </center>
                     {/* <button type="button" align = 'right'> Edit Bio </button> */}
                     <p></p>
                     </div>

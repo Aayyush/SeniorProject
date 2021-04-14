@@ -36,7 +36,7 @@ return deg * (Math.PI/180)
 export default function FindFriends() {
     const [userDataDoc, setUserDataDoc] = useState("");
     const [suggestedFriends, setSuggestedFriends] = useState("");
-    const {logout, fetchAllUsers, fetchUserDocument } = useAuth();
+    const {logout, fetchAllUsers, fetchUserDocument, addFriend } = useAuth();
     const history = useHistory();
     const [error, setError] = useState("");
     const classes = useStyles();
@@ -45,7 +45,7 @@ export default function FindFriends() {
         const doc = await fetchUserDocument();
         return doc;
         }
-        if (!userDataDoc) {
+     if (!userDataDoc) {
            getUserData().then(doc => setUserDataDoc(doc.data()));
      }
 
@@ -54,7 +54,7 @@ export default function FindFriends() {
         const doc = await fetchUserDocument();
         const docs = await fetchAllUsers();
 
-        const maxDis = 100; //doc.data()["Preferences"]["MaxDistance"];
+        const maxDis = doc.data()["Preferences"]["MaxDistance"];
         const ageRange = doc.data()["Preferences"]["AgeRange"];
 
         await docs.get().then((userDocs) => {
@@ -88,6 +88,17 @@ export default function FindFriends() {
         setError("Failed to log out")
         }
     }
+	
+	async function handleAddFriend(value) {
+		setError("");
+		try {
+			console.log("Adding friend.");
+			console.log(value);
+			await addFriend(value);
+		} catch {
+			setError("Error trying to add friend.");
+		}
+	}
 
   return (
     <div class="container">
@@ -159,7 +170,7 @@ export default function FindFriends() {
                                     </div>
 
                                     <div class="col-md-3 col-sm-3">
-                                        <button class="btn btn-primary pull-right">Add Friend</button>
+                                        <button class="btn btn-primary pull-right" onClick={() => {handleAddFriend(friend[0]);}}>Add Friend</button>
                                     </div>
                                 </div>
                                 }
