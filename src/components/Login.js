@@ -28,7 +28,8 @@ export default function Login() {
   }
 
   return (
-      <div class="container">
+    <>
+      <div class="login-container">
         <div class="row">
           <span class="app-logo col-md-6 align-left">
               <img src={process.env.PUBLIC_URL + "Wassup2.png"} alt="WassUp Logo"></img>
@@ -63,5 +64,6 @@ export default function Login() {
         </span>
       </div>
     </div>
+  </>
   )
 }
