@@ -1,4 +1,4 @@
-import { Card, Form, Checkbox } from "react-bootstrap";
+import { Button, Card, Form } from "react-bootstrap";
 import React, { useRef, useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 
@@ -14,7 +14,7 @@ class GuestLabel extends React.Component {
       <div>
         <ul>
           {this.props.guests.map((guestName, i) => (
-            <li>{guestName}</li>
+            <li key={i}>{guestName}</li>
           ))}
         </ul>
       </div>
@@ -28,7 +28,7 @@ class GuestBox extends React.Component {
 
     this.state = {
       guests: [],
-      value: this.top100Films[0],
+      value: null,
     };
   }
 
@@ -38,38 +38,24 @@ class GuestBox extends React.Component {
     const currentGuestList = this.state.guests;
     this.setState({
       value: "",
-      guests: currentGuestList.concat([newValue.title]),
+      guests: currentGuestList.concat([newValue.Name]),
     });
+    this.props.onAddGuestCallback(this.state.guests);
   };
-
-  // Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
-  top100Films = [
-    { title: "The Shawshank Redemption", year: 1994 },
-    { title: "The Godfather", year: 1972 },
-    { title: "The Godfather: Part II", year: 1974 },
-    { title: "The Dark Knight", year: 2008 },
-    { title: "12 Angry Men", year: 1957 },
-    { title: "Schindler's List", year: 1993 },
-    { title: "Pulp Fiction", year: 1994 },
-    { title: "The Lord of the Rings: The Return of the King", year: 2003 },
-    { title: "The Good, the Bad and the Ugly", year: 1966 },
-    { title: "Fight Club", year: 1999 },
-  ];
 
   render() {
     return (
       <div>
         <Autocomplete
           id="combo-box-demo"
-          options={this.top100Films}
-          getOptionLabel={(option) => option.title}
+          options={this.props.users}
+          getOptionLabel={(option) => option.Name}
           style={{ width: 300 }}
           renderInput={(params) => (
             <TextField {...params} label="Guest Name" variant="outlined" />
           )}
           value={this.state.value}
           onChange={this.handleChange}
-          ref="myinput"
         />
         <label>Guests</label>
         <GuestLabel guests={this.state.guests} />
@@ -79,28 +65,80 @@ class GuestBox extends React.Component {
 }
 
 export default function CreateEvent() {
-  const eventNameRef = useRef();
   const descriptionRef = useRef();
   const openToPublicRef = useRef();
+  const durationRef = useRef();
 
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const [eventDate, setEventDate] = useState(new Date());
   const [eventLocation, setEventLocation] = useState(null);
   const [usersList, setUsersList] = useState([]);
+  const [guestsList, setGuestsList] = useState([]);
+  const [eventName, setEventName] = useState();
 
-  const { fetchAllUsers } = useAuth();
+  const { fetchAllUsers, currentUser } = useAuth();
 
   useEffect(() => {
     async function fetchData() {
+      var users = [];
+
       console.log("Fetching users");
-      const snapshot = await fetchAllUsers().get();
-      return snapshot.docs.map((doc) => doc.data());
+      await fetchAllUsers()
+        .get()
+        .then((userDocs) => {
+          userDocs.forEach((userDoc) => {
+            users.push(userDoc.data());
+          });
+        });
+      return users;
     }
-    var x = fetchData();
-    console.log(x);
-    // console.log(usersList);
+
+    fetchData().then((users) => {
+      setUsersList(users);
+      console.log(users);
+    });
   }, [fetchAllUsers]);
 
-  async function handleSubmit(e) {}
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    console.log(guestsList);
+    try {
+      setError("");
+      setLoading(true);
+
+      var guests = [];
+
+      guestsList.forEach((guestName) => {
+        var userObj = {};
+        userObj["Name"] = guestName;
+        userObj["IsAccepted"] = false;
+        guests.push(userObj);
+      });
+
+      console.log(guests);
+
+      console.log(eventName);
+      const newEvent = {
+        Name: eventName,
+        Description: descriptionRef.current.value,
+        Date: eventDate,
+        Duration: durationRef.current.value,
+        Location: eventLocation.terms,
+        OpenToPublic: openToPublicRef.current.value === "on" ? true : false,
+        Guests: guests,
+        CreatedBy: currentUser.uid,
+      };
+
+      console.log(newEvent);
+    } catch (err) {
+      setError("Failed to create an account");
+      console.log(err);
+    }
+
+    setLoading(false);
+  }
 
   function handleLocationSearchBoxCallback(eventLocation) {
     setEventLocation(eventLocation);
@@ -112,62 +150,60 @@ export default function CreateEvent() {
     <Card>
       <Card.Body>
         <h2 className="text-center mb-4">Create New Event</h2>
-        <Form onSubmit={handleSubmit}></Form>
-        <Form.Group id="event-name">
-          <Form.Label>Event Name</Form.Label>
-          <Form.Control type="text" ref={eventNameRef} required />
-        </Form.Group>
-        <Form.Group id="description">
-          <Form.Label>Description</Form.Label>
-          <Form.Control type="text" ref={descriptionRef} required />
-        </Form.Group>
-        <Form.Group id="event-date">
-          <Form.Label>Event Date</Form.Label>
-          <DatePicker
-            selected={eventDate}
-            onChange={(date) => setEventDate(date)}
-          />
-        </Form.Group>
-        <Form.Group>
-          <TextField
-            id="time"
-            label="Start Time"
-            type="time"
-            defaultValue="07:30"
-            InputLabelProps={{
-              shrink: true,
-            }}
-            inputProps={{
-              step: 300, // 5 min
-            }}
-          />
-          <TextField
-            id="time"
-            label="End Time"
-            type="time"
-            defaultValue="08:30"
-            InputLabelProps={{
-              shrink: true,
-            }}
-            inputProps={{
-              step: 300, // 5 min
-            }}
-          />
-        </Form.Group>
-        <Form.Group>
-          <label>Location</label>
-          <LocationSearchBox parentCallback={handleLocationSearchBoxCallback} />
-        </Form.Group>
-        <Form.Group controlId="openToPublic">
-          <Form.Check
-            type="checkbox"
-            label="Open to Public?"
-            ref={openToPublicRef}
-          />
-        </Form.Group>
-        <Form.Group>
-          <GuestBox />
-        </Form.Group>
+        <Form onSubmit={handleSubmit}>
+          <Form.Group id="event-name">
+            <Form.Label>Event Name</Form.Label>
+            <Form.Control
+              type="text"
+              value={eventName}
+              onChange={(event) => {
+                setEventName(event.target.value);
+              }}
+              required
+            />
+          </Form.Group>
+          <Form.Group id="description">
+            <Form.Label>Description</Form.Label>
+            <Form.Control type="text" ref={descriptionRef} required />
+          </Form.Group>
+          <Form.Group id="event-date">
+            <Form.Label>Event Date</Form.Label>
+            <DatePicker
+              selected={eventDate}
+              onChange={(date) => setEventDate(date)}
+              timeInputLabel="Time:"
+              dateFormat="MM/dd/yyyy h:mm aa"
+              showTimeInput
+            />
+            <Form.Group>
+              <label>Duration</label>
+              <Form.Control type="text" ref={durationRef} required />
+            </Form.Group>
+          </Form.Group>
+          <Form.Group>
+            <label>Location</label>
+            <LocationSearchBox
+              parentCallback={handleLocationSearchBoxCallback}
+            />
+          </Form.Group>
+          <Form.Group controlId="openToPublic">
+            <Form.Check
+              type="checkbox"
+              label="Open to Public?"
+              ref={openToPublicRef}
+              defaultValue="off"
+            />
+          </Form.Group>
+          <Form.Group>
+            <GuestBox
+              users={usersList}
+              onAddGuestCallback={(guestList) => setGuestsList(guestList)}
+            />
+          </Form.Group>
+          <Button disabled={loading} className="w-100" type="submit">
+            Submit
+          </Button>
+        </Form>
       </Card.Body>
     </Card>
   );
