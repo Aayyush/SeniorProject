@@ -30,11 +30,11 @@ export default function Login() {
   return (
       <div class="container">
         <div class="row">
-          <div class="app-logo col-md-6 align-left">
+          <span class="app-logo col-md-6 align-left">
               <img src={process.env.PUBLIC_URL + "Wassup2.png"} alt="WassUp Logo"></img>
               <h4> Welcome to WassUp where you can connect to people with hobbies similar to you!</h4>
-            </div>
-          <div class="form-login col-md-6 text-center">
+            </span>
+          <span class="form-login col-md-6 text-center">
             <Card>
               <Card.Body>
                 <h2 className="text-center mb-4">Log In</h2>
@@ -60,7 +60,7 @@ export default function Login() {
             <div className="w-100 text-center mt-2">
             Need an account? <Link to="/signup">Sign Up</Link>
           </div>
-        </div>
+        </span>
       </div>
     </div>
   )
