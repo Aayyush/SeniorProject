@@ -32,6 +32,10 @@ export function AuthProvider({ children }) {
 	  });
   }
   
+  function getUserID() {
+	  return auth.currentUser.uid;
+  }
+  
   function fetchUserDocument() {
     var db = firebase.firestore(app);
     console.log("Fetching User data")
@@ -81,6 +85,7 @@ export function AuthProvider({ children }) {
 
   const value = {
     currentUser,
+	getUserID,
 	addUserDocuments,
 	addFriend,
   fetchUserDocument,

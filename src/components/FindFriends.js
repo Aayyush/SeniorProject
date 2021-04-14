@@ -36,7 +36,7 @@ return deg * (Math.PI/180)
 export default function FindFriends() {
     const [userDataDoc, setUserDataDoc] = useState("");
     const [suggestedFriends, setSuggestedFriends] = useState("");
-    const {logout, fetchAllUsers, fetchUserDocument, addFriend } = useAuth();
+    const {logout, fetchAllUsers, fetchUserDocument, addFriend, getUserID } = useAuth();
     const history = useHistory();
     const [error, setError] = useState("");
     const classes = useStyles();
@@ -53,7 +53,8 @@ export default function FindFriends() {
         var suggestedFriendsTemp = []
         const doc = await fetchUserDocument();
         const docs = await fetchAllUsers();
-
+		const userID = await getUserID();
+		
         const maxDis = doc.data()["Preferences"]["MaxDistance"];
         const ageRange = doc.data()["Preferences"]["AgeRange"];
 
@@ -63,15 +64,19 @@ export default function FindFriends() {
             if (doc.data()["Friends"].includes(userDoc.id)) {
                 return;
             }
+			if (userDoc.id == userID) {
+				return;
+			}
             var disDiff = getDistanceFromLatLonInKm(doc.data()["Location"]["u_"], doc.data()["Location"]["h_"],
                                                     userDoc.data()["Location"]["u_"], userDoc.data()["Location"]["h_"]);
 
             if ((disDiff <= maxDis) && 
                 ((userDoc.data()["Age"] >= ageRange[0]) && (userDoc.data()["Age"] <= ageRange[1]))) {
-                suggestedFriendsTemp.push([userDoc.id, userDoc.data()["Name"], userDoc.data()["Age"]], userDoc.data()["Profession"], userDoc.data()["Location"]);
+                suggestedFriendsTemp.push([userDoc.id, userDoc.data()["Name"], userDoc.data()["Age"], userDoc.data()["Profession"], userDoc.data()["Location"]]);
             }
             });
         });
+		console.log(suggestedFriendsTemp);
         return suggestedFriendsTemp;
     }
     if (!suggestedFriends) {
