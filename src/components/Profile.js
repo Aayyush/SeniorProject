@@ -8,7 +8,8 @@ import Navbar from 'react-bootstrap/Navbar'
 export default function Profile() {
     const [error, setError] = useState("");
     const [userDataDoc, setUserDataDoc] = useState("");
-    const { logout, fetchUserDocument } = useAuth();
+    const [allUsers, setallUsers] = useState("");
+    const { logout, fetchUserDocument, fetchAllUsers } = useAuth();
     const history = useHistory();
     
     async function getUserData() {
@@ -18,6 +19,14 @@ export default function Profile() {
       if (!userDataDoc) {
          getUserData().then(doc => setUserDataDoc(doc.data()));
    }
+
+   // async function getallUsersData() {
+   //    const doc = await fetchAllUsers();
+   //    return doc;
+   //    }
+   //    if (!userDataDoc) {
+   //       getallUsersData().then(doc => setallUsers(doc));
+   // }
 
     async function handleLogout() {
         setError("")
@@ -126,389 +135,48 @@ export default function Profile() {
                      </ul>
                        
                      </h4>
-                    {/* <!-- begin row --> */}
-                    <div class="row row-space-2">
-                       {/* <!-- begin col-6 --> */}
-                       <div class="col-md-6 m-b-2">
-                          <div class="p-10 bg-white">
-                             <div class="media media-xs overflow-visible">
-                                <a class="media-left" href="javascript:;">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="media-object img-circle"></img>
-                                </a>
-                                <div class="media-body valign-middle">
-                                   <b class="text-inverse">James Pittman  </b>
-                                </div>
-                                <div class="media-body valign-middle text-right overflow-visible">
-                                   <div class="btn-group dropdown">
-                                      <a href="javascript:;" class="btn btn-default">Friends</a>
-                                      <a href="javascript:;" data-toggle="dropdown" class="btn btn-default dropdown-toggle" aria-expanded="false"></a>
-                                      <ul class="dropdown-menu dropdown-menu-right">
-                                      <li><a href="javascript:;">Action 1</a></li>
-                                         <li><a href="javascript:;">Action 2</a></li>
-                                         <li><a href="javascript:;">Action 3</a></li>
-                                         <li class="divider"></li>
-                                         <li><a href="javascript:;">Action 4</a></li>
-                                      </ul>
-                                   </div>
-                                </div>
-                             </div>
-                          </div>
-                       </div>
-                       {/* <!-- end col-6 -->
-                       <!-- begin col-6 --> */}
-                       <div class="col-md-6 m-b-2">
-                          <div class="p-10 bg-white">
-                             <div class="media media-xs overflow-visible">
-                                <a class="media-left" href="javascript:;">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="" class="media-object img-circle"></img>
-                                </a>
-                                <div class="media-body valign-middle">
-                                   <b class="text-inverse">Mitchell Ashcroft</b>
-                                </div>
-                                <div class="media-body valign-middle text-right overflow-visible">
-                                   <div class="btn-group dropdown">
-                                      <a href="javascript:;" class="btn btn-default">Friends</a>
-                                      <a href="javascript:;" data-toggle="dropdown" class="btn btn-default dropdown-toggle"></a>
-                                      <ul class="dropdown-menu dropdown-menu-right">
-                                         <li><a href="javascript:;">Action 1</a></li>
-                                         <li><a href="javascript:;">Action 2</a></li>
-                                         <li><a href="javascript:;">Action 3</a></li>
-                                         <li class="divider"></li>
-                                         <li><a href="javascript:;">Action 4</a></li>
-                                      </ul>
-                                   </div>
-                                </div>
-                             </div>
-                          </div>
-                       </div>
-                       {/* <!-- end col-6 -->
-                       <!-- begin col-6 --> */}
-                       <div class="col-md-6 m-b-2">
-                          <div class="p-10 bg-white">
-                             <div class="media media-xs overflow-visible">
-                                <a class="media-left" href="javascript:;">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="" class="media-object img-circle"></img>
-                                </a>
-                                <div class="media-body valign-middle">
-                                   <b class="text-inverse">Ella Cabena</b>
-                                </div>
-                                <div class="media-body valign-middle text-right overflow-visible">
-                                   <div class="btn-group dropdown">
-                                      <a href="javascript:;" class="btn btn-default">Friends</a>
-                                      <a href="javascript:;" data-toggle="dropdown" class="btn btn-default dropdown-toggle" aria-expanded="false"></a>
-                                      <ul class="dropdown-menu dropdown-menu-right">
-                                         <li><a href="javascript:;">Action 1</a></li>
-                                         <li><a href="javascript:;">Action 2</a></li>
-                                         <li><a href="javascript:;">Action 3</a></li>
-                                         <li class="divider"></li>
-                                         <li><a href="javascript:;">Action 4</a></li>
-                                      </ul>
-                                   </div>
-                                </div>
-                             </div>
-                          </div>
-                       </div>
-                       {/* <!-- end col-6 -->
-                       <!-- begin col-6 --> */}
-                       <div class="col-md-6 m-b-2">
-                          <div class="p-10 bg-white">
-                             <div class="media media-xs overflow-visible">
-                                <a class="media-left" href="javascript:;">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar4.png" alt="" class="media-object img-circle"></img>
-                                </a>
-                                <div class="media-body valign-middle">
-                                   <b class="text-inverse">Declan Dyson</b>
-                                </div>
-                                <div class="media-body valign-middle text-right overflow-visible">
-                                   <div class="btn-group dropdown">
-                                      <a href="javascript:;" class="btn btn-default">Friends</a>
-                                      <a href="javascript:;" data-toggle="dropdown" class="btn btn-default dropdown-toggle"></a>
-                                      <ul class="dropdown-menu dropdown-menu-right">
-                                         <li><a href="javascript:;">Action 1</a></li>
-                                         <li><a href="javascript:;">Action 2</a></li>
-                                         <li><a href="javascript:;">Action 3</a></li>
-                                         <li class="divider"></li>
-                                         <li><a href="javascript:;">Action 4</a></li>
-                                      </ul>
-                                   </div>
-                                </div>
-                             </div>
-                          </div>
-                       </div>
-                       {/* <!-- end col-6 -->
-                       <!-- begin col-6 --> */}
-                       <div class="col-md-6 m-b-2">
-                          <div class="p-10 bg-white">
-                             <div class="media media-xs overflow-visible">
-                                <a class="media-left" href="javascript:;">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar5.png" alt="" class="media-object img-circle"></img>
-                                </a>
-                                <div class="media-body valign-middle">
-                                   <b class="text-inverse">Hello Seyler</b>
-                                </div>
-                                <div class="media-body valign-middle text-right overflow-visible">
-                                   <div class="btn-group dropdown">
-                                      <a href="javascript:;" class="btn btn-default">Friends</a>
-                                      <a href="javascript:;" data-toggle="dropdown" class="btn btn-default dropdown-toggle"></a>
-                                      <ul class="dropdown-menu dropdown-menu-right">
-                                         <li><a href="javascript:;">Action 1</a></li>
-                                         <li><a href="javascript:;">Action 2</a></li>
-                                         <li><a href="javascript:;">Action 3</a></li>
-                                         <li class="divider"></li>
-                                         <li><a href="javascript:;">Action 4</a></li>
-                                      </ul>
-                                   </div>
-                                </div>
-                             </div>
-                          </div>
-                       </div>
-                       {/* <!-- end col-6 -->
-                       <!-- begin col-6 --> */}
-                       <div class="col-md-6 m-b-2">
-                          <div class="p-10 bg-white">
-                             <div class="media media-xs overflow-visible">
-                                <a class="media-left" href="javascript:;">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="" class="media-object img-circle"></img>
-                                </a>
-                                <div class="media-body valign-middle">
-                                   <b class="text-inverse">Patrick Musgrove</b>
-                                </div>
-                                <div class="media-body valign-middle text-right overflow-visible">
-                                   <div class="btn-group dropdown">
-                                      <a href="javascript:;" class="btn btn-default">Friends</a>
-                                      <a href="javascript:;" data-toggle="dropdown" class="btn btn-default dropdown-toggle"></a>
-                                      <ul class="dropdown-menu dropdown-menu-right">
-                                         <li><a href="javascript:;">Action 1</a></li>
-                                         <li><a href="javascript:;">Action 2</a></li>
-                                         <li><a href="javascript:;">Action 3</a></li>
-                                         <li class="divider"></li>
-                                         <li><a href="javascript:;">Action 4</a></li>
-                                      </ul>
-                                   </div>
-                                </div>
-                             </div>
-                          </div>
-                       </div>
-                       {/* <!-- end col-6 -->
-                       <!-- begin col-6 --> */}
-                       <div class="col-md-6 m-b-2">
-                          <div class="p-10 bg-white">
-                             <div class="media media-xs overflow-visible">
-                                <a class="media-left" href="javascript:;">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="" class="media-object img-circle"></img>
-                                </a>
-                                <div class="media-body valign-middle">
-                                   <b class="text-inverse">Taj Connal</b>
-                                </div>
-                                <div class="media-body valign-middle text-right overflow-visible">
-                                   <div class="btn-group dropdown">
-                                      <a href="javascript:;" class="btn btn-default">Friends</a>
-                                      <a href="javascript:;" data-toggle="dropdown" class="btn btn-default dropdown-toggle"></a>
-                                      <ul class="dropdown-menu dropdown-menu-right">
-                                         <li><a href="javascript:;">Action 1</a></li>
-                                         <li><a href="javascript:;">Action 2</a></li>
-                                         <li><a href="javascript:;">Action 3</a></li>
-                                         <li class="divider"></li>
-                                         <li><a href="javascript:;">Action 4</a></li>
-                                      </ul>
-                                   </div>
-                                </div>
-                             </div>
-                          </div>
-                       </div>
-                       {/* <!-- end col-6 -->
-                       <!-- begin col-6 --> */}
-                       <div class="col-md-6 m-b-2">
-                          <div class="p-10 bg-white">
-                             <div class="media media-xs overflow-visible">
-                                <a class="media-left" href="javascript:;">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="media-object img-circle"></img>
-                                </a>
-                                <div class="media-body valign-middle">
-                                   <b class="text-inverse">Laura Pollock</b>
-                                </div>
-                                <div class="media-body valign-middle text-right overflow-visible">
-                                   <div class="btn-group dropdown">
-                                      <a href="javascript:;" class="btn btn-default">Friends</a>
-                                      <a href="javascript:;" data-toggle="dropdown" class="btn btn-default dropdown-toggle"></a>
-                                      <ul class="dropdown-menu dropdown-menu-right">
-                                         <li><a href="javascript:;">Action 1</a></li>
-                                         <li><a href="javascript:;">Action 2</a></li>
-                                         <li><a href="javascript:;">Action 3</a></li>
-                                         <li class="divider"></li>
-                                         <li><a href="javascript:;">Action 4</a></li>
-                                      </ul>
-                                   </div>
-                                </div>
-                             </div>
-                          </div>
-                       </div>
-                       {/* <!-- end col-6 -->
-                       <!-- begin col-6 --> */}
-                       <div class="col-md-6 m-b-2">
-                          <div class="p-10 bg-white">
-                             <div class="media media-xs overflow-visible">
-                                <a class="media-left" href="javascript:;">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="" class="media-object img-circle"></img>
-                                </a>
-                                <div class="media-body valign-middle">
-                                   <b class="text-inverse">Dakota Mannix</b>
-                                </div>
-                                <div class="media-body valign-middle text-right overflow-visible">
-                                   <div class="btn-group dropdown">
-                                      <a href="javascript:;" class="btn btn-default">Friends</a>
-                                      <a href="javascript:;" data-toggle="dropdown" class="btn btn-default dropdown-toggle"></a>
-                                      <ul class="dropdown-menu dropdown-menu-right">
-                                         <li><a href="javascript:;">Action 1</a></li>
-                                         <li><a href="javascript:;">Action 2</a></li>
-                                         <li><a href="javascript:;">Action 3</a></li>
-                                         <li class="divider"></li>
-                                         <li><a href="javascript:;">Action 4</a></li>
-                                      </ul>
-                                   </div>
-                                </div>
-                             </div>
-                          </div>
-                       </div>
-                       {/* <!-- end col-6 -->
-                       <!-- begin col-6 --> */}
-                       <div class="col-md-6 m-b-2">
-                          <div class="p-10 bg-white">
-                             <div class="media media-xs overflow-visible">
-                                <a class="media-left" href="javascript:;">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="media-object img-circle"></img>
-                                </a>
-                                <div class="media-body valign-middle">
-                                   <b class="text-inverse">Timothy Woolley</b>
-                                </div>
-                                <div class="media-body valign-middle text-right overflow-visible">
-                                   <div class="btn-group dropdown">
-                                      <a href="javascript:;" class="btn btn-default">Friends</a>
-                                      <a href="javascript:;" data-toggle="dropdown" class="btn btn-default dropdown-toggle"></a>
-                                      <ul class="dropdown-menu dropdown-menu-right">
-                                         <li><a href="javascript:;">Action 1</a></li>
-                                         <li><a href="javascript:;">Action 2</a></li>
-                                         <li><a href="javascript:;">Action 3</a></li>
-                                         <li class="divider"></li>
-                                         <li><a href="javascript:;">Action 4</a></li>
-                                      </ul>
-                                   </div>
-                                </div>
-                             </div>
-                          </div>
-                       </div>
-                       {/* <!-- end col-6 -->
-                       <!-- begin col-6 --> */}
-                       <div class="col-md-6 m-b-2">
-                          <div class="p-10 bg-white">
-                             <div class="media media-xs overflow-visible">
-                                <a class="media-left" href="javascript:;">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar5.png" alt="" class="media-object img-circle"></img>
-                                </a>
-                                <div class="media-body valign-middle">
-                                   <b class="text-inverse">Benjamin Congreve</b>
-                                </div>
-                                <div class="media-body valign-middle text-right overflow-visible">
-                                   <div class="btn-group dropdown">
-                                      <a href="javascript:;" class="btn btn-default">Friends</a>
-                                      <a href="javascript:;" data-toggle="dropdown" class="btn btn-default dropdown-toggle"></a>
-                                      <ul class="dropdown-menu dropdown-menu-right">
-                                         <li><a href="javascript:;">Action 1</a></li>
-                                         <li><a href="javascript:;">Action 2</a></li>
-                                         <li><a href="javascript:;">Action 3</a></li>
-                                         <li class="divider"></li>
-                                         <li><a href="javascript:;">Action 4</a></li>
-                                      </ul>
-                                   </div>
-                                </div>
-                             </div>
-                          </div>
-                       </div>
-                       {/* <!-- end col-6 -->
-                       <!-- begin col-6 --> */}
-                       <div class="col-md-6 m-b-2">
-                          <div class="p-10 bg-white">
-                             <div class="media media-xs overflow-visible">
-                                <a class="media-left" href="javascript:;">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="media-object img-circle"></img>
-                                </a>
-                                <div class="media-body valign-middle">
-                                   <b class="text-inverse">Mariam Maddock</b>
-                                </div>
-                                <div class="media-body valign-middle text-right overflow-visible">
-                                   <div class="btn-group dropdown">
-                                      <a href="javascript:;" class="btn btn-default">Friends</a>
-                                      <a href="javascript:;" data-toggle="dropdown" class="btn btn-default dropdown-toggle"></a>
-                                      <ul class="dropdown-menu dropdown-menu-right">
-                                         <li><a href="javascript:;">Action 1</a></li>
-                                         <li><a href="javascript:;">Action 2</a></li>
-                                         <li><a href="javascript:;">Action 3</a></li>
-                                         <li class="divider"></li>
-                                         <li><a href="javascript:;">Action 4</a></li>
-                                      </ul>
-                                   </div>
-                                </div>
-                             </div>
-                          </div>
-                       </div>
-                       {/* <!-- end col-6 -->
-                       <!-- begin col-6 --> */}
-                       <div class="col-md-6 m-b-2">
-                          <div class="p-10 bg-white">
-                             <div class="media media-xs overflow-visible">
-                                <a class="media-left" href="javascript:;">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="" class="media-object img-circle"></img>
-                                </a>
-                                <div class="media-body valign-middle">
-                                   <b class="text-inverse">Blake Gerrald</b>
-                                </div>
-                                <div class="media-body valign-middle text-right overflow-visible">
-                                   <div class="btn-group dropdown">
-                                      <a href="javascript:;" class="btn btn-default">Friends</a>
-                                      <a href="javascript:;" data-toggle="dropdown" class="btn btn-default dropdown-toggle"></a>
-                                      <ul class="dropdown-menu dropdown-menu-right">
-                                         <li><a href="javascript:;">Action 1</a></li>
-                                         <li><a href="javascript:;">Action 2</a></li>
-                                         <li><a href="javascript:;">Action 3</a></li>
-                                         <li class="divider"></li>
-                                         <li><a href="javascript:;">Action 4</a></li>
-                                      </ul>
-                                   </div>
-                                </div>
-                             </div>
-                          </div>
-                       </div>
-                       {/* <!-- end col-6 -->
-                       <!-- begin col-6 -->
-                       <!-- end col-6 -->
-                       <!-- begin col-6 --> */}
-                       <div class="col-md-6 m-b-2">
-                          <div class="p-10 bg-white">
-                             <div class="media media-xs overflow-visible">
-                                <a class="media-left" href="javascript:;">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar4.png" alt="" class="media-object img-circle"></img>
-                                </a>
-                                <div class="media-body valign-middle">
-                                   <b class="text-inverse">Gabrielle Bunton</b>
-                                </div>
-                                <div class="media-body valign-middle text-right overflow-visible">
-                                   <div class="btn-group dropdown">
-                                      <a href="javascript:;" class="btn btn-default">Friends</a>
-                                      <a href="javascript:;" data-toggle="dropdown" class="btn btn-default dropdown-toggle"></a>
-                                      <ul class="dropdown-menu dropdown-menu-right">
-                                         <li><a href="javascript:;">Action 1</a></li>
-                                         <li><a href="javascript:;">Action 2</a></li>
-                                         <li><a href="javascript:;">Action 3</a></li>
-                                         <li class="divider"></li>
-                                         <li><a href="javascript:;">Action 4</a></li>
-                                      </ul>
-                                   </div>
-                                </div>
-                             </div>
-                          </div>
-                       </div>
-                       {/* <!-- end col-6 --> */}
-                    </div>
+                     <div className="friends">
+                           {userDataDoc && userDataDoc["Friends"].map((friendID, index) => (
+                              <div key={index}>
+                                 {/* <!-- begin row --> */}
+                                 <div class="row row-space-2">
+                                    {/* <!-- begin col-6 --> */}
+                                    <div class="col-md-6 m-b-2">
+                                       <div class="p-10 bg-white">
+                                          <div class="media media-xs overflow-visible">
+                                             <a class="media-left" href="javascript:;">
+                                             <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="media-object img-circle"></img>
+                                             </a>
+                                             <div class="media-body valign-middle">
+                                                <b class="text-inverse"> Name of friend using friendID </b>
+                                                <br/><b class="text-inverse"> Age of friend </b>
+                                                <br/><b class="text-inverse"> Interests of friend </b>
+                                             </div>
+                                             <div class="media-body valign-middle text-right overflow-visible">
+                                                <div class="btn-group dropdown">
+                                                   <a href="javascript:;" class="btn btn-default">Friends</a>
+                                                   <a href="javascript:;" data-toggle="dropdown" class="btn btn-default dropdown-toggle" aria-expanded="false"></a>
+                                                   <ul class="dropdown-menu dropdown-menu-right">
+                                                   <li><a href="javascript:;">Unfriend</a></li>
+                                                      <li><a href="javascript:;">Block</a></li>
+                                                   </ul>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 {/* <!-- end col-6 -->*/}
+                              </div>
+                           ))}
+                           </div>
+                       {userDataDoc && (
+                      <ul>
+                      {userDataDoc["Friends"].map((value, index) => {
+                        return 
+                     })}
+                    </ul>
+                  )}
                     {/* <!-- end row --> */}
                  </div>
                  {/* <!-- end #profile-friends tab --> */}

@@ -1,5 +1,5 @@
 body {
-    background-color: #282c34;
+    background-color: whitesmoke;
   }
   
   .ChatRoom {
@@ -9,7 +9,7 @@ body {
   }
   
   .ChatRoom header {
-    background-color: #181717;
+    background-color: rgba(172, 161, 161, 0.55);
     height: 10vh;
     min-height: 50px;
     color: white;
@@ -54,7 +54,7 @@ body {
     background: #6649b8;
   }
   
-  form {
+  .chatForm {
     height: 10vh;
     position: fixed;
     bottom: 0;
@@ -65,13 +65,13 @@ body {
     font-size: 1.5rem;
   }
   
-  form button {
+  .chatForm button {
     width: 20%;
     background-color: rgb(56, 56, 143);
   }
   
   
-  input {
+  .chatInput {
     line-height: 1.5;
     width: 100%;
     font-size: 1.5rem;
@@ -82,7 +82,7 @@ body {
     padding: 0 10px;
   }
   
-  button {
+  .chatButton {
     background-color: #282c34; /* Green */
     border: none;
     color: white;
@@ -94,7 +94,7 @@ body {
     font-size: 1.25rem;
   }
   
-  button:disabled {
+  .chatButton:disabled {
     opacity: 0.5;
     cursor: not-allowed;
   }
@@ -107,15 +107,7 @@ body {
     margin: 0 auto;
   }
   
-  
-  
-  
-  ul, li {
-    text-align: left;
-    list-style: none;
-  }
-  
-  p {
+  .chatMsg span{
     max-width: 500px;
     margin-bottom: 12px;
     line-height: 24px;
@@ -136,17 +128,17 @@ body {
     flex-direction: row-reverse;
   }
   
-  .sent p {
+  .sent span {
     color: white;
     background: #0b93f6;
     align-self: flex-end;
   }
-  .received p {
+  .received span {
     background: #e5e5ea;
     color: black;
   }
   
-  img {
+  .chatMsg img {
     width: 40px;
     height: 40px;
     border-radius: 50%;
