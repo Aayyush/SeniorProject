@@ -8,6 +8,13 @@ import LocationSearchBox from "./LocationSearchBox";
 
 import { useAuth } from "../contexts/AuthContext";
 
+import Geocode from "react-geocode";
+import { useHistory } from "react-router-dom";
+
+// Geocode Configurations
+Geocode.setLanguage("en");
+Geocode.setLocationType("ROOFTOP");
+Geocode.setApiKey("AIzaSyCjnQ8RAq7v8WrfNSaMqD8LjiFSvpDzXRc");
 class GuestLabel extends React.Component {
   render() {
     return (
@@ -77,7 +84,9 @@ export default function CreateEvent() {
   const [guestsList, setGuestsList] = useState([]);
   const [eventName, setEventName] = useState();
 
-  const { fetchAllUsers, currentUser, createNewEvent, getDB } = useAuth();
+  const history = useHistory();
+
+  const { fetchAllUsers, currentUser, createNewEvent } = useAuth();
 
   useEffect(() => {
     async function fetchData() {
@@ -119,15 +128,29 @@ export default function CreateEvent() {
         guests.push(userObj);
       });
 
+      var location = await Geocode.fromAddress(eventLocation.description).then(
+        (response) => {
+          const { lat, lng } = response.results[0].geometry.location;
+          return {
+            lat: lat,
+            lng: lng,
+          };
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+
       const newEvent = {
         Name: eventName,
         Description: descriptionRef.current.value,
         Date: eventDate,
         Duration: durationRef.current.value,
-        Location: eventLocation.terms,
+        Location: location,
         OpenToPublic: openToPublicRef.current.value === "on" ? true : false,
         Guests: guests,
         CreatedBy: currentUser.uid,
+        Attendance: 1, // Admin User
       };
 
       createNewEvent(newEvent).then((_) => {
@@ -137,6 +160,7 @@ export default function CreateEvent() {
 
         // TODO: Invite all users to the event.
       });
+      history.push("/events");
     } catch (err) {
       setError("Failed to create an account");
       console.log(err);
