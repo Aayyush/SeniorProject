@@ -1,30 +1,30 @@
-import React, { useRef, useState } from "react"
-import { Form, Button, Card, Alert } from "react-bootstrap"
-import { useAuth } from "../contexts/AuthContext"
-import { Link, useHistory } from "react-router-dom"
-import "./Login.css"
+import React, { useRef, useState } from "react";
+import { Form, Button, Card, Alert } from "react-bootstrap";
+import { useAuth } from "../contexts/AuthContext";
+import { Link, useHistory } from "react-router-dom";
+import "./Login.css";
 
 export default function Login() {
-  const emailRef = useRef()
-  const passwordRef = useRef()
-  const { login } = useAuth()
-  const [error, setError] = useState("")
-  const [loading, setLoading] = useState(false)
-  const history = useHistory()
+  const emailRef = useRef();
+  const passwordRef = useRef();
+  const { login } = useAuth();
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const history = useHistory();
 
   async function handleSubmit(e) {
-    e.preventDefault()
+    e.preventDefault();
 
     try {
-      setError("")
-      setLoading(true)
-      await login(emailRef.current.value, passwordRef.current.value)
-      history.push("/")
+      setError("");
+      setLoading(true);
+      await login(emailRef.current.value, passwordRef.current.value);
+      history.push("/");
     } catch {
-      setError("Failed to log in")
+      setError("Failed to log in");
     }
 
-    setLoading(false)
+    setLoading(false);
   }
 
   return (
@@ -32,9 +32,16 @@ export default function Login() {
       <div class="login-container">
         <div class="row">
           <span class="app-logo col-md-6 align-left">
-              <img src={process.env.PUBLIC_URL + "Wassup2.png"} alt="WassUp Logo"></img>
-              <h4> Welcome to WassUp where you can connect to people with hobbies similar to you!</h4>
-            </span>
+            <img
+              src={process.env.PUBLIC_URL + "Wassup2.png"}
+              alt="WassUp Logo"
+            ></img>
+            <h4>
+              {" "}
+              Welcome to WassUp where you can connect to people with hobbies
+              similar to you!
+            </h4>
+          </span>
           <span class="form-login col-md-6 text-center">
             <Card>
               <Card.Body>
@@ -59,11 +66,11 @@ export default function Login() {
               </Card.Body>
             </Card>
             <div className="w-100 text-center mt-2">
-            Need an account? <Link to="/signup">Sign Up</Link>
-          </div>
-        </span>
+              Need an account? <Link to="/signup">Sign Up</Link>
+            </div>
+          </span>
+        </div>
       </div>
-    </div>
-  </>
-  )
+    </>
+  );
 }

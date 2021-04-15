@@ -1,15 +1,7 @@
 import React, { useState } from "react";
-import {
-  Card,
-  Button,
-  Alert,
-  Nav,
-  NavDropdown,
-  Form,
-  FormControl,
-} from "react-bootstrap";
+import { Card, Button, Alert, Nav, NavDropdown } from "react-bootstrap";
 import { useAuth } from "../contexts/AuthContext";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
 
 export default function Dashboard() {
