@@ -77,13 +77,11 @@ export default function CreateEvent() {
   const [guestsList, setGuestsList] = useState([]);
   const [eventName, setEventName] = useState();
 
-  const { fetchAllUsers, currentUser } = useAuth();
+  const { fetchAllUsers, currentUser, createNewEvent, getDB } = useAuth();
 
   useEffect(() => {
     async function fetchData() {
       var users = [];
-
-      console.log("Fetching users");
       await fetchAllUsers()
         .get()
         .then((userDocs) => {
@@ -96,20 +94,24 @@ export default function CreateEvent() {
 
     fetchData().then((users) => {
       setUsersList(users);
-      console.log(users);
     });
   }, [fetchAllUsers]);
 
   async function handleSubmit(e) {
     e.preventDefault();
 
-    console.log(guestsList);
+    var duration = Number(durationRef.current.value);
+    if (duration === "Nan") {
+      return setError("Duration is not a number");
+    } else if (duration < 0 || duration > 24) {
+      return setError("Duration needs to be in the range of 0-24");
+    }
+
     try {
       setError("");
       setLoading(true);
 
       var guests = [];
-
       guestsList.forEach((guestName) => {
         var userObj = {};
         userObj["Name"] = guestName;
@@ -117,9 +119,6 @@ export default function CreateEvent() {
         guests.push(userObj);
       });
 
-      console.log(guests);
-
-      console.log(eventName);
       const newEvent = {
         Name: eventName,
         Description: descriptionRef.current.value,
@@ -131,19 +130,19 @@ export default function CreateEvent() {
         CreatedBy: currentUser.uid,
       };
 
-      console.log(newEvent);
+      createNewEvent(newEvent).then((_) => {
+        console.log("Event Created");
+
+        // TODO: Add this event to user's list.
+
+        // TODO: Invite all users to the event.
+      });
     } catch (err) {
       setError("Failed to create an account");
       console.log(err);
     }
 
     setLoading(false);
-  }
-
-  function handleLocationSearchBoxCallback(eventLocation) {
-    setEventLocation(eventLocation);
-    console.log("Parent");
-    console.log(eventLocation);
   }
 
   return (
@@ -183,7 +182,9 @@ export default function CreateEvent() {
           <Form.Group>
             <label>Location</label>
             <LocationSearchBox
-              parentCallback={handleLocationSearchBoxCallback}
+              parentCallback={(eventLocation) =>
+                setEventLocation(eventLocation)
+              }
             />
           </Form.Group>
           <Form.Group controlId="openToPublic">
