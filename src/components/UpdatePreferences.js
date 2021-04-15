@@ -174,7 +174,7 @@ export default function UpdatePreferences() {
         <Card.Body>
           <h2 className="text-center mb-4">Update Age Range</h2>
 		  {currValues ? 
-		  <h4 className="mb-4">Current age range set to : {currValues[0][0]} - {currValues[0][1]}</h4>
+		  <h4 className="mb-4">Current age range set to : {currValues[0][0]} - {currValues[0][1]} years old</h4>
 		  : null}
       {error && <Alert variant="danger">{error}</Alert>}
         <div className={classes.root}>
@@ -195,7 +195,7 @@ export default function UpdatePreferences() {
 		  
 		  <h2 className="text-center mb-4">Update Max Distance</h2>
 		  {currValues ? 
-		  <h4 className="mb-4">Current max distance set to : {currValues[1]}</h4>
+		  <h4 className="mb-4">Current max distance set to : {currValues[1]} km</h4>
 		  : null}
       {error && <Alert variant="danger">{error}</Alert>}
         <div className={classes.root}>
