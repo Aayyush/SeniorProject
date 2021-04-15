@@ -79,6 +79,7 @@ export default function UpdatePreferences() {
                      <Nav className="mr-auto">
                            <Nav.Link href="/">Home</Nav.Link>
                            <Nav.Link href="/events">Events</Nav.Link>
+                           <Nav.Link href="chat-room"> Chat Room </Nav.Link>
                            <Nav.Link href="/find-friends" >Find Friends</Nav.Link>
                            <NavDropdown title="Profile" id="basic-nav-dropdown" active>
                            <NavDropdown.Item href="/profile-about">About</NavDropdown.Item>
