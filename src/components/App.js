@@ -1,33 +1,30 @@
-import React from "react"
-import Signup from "./Signup"
-import { Container } from "react-bootstrap"
-import { AuthProvider } from "../contexts/AuthContext"
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
-import Dashboard from "./Dashboard"
-import Login from "./Login"
-import PrivateRoute from "./PrivateRoute"
-import ForgotPassword from "./ForgotPassword"
-import UpdateProfile from "./UpdateProfile"
-import Profile from "./Profile"
-import ProfileAbout from "./ProfileAbout"
-import ProfileInterest from "./ProfileInterest"
-import ProfilePhotos from "./ProfilePhotos"
-import UpdateAbout from "./UpdateAbout"
-import UpdateInterests from "./UpdateInterests"
-import UpdatePreferences from "./UpdatePreferences"
-import FindFriends from "./FindFriends"
-import ProfilePreferences from "./ProfilePreferences"
-import ChatRoom from "./ChatRoom"
+import React from "react";
+import Signup from "./Signup";
+import { Container } from "react-bootstrap";
+import { AuthProvider } from "../contexts/AuthContext";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Dashboard from "./Dashboard";
+import Login from "./Login";
+import PrivateRoute from "./PrivateRoute";
+import ForgotPassword from "./ForgotPassword";
+import UpdateProfile from "./UpdateProfile";
+import Profile from "./Profile";
+import ProfileAbout from "./ProfileAbout";
+import ProfileInterest from "./ProfileInterest";
+import ProfilePhotos from "./ProfilePhotos";
+import UpdateAbout from "./UpdateAbout";
+import UpdateInterests from "./UpdateInterests";
+import UpdatePreferences from "./UpdatePreferences";
+import FindFriends from "./FindFriends";
+import ProfilePreferences from "./ProfilePreferences";
+import ChatRoom from "./ChatRoom";
 import MapContainer from "./MapContainer";
 import CreateEvent from "./CreateEvent";
 
 function App() {
   return (
-    <Container
-      className="d-flex"
-      style={{ minHeight: "1vh"}}
-    >
-      <div className="app" style={{ minWidth: "0%"}}>
+    <Container className="d-flex" style={{ minHeight: "1vh" }}>
+      <div className="app" style={{ minWidth: "0%" }}>
         <Router>
           <AuthProvider>
             <Switch>
@@ -43,8 +40,14 @@ function App() {
               />
               <PrivateRoute path="/find-friends" component={FindFriends} />
               <PrivateRoute path="/chat-room" component={ChatRoom} />
-              <PrivateRoute path="/update-profile-events" component={UpdateProfile} />
-              <PrivateRoute path="/update-profile-interests" component={UpdateInterests} />
+              <PrivateRoute
+                path="/update-profile-events"
+                component={UpdateProfile}
+              />
+              <PrivateRoute
+                path="/update-profile-interests"
+                component={UpdateInterests}
+              />
               <PrivateRoute path="/profile-friends" component={Profile} />
               <PrivateRoute
                 path="/profile-interests"

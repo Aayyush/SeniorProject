@@ -1,23 +1,13 @@
 // import './ChatRoom.css';
-import {
-  Card,
-  Button,
-  Alert,
-  Nav,
-  NavDropdown,
-  Form,
-  FormControl,
-} from "react-bootstrap";
+import { Button, Nav, NavDropdown, Form, FormControl } from "react-bootstrap";
 
 import "firebase/auth";
 import firebase from "firebase/app";
 import Navbar from "react-bootstrap/Navbar";
 import { useAuth } from "../contexts/AuthContext";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import React, { useRef, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-
-import { useAuthState } from "react-firebase-hooks/auth";
 
 import "firebase/firestore";
 
@@ -25,13 +15,11 @@ import "./ChatRoom.css";
 
 firebase.app();
 
-const auth = firebase.auth();
 const firestore = firebase.firestore();
 
 export default function ChatRoom() {
   const [error, setError] = useState("");
-  const [userDataDoc, setUserDataDoc] = useState("");
-  const { currentUser, logout, fetchUserDocument } = useAuth();
+  const { currentUser, logout } = useAuth();
   const history = useHistory();
 
   function ChatRoomBoard() {
@@ -106,17 +94,6 @@ export default function ChatRoom() {
         </div>
       </>
     );
-  }
-
-  async function handleLogout() {
-    setError("");
-
-    try {
-      await logout();
-      history.push("/login");
-    } catch {
-      setError("Failed to log out");
-    }
   }
 
   async function handleLogout() {
