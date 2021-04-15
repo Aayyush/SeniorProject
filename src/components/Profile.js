@@ -43,6 +43,7 @@ export default function Profile() {
                      <Nav className="mr-auto">
                            <Nav.Link href="/">Home</Nav.Link>
                            <Nav.Link href="/events">Events</Nav.Link>
+                           <Nav.Link href="chat-room"> Chat Room </Nav.Link>
                            <Nav.Link href="/find-friends" >Find Friends</Nav.Link>
                            <NavDropdown title="Profile" id="basic-nav-dropdown" active>
                            <NavDropdown.Item href="/profile-about">About</NavDropdown.Item>
@@ -244,7 +245,7 @@ export default function Profile() {
                                 <img src="https://bootdey.com/img/Content/avatar/avatar5.png" alt="" class="media-object img-circle"></img>
                                 </a>
                                 <div class="media-body valign-middle">
-                                   <b class="text-inverse">George Seyler</b>
+                                   <b class="text-inverse">Hello Seyler</b>
                                 </div>
                                 <div class="media-body valign-middle text-right overflow-visible">
                                    <div class="btn-group dropdown">
