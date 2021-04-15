@@ -188,6 +188,13 @@ export default function Signup() {
                     onChange={(e) => setMaxAgePreference(e.target.value)}
                   />
                 </Form.Group>
+				<Form.Group id="max-distance-preference">
+                  <Form.Label>Max Distance Preference</Form.Label>
+                  <RangeSlider
+                    value={maxDistancePreference}
+                    onChange={(e) => setMaxDistancePreference(e.target.value)}
+                  />
+                </Form.Group>
                 <Form.Group id="user-location">
                   <Form.Label>
                     User Location{" "}
