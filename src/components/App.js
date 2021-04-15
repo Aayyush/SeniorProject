@@ -17,6 +17,7 @@ import UpdateInterests from "./UpdateInterests"
 import UpdatePreferences from "./UpdatePreferences"
 import FindFriends from "./FindFriends"
 import ProfilePreferences from "./ProfilePreferences"
+import ChatRoom from "./ChatRoom"
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
               <PrivateRoute path="/update-profile-about" component={UpdateAbout} />
               <PrivateRoute path="/update-profile-friends" component={UpdateProfile} />
               <PrivateRoute path="/find-friends" component={FindFriends} />
+              <PrivateRoute path="/chat-room" component={ChatRoom} />
               <PrivateRoute path="/update-profile-events" component={UpdateProfile} />
               <PrivateRoute path="/update-profile-interests" component={UpdateInterests} />
               <PrivateRoute path="/profile-friends" component={Profile} />

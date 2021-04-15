@@ -118,6 +118,7 @@ export default function FindFriends() {
                         <Nav.Link href="/">Home</Nav.Link>
                         <Nav.Link href="/events">Events</Nav.Link>
                         <Nav.Link href="/find-friends" active>Find Friends</Nav.Link>
+                        <Nav.Link href="/chat-room"> Chat Room </Nav.Link>
                         <NavDropdown title="Profile" id="basic-nav-dropdown">
                         <NavDropdown.Item href="/profile-about">About</NavDropdown.Item>
                         <NavDropdown.Item href="/profile-interests">Interests</NavDropdown.Item>
