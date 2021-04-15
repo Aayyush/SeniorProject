@@ -25,16 +25,24 @@ export function AuthProvider({ children }) {
     return db.collection("Users").doc(auth.currentUser.uid).set(userObject);
   }
 
+  function addFriend(friendID) {
+    var db = firebase.firestore(app);
+    return db
+      .collection("Users")
+      .doc(auth.currentUser.uid)
+      .update({
+        Friends: firebase.firestore.FieldValue.arrayUnion(friendID),
+      });
+  }
+
+  function getUserID() {
+    return auth.currentUser.uid;
+  }
+
   function fetchUserDocument() {
     var db = firebase.firestore(app);
     console.log("Fetching User data");
     return db.collection("Users").doc(auth.currentUser.uid).get();
-  }
-
-  function fetchAllUsers() {
-    var db = firebase.firestore(app);
-    console.log("Fetching all User data");
-    return db.collection("Users");
   }
 
   function fetchAllUsers() {
@@ -85,7 +93,9 @@ export function AuthProvider({ children }) {
 
   const value = {
     currentUser,
+    getUserID,
     addUserDocuments,
+    addFriend,
     fetchUserDocument,
     fetchAllUsers,
     login,
