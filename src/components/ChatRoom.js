@@ -67,50 +67,56 @@ export default function ChatRoom() {
           <span ref={dummy}></span>
         </main>
         <div className="chatForm">
-        <form onSubmit={sendMessage}>
+          <form onSubmit={sendMessage}>
             <span className="chatInput">
-              <input value={formValue} onChange={(e) => setFormValue(e.target.value)} placeholder="say something nice" />
-              <button type="submit" disabled={!formValue}>↗️</button>
+              <input
+                value={formValue}
+                onChange={(e) => setFormValue(e.target.value)}
+                placeholder="say something nice"
+              />
+              <button type="submit" disabled={!formValue}>
+                ↗️
+              </button>
             </span>
-        </form>
+          </form>
         </div>
-        </>)
-    }
+      </>
+    );
+  }
 
-    function ChatMessage(props) {
-        const { text, uid, photoURL } = props.message;
-      
-        const messageClass = uid === currentUser.uid ? 'sent' : 'received';
-      
-        return (<>
-          <div className={`message ${messageClass}`}>
-            <span className="chatMsg">
-            <img src={photoURL || 'logo512.png'} flex-direction= 'column' width="20px" height= '40px' border-radius = '50%' margin="2px 5px" />
-            {text}
-            </span>
-          </div>
-        </>)
-      }
+  function ChatMessage(props) {
+    const { text, uid, photoURL } = props.message;
 
-    async function handleLogout() {
-        setError("")
-    
-        try {
-          await logout()
-          history.push("/login")
-        } catch {
-          setError("Failed to log out")
-        }
-      }
+    const messageClass = uid === currentUser.uid ? "sent" : "received";
 
     return (
       <>
         <div className={`message ${messageClass}`}>
-          <img src={photoURL || "logo512.png"} />
-          <p>{text}</p>
+          <span className="chatMsg">
+            <img
+              src={photoURL || "logo512.png"}
+              flex-direction="column"
+              width="20px"
+              height="40px"
+              border-radius="50%"
+              margin="2px 5px"
+            />
+            {text}
+          </span>
         </div>
       </>
     );
+  }
+
+  async function handleLogout() {
+    setError("");
+
+    try {
+      await logout();
+      history.push("/login");
+    } catch {
+      setError("Failed to log out");
+    }
   }
 
   async function handleLogout() {
