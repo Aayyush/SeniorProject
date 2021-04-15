@@ -23,8 +23,11 @@ import CreateEvent from "./CreateEvent";
 
 function App() {
   return (
-    <Container className="d-flex" style={{ minHeight: "100vh" }}>
-      <div className="app" style={{ width: "100%" }}>
+    <Container
+      className="d-flex"
+      style={{ minHeight: "1vh"}}
+    >
+      <div className="app" style={{ minWidth: "0%"}}>
         <Router>
           <AuthProvider>
             <Switch>

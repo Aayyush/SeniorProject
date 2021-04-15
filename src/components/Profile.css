@@ -1,5 +1,5 @@
 body{
-   background:#eee;
+   background:whitesmoke;
    width:100%;
 }
 
@@ -254,14 +254,14 @@ body{
 
 .table.table-profile>thead>tr>th h4 {
    font-size: 20px;
-   margin-top: 0
+   margin-top: 0;
 }
 
 .table.table-profile>thead>tr>th h4 small {
    display: block;
    font-size: 12px;
    font-weight: 400;
-   margin-top: 5px
+   margin-top: 0px;
 }
 
 .table.table-profile>tbody>tr>td,
