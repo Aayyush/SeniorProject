@@ -8,7 +8,7 @@ import Navbar from 'react-bootstrap/Navbar'
 export default function Profile() {
     const [error, setError] = useState("");
     const [userDataDoc, setUserDataDoc] = useState("");
-    const [allUsers, setallUsers] = useState("");
+    const [friendsDataDoc, setallFriendsData] = useState("");
     const { logout, fetchUserDocument, fetchAllUsers } = useAuth();
     const history = useHistory();
     
@@ -20,13 +20,27 @@ export default function Profile() {
          getUserData().then(doc => setUserDataDoc(doc.data()));
    }
 
-   // async function getallUsersData() {
-   //    const doc = await fetchAllUsers();
-   //    return doc;
-   //    }
-   //    if (!userDataDoc) {
-   //       getallUsersData().then(doc => setallUsers(doc));
-   // }
+   async function getFriendsData() {
+      const doc = await fetchUserDocument();
+      const docs = await fetchAllUsers();
+      let friendsdata = [];
+      
+      await docs.get().then((userDocs) => {
+         userDocs.forEach((userDoc) => {
+         // check if user is in friend list, if so, add data
+         if (doc.data()["Friends"].includes(userDoc.id)) {
+            friendsdata.push([userDoc.id,userDoc.data()["Name"], userDoc.data()["Age"], userDoc.data()["Profession"], userDoc.data()["Location"]]);
+         
+         }
+         
+         });
+     });
+      console.log(friendsdata);
+     return friendsdata;
+      }
+      if (!friendsDataDoc) {
+         getFriendsData().then(friends => setallFriendsData(friends));
+   }
 
     async function handleLogout() {
         setError("")
@@ -128,7 +142,7 @@ export default function Profile() {
                     <h4 class="m-t-0 m-b-20">
                     <ul class="profile-header-tab nav nav-tabs">
                         <li class="nav-item flex-grow-1 bd-highlight"> 
-                            Friend List (14)
+                            Friend List ({friendsDataDoc.length})
                         </li>
                          <li class="nav-item">
                             <Link to="/find-friends" class="nav-link" data-toggle="tab">Find Friends</Link></li>
@@ -136,8 +150,8 @@ export default function Profile() {
                        
                      </h4>
                      <div className="friends">
-                           {userDataDoc && userDataDoc["Friends"].map((friendID, index) => (
-                              <div key={index}>
+                           {friendsDataDoc && friendsDataDoc.map((friend) => (
+                              <div key={friend[0]}>
                                  {/* <!-- begin row --> */}
                                  <div class="row row-space-2">
                                     {/* <!-- begin col-6 --> */}
@@ -148,9 +162,11 @@ export default function Profile() {
                                              <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="media-object img-circle"></img>
                                              </a>
                                              <div class="media-body valign-middle">
-                                                <b class="text-inverse"> Name of friend using friendID </b>
-                                                <br/><b class="text-inverse"> Age of friend </b>
-                                                <br/><b class="text-inverse"> Interests of friend </b>
+                                                <b class="text-inverse"> {friend[1]} </b>
+                                                <br/><span class="text-inverse"> 
+                                                {friend[3] && friend[3].map((value, index) => {
+                                                return <span key={index}>{value}, </span>; })} </span>
+                                                <br/><span class="text-inverse"> Age: {friend[2]} years</span>
                                              </div>
                                              <div class="media-body valign-middle text-right overflow-visible">
                                                 <div class="btn-group dropdown">
