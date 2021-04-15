@@ -1,20 +1,16 @@
-import React, { useRef, useState } from "react";
-import { Button, Alert, Nav, NavDropdown, Form, FormControl } from "react-bootstrap"
+import React, { useState } from "react";
+import { Button, Nav, NavDropdown, Form, FormControl } from "react-bootstrap";
 import { useAuth } from "../contexts/AuthContext";
 import { Link, useHistory } from "react-router-dom";
-import app from "../firebase";
-import firebase from "firebase/app";
 import "firebase/firestore";
-import { auth } from "../firebase";
 import "./Profile.css";
-import Navbar from 'react-bootstrap/Navbar';
+import Navbar from "react-bootstrap/Navbar";
 
 export default function ProfilePreferences() {
   const [error, setError] = useState("");
   const [userDataDoc, setUserDataDoc] = useState("");
   const { currentUser, logout, fetchUserDocument } = useAuth();
   const history = useHistory();
-  const [value, setValue] = React.useState([0, 100]);
 
   async function getUserData() {
     const doc = await fetchUserDocument();
@@ -40,32 +36,50 @@ export default function ProfilePreferences() {
       <div class="row">
         <div class="col-md-12">
           <div id="content" class="content content-full-width">
-          <Navbar bg="light" expand="lg">
-                  <Navbar.Brand href="/">Wassup</Navbar.Brand>
-                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                     <Navbar.Collapse id="basic-navbar-nav">
-                     <Nav className="mr-auto">
-                           <Nav.Link href="/">Home</Nav.Link>
-                           <Nav.Link href="/events">Events</Nav.Link>
-                           <Nav.Link href="chat-room"> Chat Room </Nav.Link>
-                           <Nav.Link href="/find-friends" >Find Friends</Nav.Link>
-                           <NavDropdown title="Profile" id="basic-nav-dropdown" active>
-                           <NavDropdown.Item href="/profile-about">About</NavDropdown.Item>
-                           <NavDropdown.Item href="/profile-interests">Interests</NavDropdown.Item>
-                           <NavDropdown.Item href="/profile-preferences">Preferences</NavDropdown.Item>
-                           <NavDropdown.Item href="/profile-friends">Friends</NavDropdown.Item>
-                           <NavDropdown.Item href="/profile-events">Events</NavDropdown.Item>
-                           <NavDropdown.Item href="/profile-photos">Photos</NavDropdown.Item>
-                           <NavDropdown.Divider />
-                           <NavDropdown.Item href="/update-profile">Update Profile</NavDropdown.Item>
-                           </NavDropdown>
-                     </Nav>
-                     <Form inline>
-                     <FormControl type="text" placeholder="Search Events" className="mr-md-4" />
-                           <Button variant="outline-success">Search</Button>
-                     </Form>
-                     </Navbar.Collapse>
-                  </Navbar>
+            <Navbar bg="light" expand="lg">
+              <Navbar.Brand href="/">Wassup</Navbar.Brand>
+              <Navbar.Toggle aria-controls="basic-navbar-nav" />
+              <Navbar.Collapse id="basic-navbar-nav">
+                <Nav className="mr-auto">
+                  <Nav.Link href="/">Home</Nav.Link>
+                  <Nav.Link href="/events">Events</Nav.Link>
+                  <Nav.Link href="chat-room"> Chat Room </Nav.Link>
+                  <Nav.Link href="/find-friends">Find Friends</Nav.Link>
+                  <NavDropdown title="Profile" id="basic-nav-dropdown" active>
+                    <NavDropdown.Item href="/profile-about">
+                      About
+                    </NavDropdown.Item>
+                    <NavDropdown.Item href="/profile-interests">
+                      Interests
+                    </NavDropdown.Item>
+                    <NavDropdown.Item href="/profile-preferences">
+                      Preferences
+                    </NavDropdown.Item>
+                    <NavDropdown.Item href="/profile-friends">
+                      Friends
+                    </NavDropdown.Item>
+                    <NavDropdown.Item href="/profile-events">
+                      Events
+                    </NavDropdown.Item>
+                    <NavDropdown.Item href="/profile-photos">
+                      Photos
+                    </NavDropdown.Item>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item href="/update-profile">
+                      Update Profile
+                    </NavDropdown.Item>
+                  </NavDropdown>
+                </Nav>
+                <Form inline>
+                  <FormControl
+                    type="text"
+                    placeholder="Search Events"
+                    className="mr-md-4"
+                  />
+                  <Button variant="outline-success">Search</Button>
+                </Form>
+              </Navbar.Collapse>
+            </Navbar>
             {/* <!-- begin profile --> */}
             <div class="profile">
               <div class="profile-header">
@@ -124,10 +138,14 @@ export default function ProfilePreferences() {
                   </li>
 
                   <li class="nav-item">
-                     <Link to="/profile-preferences" class="nav-link active show" data-toggle="tab">
-                        PREFERENCES
-                     </Link>
-                         </li>
+                    <Link
+                      to="/profile-preferences"
+                      class="nav-link active show"
+                      data-toggle="tab"
+                    >
+                      PREFERENCES
+                    </Link>
+                  </li>
 
                   <li class="nav-item">
                     <Link
@@ -139,7 +157,11 @@ export default function ProfilePreferences() {
                     </Link>
                   </li>
                   <li class="nav-item">
-                    <Link to="/profile-friends" class="nav-link" data-toggle="tab">
+                    <Link
+                      to="/profile-friends"
+                      class="nav-link"
+                      data-toggle="tab"
+                    >
                       FRIENDS
                     </Link>
                   </li>
@@ -173,30 +195,43 @@ export default function ProfilePreferences() {
                   {/* <!-- begin col-6 --> */}
                   <div class="box">
                     <span>
-                        <strong>Age Range: </strong>
+                      <strong>Age Range: </strong>
                     </span>
                     <center>
-                    {userDataDoc && userDataDoc["Preferences"] && (
+                      {userDataDoc && userDataDoc["Preferences"] && (
                         <div>
-                            <span class="text-left" width="0px"> Minimum: {userDataDoc["Preferences"]["AgeRange"][0]} </span>
-                            <br/><span class="text-left"> Maximum: {userDataDoc["Preferences"]["AgeRange"][1]}</span>
+                          <span class="text-left" width="0px">
+                            {" "}
+                            Minimum: {
+                              userDataDoc["Preferences"]["AgeRange"][0]
+                            }{" "}
+                          </span>
+                          <br />
+                          <span class="text-left">
+                            {" "}
+                            Maximum: {userDataDoc["Preferences"]["AgeRange"][1]}
+                          </span>
                         </div>
-                    )}
+                      )}
                     </center>
-					
-					<span>
-                        <strong>Max Distance (in km): </strong>
+
+                    <span>
+                      <strong>Max Distance (in km): </strong>
                     </span>
                     <center>
-                    {userDataDoc && userDataDoc["Preferences"] && (
+                      {userDataDoc && userDataDoc["Preferences"] && (
                         <div>
-                            <span class="text-left"> Distance set: {userDataDoc["Preferences"]["MaxDistance"]} </span>
+                          <span class="text-left">
+                            {" "}
+                            Distance set:{" "}
+                            {userDataDoc["Preferences"]["MaxDistance"]}{" "}
+                          </span>
                         </div>
-                    )}
+                      )}
                     </center>
                     {/* <button type="button" align = 'right'> Edit Bio </button> */}
                     <p></p>
-                    </div>
+                  </div>
                 </div>
               </div>
             </div>
