@@ -178,14 +178,14 @@ export default function ProfilePreferences() {
                     <center>
                     {userDataDoc && userDataDoc["Preferences"] && (
                         <div>
-                            <span class="text-left"> Minimum: {userDataDoc["Preferences"]["AgeRange"][0]} </span>
-                            <p class="text-left"> Maximum: {userDataDoc["Preferences"]["AgeRange"][1]}</p>
+                            <span class="text-left" width="0px"> Minimum: {userDataDoc["Preferences"]["AgeRange"][0]} </span>
+                            <br/><span class="text-left"> Maximum: {userDataDoc["Preferences"]["AgeRange"][1]}</span>
                         </div>
                     )}
                     </center>
 					
 					<span>
-                        <strong>Max Distance: </strong>
+                        <strong>Max Distance (in km): </strong>
                     </span>
                     <center>
                     {userDataDoc && userDataDoc["Preferences"] && (
