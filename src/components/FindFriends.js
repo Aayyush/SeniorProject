@@ -36,7 +36,7 @@ return deg * (Math.PI/180)
 export default function FindFriends() {
     const [userDataDoc, setUserDataDoc] = useState("");
     const [suggestedFriends, setSuggestedFriends] = useState("");
-    const {logout, fetchAllUsers, fetchUserDocument } = useAuth();
+    const {logout, fetchAllUsers, fetchUserDocument, addFriend, getUserID } = useAuth();
     const history = useHistory();
     const [error, setError] = useState("");
     const classes = useStyles();
@@ -45,7 +45,7 @@ export default function FindFriends() {
         const doc = await fetchUserDocument();
         return doc;
         }
-        if (!userDataDoc) {
+     if (!userDataDoc) {
            getUserData().then(doc => setUserDataDoc(doc.data()));
      }
 
@@ -53,8 +53,9 @@ export default function FindFriends() {
         var suggestedFriendsTemp = []
         const doc = await fetchUserDocument();
         const docs = await fetchAllUsers();
-
-        const maxDis = 100; //doc.data()["Preferences"]["MaxDistance"];
+		const userID = await getUserID();
+		
+        const maxDis = doc.data()["Preferences"]["MaxDistance"];
         const ageRange = doc.data()["Preferences"]["AgeRange"];
 
         await docs.get().then((userDocs) => {
@@ -63,15 +64,19 @@ export default function FindFriends() {
             if (doc.data()["Friends"].includes(userDoc.id)) {
                 return;
             }
+			if (userDoc.id == userID) {
+				return;
+			}
             var disDiff = getDistanceFromLatLonInKm(doc.data()["Location"]["u_"], doc.data()["Location"]["h_"],
                                                     userDoc.data()["Location"]["u_"], userDoc.data()["Location"]["h_"]);
 
             if ((disDiff <= maxDis) && 
                 ((userDoc.data()["Age"] >= ageRange[0]) && (userDoc.data()["Age"] <= ageRange[1]))) {
-                suggestedFriendsTemp.push([userDoc.id, userDoc.data()["Name"], userDoc.data()["Age"]], userDoc.data()["Profession"], userDoc.data()["Location"]);
+                suggestedFriendsTemp.push([userDoc.id, userDoc.data()["Name"], userDoc.data()["Age"], userDoc.data()["Profession"], userDoc.data()["Location"]]);
             }
             });
         });
+		console.log(suggestedFriendsTemp);
         return suggestedFriendsTemp;
     }
     if (!suggestedFriends) {
@@ -88,6 +93,17 @@ export default function FindFriends() {
         setError("Failed to log out")
         }
     }
+	
+	async function handleAddFriend(value) {
+		setError("");
+		try {
+			console.log("Adding friend.");
+			console.log(value);
+			await addFriend(value);
+		} catch {
+			setError("Error trying to add friend.");
+		}
+	}
 
   return (
     <div class="container">
@@ -102,6 +118,7 @@ export default function FindFriends() {
                         <Nav.Link href="/">Home</Nav.Link>
                         <Nav.Link href="/events">Events</Nav.Link>
                         <Nav.Link href="/find-friends" active>Find Friends</Nav.Link>
+                        <Nav.Link href="/chat-room"> Chat Room </Nav.Link>
                         <NavDropdown title="Profile" id="basic-nav-dropdown">
                         <NavDropdown.Item href="/profile-about">About</NavDropdown.Item>
                         <NavDropdown.Item href="/profile-interests">Interests</NavDropdown.Item>
@@ -159,7 +176,7 @@ export default function FindFriends() {
                                     </div>
 
                                     <div class="col-md-3 col-sm-3">
-                                        <button class="btn btn-primary pull-right">Add Friend</button>
+                                        <button class="btn btn-primary pull-right" onClick={() => {handleAddFriend(friend[0]);}}>Add Friend</button>
                                     </div>
                                 </div>
                                 }

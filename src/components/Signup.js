@@ -31,6 +31,7 @@ export default function Signup() {
   const [loading, setLoading] = useState(false);
   const [minAgePreference, setMinAgePreference] = useState(18);
   const [maxAgePreference, setMaxAgePreference] = useState(35);
+  const [maxDistancePreference, setMaxDistancePreference] = useState(100);
   const [dateOfBirth, setDateOfBirth] = useState(new Date());
 
   const history = useHistory();
@@ -89,6 +90,7 @@ export default function Signup() {
         Hobbies: interestsRef.current.value.split(","),
         Preferences: {
           AgeRange: [minAgePreference, maxAgePreference],
+		  MaxDistance: maxDistancePreference,
         },
         Events: {},
         Profession: professionref.current.value.split(","),

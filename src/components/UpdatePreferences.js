@@ -25,8 +25,9 @@ export default function UpdatePreferences() {
   const [error, setError] = useState("")
   const classes = useStyles();
   const [value, setValue] = React.useState([0, 100]);
+  const [distVal, setDistVal] = React.useState(50);
   const {fetchUserDocument } = useAuth();
-  const [currValue = fetchAgeRange(), setCurrValue] = React.useState();
+  const [currValues = fetchAgeRange(), setCurrValue] = React.useState();
   const history = useHistory()
   
   async function getUserData() {
@@ -41,12 +42,16 @@ export default function UpdatePreferences() {
     setValue(newValue);
   };
   
+  const handleDistChange = (event, newValue) => {
+    setDistVal(newValue);
+  };
+  
   function handleUpdate(value) {
-	  window.alert(`The age range has been updated to ${value[0]} - ${value[1]}`);
 	  var db = firebase.firestore(app);
 	  db.collection('Users').doc(auth.currentUser.uid).update({
 		  Preferences: {
-			  AgeRange: [value[0], value[1]]
+			  AgeRange: [value[0], value[1]],
+			  MaxDistance: distVal
 		} 
 	  });
 	  setCurrValue(value);
@@ -57,7 +62,7 @@ export default function UpdatePreferences() {
 	  var db = firebase.firestore(app);
 	  db.collection('Users').doc(auth.currentUser.uid).get().then((doc) => {
 		  if (doc.exists) {
-			  setCurrValue(doc.data()["Preferences"]["AgeRange"]);
+			  setCurrValue([doc.data()["Preferences"]["AgeRange"], doc.data()["Preferences"]["MaxDistance"]]);
 		  } else {
 			  console.log("Document does not exist");
 		  }
@@ -79,6 +84,7 @@ export default function UpdatePreferences() {
                      <Nav className="mr-auto">
                            <Nav.Link href="/">Home</Nav.Link>
                            <Nav.Link href="/events">Events</Nav.Link>
+                           <Nav.Link href="chat-room"> Chat Room </Nav.Link>
                            <Nav.Link href="/find-friends" >Find Friends</Nav.Link>
                            <NavDropdown title="Profile" id="basic-nav-dropdown" active>
                            <NavDropdown.Item href="/profile-about">About</NavDropdown.Item>
@@ -167,8 +173,8 @@ export default function UpdatePreferences() {
       <Card>
         <Card.Body>
           <h2 className="text-center mb-4">Update Age Range</h2>
-		  {currValue ? 
-		  <h4 className="mb-4">Current age range set to : {currValue[0]} - {currValue[1]}</h4>
+		  {currValues ? 
+		  <h4 className="mb-4">Current age range set to : {currValues[0][0]} - {currValues[0][1]}</h4>
 		  : null}
       {error && <Alert variant="danger">{error}</Alert>}
         <div className={classes.root}>
@@ -185,6 +191,29 @@ export default function UpdatePreferences() {
             step={1}
             marks
           />
+		  </div>
+		  
+		  <h2 className="text-center mb-4">Update Max Distance</h2>
+		  {currValues ? 
+		  <h4 className="mb-4">Current max distance set to : {currValues[1]}</h4>
+		  : null}
+      {error && <Alert variant="danger">{error}</Alert>}
+        <div className={classes.root}>
+          <Typography id="range-slider" gutterBottom>
+            <h4> Select max distance</h4>
+          </Typography>
+          <Slider
+            value={distVal}
+            onChange={handleDistChange}
+            valueLabelDisplay="auto"
+            aria-labelledby="range-slider"
+            getAriaValueText={valuetext}
+            width="100%"
+            step={1}
+            marks
+          />
+		  
+		  
         </div>
             <Button className="w-100" onClick={() => {handleUpdate(value);}}>
               Update

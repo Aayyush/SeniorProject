@@ -47,6 +47,7 @@ export default function ProfilePreferences() {
                      <Nav className="mr-auto">
                            <Nav.Link href="/">Home</Nav.Link>
                            <Nav.Link href="/events">Events</Nav.Link>
+                           <Nav.Link href="chat-room"> Chat Room </Nav.Link>
                            <Nav.Link href="/find-friends" >Find Friends</Nav.Link>
                            <NavDropdown title="Profile" id="basic-nav-dropdown" active>
                            <NavDropdown.Item href="/profile-about">About</NavDropdown.Item>
@@ -179,6 +180,17 @@ export default function ProfilePreferences() {
                         <div>
                             <span class="text-left"> Minimum: {userDataDoc["Preferences"]["AgeRange"][0]} </span>
                             <p class="text-left"> Maximum: {userDataDoc["Preferences"]["AgeRange"][1]}</p>
+                        </div>
+                    )}
+                    </center>
+					
+					<span>
+                        <strong>Max Distance: </strong>
+                    </span>
+                    <center>
+                    {userDataDoc && userDataDoc["Preferences"] && (
+                        <div>
+                            <span class="text-left"> Distance set: {userDataDoc["Preferences"]["MaxDistance"]} </span>
                         </div>
                     )}
                     </center>
