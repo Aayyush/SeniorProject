@@ -120,7 +120,7 @@ export default function ChatRoom() {
           </Form>
         </Navbar.Collapse>
         </Navbar>
-        <div className = "chat-app">
+        <div className="chat-app">
             <header>
             <h2>Group Chat 💬</h2>
             </header>
