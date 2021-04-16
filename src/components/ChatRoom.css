@@ -12,6 +12,19 @@ min-height: 100vh;
 background-color: rgb(40, 37, 53);
 }
 
+.chat-app header {
+    background-color: #181717;
+    min-height: 50px;
+    color: white;
+    width: 100%;
+    max-width: 728px;
+    top: 0;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 99;
+    padding: 10px;
+  }
+
 main {
 padding: 10px;
 height: 80vh;

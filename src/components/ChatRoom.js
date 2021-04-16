@@ -1,4 +1,3 @@
-// import './ChatRoom.css';
 import { Card, Button, Alert, Nav, NavDropdown, Form, FormControl } from "react-bootstrap"
 
 import 'firebase/auth';
@@ -61,7 +60,7 @@ export default function ChatRoom() {
             <span ref={dummy}></span>
     
         </main>
-        <form className = "chat-form" onSubmit={sendMessage}>
+        <form onSubmit={sendMessage} className = "chat-form">
               <input className="chat-input" value={formValue} onChange={(e) => setFormValue(e.target.value)} placeholder="say something nice" />
               <button className="send-button" type="submit" disabled={!formValue}>↗️</button>
         </form>
@@ -79,17 +78,6 @@ export default function ChatRoom() {
             <p className = "chat-message">{text}</p>
           </div>
         </>)
-      }
-
-    async function handleLogout() {
-        setError("")
-    
-        try {
-          await logout()
-          history.push("/login")
-        } catch {
-          setError("Failed to log out")
-        }
       }
 
     return (
