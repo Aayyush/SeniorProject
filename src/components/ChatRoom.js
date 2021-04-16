@@ -61,14 +61,10 @@ export default function ChatRoom() {
             <span ref={dummy}></span>
     
         </main>
-        <div className="chatForm">
-        <form onSubmit={sendMessage}>
-            <span className="chatInput">
-              <input value={formValue} onChange={(e) => setFormValue(e.target.value)} placeholder="say something nice" />
-              <button type="submit" disabled={!formValue}>↗️</button>
-            </span>
+        <form className = "chat-form" onSubmit={sendMessage}>
+              <input className="chat-input" value={formValue} onChange={(e) => setFormValue(e.target.value)} placeholder="say something nice" />
+              <button className="send-button" type="submit" disabled={!formValue}>↗️</button>
         </form>
-        </div>
         </>)
     }
 
@@ -79,10 +75,8 @@ export default function ChatRoom() {
       
         return (<>
           <div className={`message ${messageClass}`}>
-            <span className="chatMsg">
-            <img src={photoURL || 'logo512.png'} flex-direction= 'column' width="20px" height= '40px' border-radius = '50%' margin="2px 5px" />
-            {text}
-            </span>
+          <img src={photoURL || 'logo512.png'} />
+            <p className = "chat-message">{text}</p>
           </div>
         </>)
       }
@@ -126,7 +120,7 @@ export default function ChatRoom() {
           </Form>
         </Navbar.Collapse>
         </Navbar>
-        <div>
+        <div className = "chat-app">
             <header>
             <h2>Group Chat 💬</h2>
             </header>
@@ -134,11 +128,11 @@ export default function ChatRoom() {
                 <ChatRoomBoard />
             </section>
         </div>
-        <div className="w-100 text-center mt-2">
+        {/* <div className="w-100 text-center mt-2">
         <Button variant="link" onClick={handleLogout}>
           Log Out
         </Button>
-        </div>
+        </div> */}
         </>
     )
   }
