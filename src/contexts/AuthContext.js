@@ -78,6 +78,12 @@ export function AuthProvider({ children }) {
     return db.collection("Events").add(eventObject);
   }
 
+  function fetchAllEvents() {
+    var db = firebase.firestore(app);
+    console.log("Fetching all Event data");
+    return db.collection("Events");
+  }
+
   function getDB() {
     return firebase.firestore(app);
   }
