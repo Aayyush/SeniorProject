@@ -159,7 +159,9 @@ if (!suggestedFriends) {
         </div>
         <div class="row" style={{position: 'relative', top: '15%', left: '15%', align: 'center', color: 'rgb(173, 143, 125)', size: '18px'}}>
           <h4> Welcome to WassUp where you can connect to people with hobbies similar to you!</h4>
-          <p> </p>
+          <br/>
+          <br/>
+          <br/>
         </div>
         </div>
       <div class="main-wrapper pt-80">
