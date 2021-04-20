@@ -79,7 +79,7 @@ export default function ChatRoom() {
       <>
         <div className={`message ${messageClass}`}>
           <img src={photoURL || "logo512.png"} />
-          <p className="chat-message">{text}</p>
+          <div className="chat-message">{text}</div>
         </div>
       </>
     );

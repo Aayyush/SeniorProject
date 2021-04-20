@@ -412,10 +412,10 @@ if (!suggestedFriends) {
                                                     </div>
 
                                                     <div class="col-md-4 col-sm-4">
-                                                        <p key={friend[0]}> <a href="#" class="profile-link"> {friend[1]}</a>
-                                                        <p>Age : {friend[2]}</p>
+                                                        <div key={friend[0]}> <a href="#" class="profile-link"> {friend[1]}</a> </div>
+                                                        <div>Age : {friend[2]}</div>
                                                         {/* <p>Profession : {friend[3]}</p> */}
-                                                    </p>
+                                                    
                                                     </div>
 
                                                     <div class="col-md-3 col-sm-3">
