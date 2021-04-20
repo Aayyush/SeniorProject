@@ -8,6 +8,15 @@ import LocationSearchBox from "./LocationSearchBox";
 
 import { useAuth } from "../contexts/AuthContext";
 
+import Geocode from "react-geocode";
+import { useHistory } from "react-router-dom";
+import { Nav, NavDropdown } from "react-bootstrap";
+import Navbar from "react-bootstrap/Navbar";
+
+// Geocode Configurations
+Geocode.setLanguage("en");
+Geocode.setLocationType("ROOFTOP");
+Geocode.setApiKey("AIzaSyCjnQ8RAq7v8WrfNSaMqD8LjiFSvpDzXRc");
 class GuestLabel extends React.Component {
   render() {
     return (
@@ -46,6 +55,40 @@ class GuestBox extends React.Component {
   render() {
     return (
       <div>
+        <Navbar bg="light" expand="lg">
+          <Navbar.Brand href="/">Wassup</Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="mr-auto">
+              <Nav.Link href="/">Home</Nav.Link>
+              <Nav.Link href="/events">Events</Nav.Link>
+              <Nav.Link href="chat-room"> Chat Room </Nav.Link>
+              <Nav.Link href="/find-friends">Find Friends</Nav.Link>
+              <NavDropdown title="Profile" id="basic-nav-dropdown">
+                <NavDropdown.Item href="/profile-about">About</NavDropdown.Item>
+                <NavDropdown.Item href="/profile-interests">
+                  Interests
+                </NavDropdown.Item>
+                <NavDropdown.Item href="/profile-preferences">
+                  Preferences
+                </NavDropdown.Item>
+                <NavDropdown.Item href="/profile-friends">
+                  Friends
+                </NavDropdown.Item>
+                <NavDropdown.Item href="/profile-events">
+                  Events
+                </NavDropdown.Item>
+                <NavDropdown.Item href="/profile-photos">
+                  Photos
+                </NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item href="/update-profile">
+                  Update Profile
+                </NavDropdown.Item>
+              </NavDropdown>
+            </Nav>
+          </Navbar.Collapse>
+        </Navbar>
         <Autocomplete
           id="combo-box-demo"
           options={this.props.users}
@@ -77,7 +120,9 @@ export default function CreateEvent() {
   const [guestsList, setGuestsList] = useState([]);
   const [eventName, setEventName] = useState();
 
-  const { fetchAllUsers, currentUser, createNewEvent, getDB } = useAuth();
+  const history = useHistory();
+
+  const { fetchAllUsers, currentUser, createNewEvent } = useAuth();
 
   useEffect(() => {
     async function fetchData() {
@@ -119,15 +164,29 @@ export default function CreateEvent() {
         guests.push(userObj);
       });
 
+      var location = await Geocode.fromAddress(eventLocation.description).then(
+        (response) => {
+          const { lat, lng } = response.results[0].geometry.location;
+          return {
+            lat: lat,
+            lng: lng,
+          };
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+
       const newEvent = {
         Name: eventName,
         Description: descriptionRef.current.value,
         Date: eventDate,
         Duration: durationRef.current.value,
-        Location: eventLocation.terms,
+        Location: location,
         OpenToPublic: openToPublicRef.current.value === "on" ? true : false,
         Guests: guests,
         CreatedBy: currentUser.uid,
+        Attendance: 1, // Admin User
       };
 
       createNewEvent(newEvent).then((_) => {
@@ -137,6 +196,7 @@ export default function CreateEvent() {
 
         // TODO: Invite all users to the event.
       });
+      history.push("/events");
     } catch (err) {
       setError("Failed to create an account");
       console.log(err);

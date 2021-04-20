@@ -96,13 +96,13 @@ if (!suggestedFriends) {
 }
 
   async function handleLogout() {
-    setError("")
+    setError("");
 
     try {
-      await logout()
-      history.push("/login")
+      await logout();
+      history.push("/login");
     } catch {
-      setError("Failed to log out")
+      setError("Failed to log out");
     }
   }
 
@@ -118,17 +118,17 @@ if (!suggestedFriends) {
 	}
 
   async function getUserData() {
-	  const doc = await fetchUserDocument();
-	  return doc;
+    const doc = await fetchUserDocument();
+    return doc;
   }
   if (!userDataDoc) {
-	  getUserData().then(doc => setUserDataDoc(doc.data()));
+    getUserData().then((doc) => setUserDataDoc(doc.data()));
   }
 
   return (
     <>
-    <Navbar bg="light" expand="lg">
-      <Navbar.Brand href="/">Wassup</Navbar.Brand>
+      <Navbar bg="light" expand="lg">
+        <Navbar.Brand href="/">Wassup</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
@@ -138,19 +138,31 @@ if (!suggestedFriends) {
             <Nav.Link href="/find-friends">Find Friends</Nav.Link>
             <NavDropdown title="Profile" id="basic-nav-dropdown">
               <NavDropdown.Item href="/profile-about">About</NavDropdown.Item>
-              <NavDropdown.Item href="/profile-interests">Interests</NavDropdown.Item>
-              <NavDropdown.Item href="/profile-preferences">Preferences</NavDropdown.Item>
-              <NavDropdown.Item href="/profile-friends">Friends</NavDropdown.Item>
+              <NavDropdown.Item href="/profile-interests">
+                Interests
+              </NavDropdown.Item>
+              <NavDropdown.Item href="/profile-preferences">
+                Preferences
+              </NavDropdown.Item>
+              <NavDropdown.Item href="/profile-friends">
+                Friends
+              </NavDropdown.Item>
               <NavDropdown.Item href="/profile-events">Events</NavDropdown.Item>
               <NavDropdown.Item href="/profile-photos">Photos</NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item href="/update-profile">Update Profile</NavDropdown.Item>
+              <NavDropdown.Item href="/update-profile">
+                Update Profile
+              </NavDropdown.Item>
             </NavDropdown>
           </Nav>
-          <Form inline>
-          <FormControl type="text" placeholder="Search Events" className="mr-md-4" />
-                           <Button variant="outline-success">Search</Button>
-          </Form>
+          {/* <Form inline>
+            <FormControl
+              type="text"
+              placeholder="Search Events"
+              className="mr-md-4"
+            />
+            <Button variant="outline-success">Search</Button>
+          </Form> */}
         </Navbar.Collapse>
       </Navbar>
       <div>
@@ -428,5 +440,5 @@ if (!suggestedFriends) {
         </Button>
       </div>
     </>
-  )
+  );
 }
