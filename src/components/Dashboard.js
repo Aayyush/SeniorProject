@@ -132,7 +132,7 @@ if (!suggestedFriends) {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            <Nav.Link href="/">Home</Nav.Link>
+            <Nav.Link href="/" active>Home</Nav.Link>
             <Nav.Link href="/events">Events</Nav.Link>
             <Nav.Link href="chat-room"> Chat Room </Nav.Link>
             <Nav.Link href="/find-friends">Find Friends</Nav.Link>
