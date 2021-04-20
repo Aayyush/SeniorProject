@@ -63,7 +63,7 @@ font-size: 1.5rem;
     background-color: rgb(56, 56, 143);
 }
 
-p {
+.chat-message {
 max-width: 500px;
 margin-bottom: 12px;
 line-height: 24px;

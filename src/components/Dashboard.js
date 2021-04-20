@@ -171,7 +171,9 @@ if (!suggestedFriends) {
         </div>
         <div class="row" style={{position: 'relative', top: '15%', left: '15%', align: 'center', color: 'rgb(173, 143, 125)', size: '18px'}}>
           <h4> Welcome to WassUp where you can connect to people with hobbies similar to you!</h4>
-          <p> </p>
+          <br/>
+          <br/>
+          <br/>
         </div>
         </div>
       <div class="main-wrapper pt-80">
@@ -410,10 +412,10 @@ if (!suggestedFriends) {
                                                     </div>
 
                                                     <div class="col-md-4 col-sm-4">
-                                                        <p key={friend[0]}> <a href="#" class="profile-link"> {friend[1]}</a>
-                                                        <p>Age : {friend[2]}</p>
+                                                        <div key={friend[0]}> <a href="#" class="profile-link"> {friend[1]}</a> </div>
+                                                        <div>Age : {friend[2]}</div>
                                                         {/* <p>Profession : {friend[3]}</p> */}
-                                                    </p>
+                                                    
                                                     </div>
 
                                                     <div class="col-md-3 col-sm-3">
