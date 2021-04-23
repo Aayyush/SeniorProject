@@ -205,12 +205,12 @@ export default function FindFriends() {
                               <div>
                                 {friend && friend[1] && (
                                   <div class="row">
-                                    <div class="col-md-2 col-sm-2">
-                                      <img
-                                        src="images/users/user-15.jpg"
-                                        alt="user"
-                                        class="profile-photo-lg"
-                                      ></img>
+                                    <div class="profile-thumb media media-xs overflow-visible">
+                                        <a href="#">
+                                            <figure class="profile-thumb-middle">
+                                                <img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="profile picture" class="media-object img-circle"/>
+                                            </figure>
+                                        </a>
                                     </div>
 
                                     <div class="col-md-7 col-sm-7">
@@ -220,7 +220,7 @@ export default function FindFriends() {
                                           {" "}
                                           {friend[1]}
                                         </a>
-                                        <p>Age : {friend[2]}</p>
+                                        <p>Age: {friend[2]}</p>
                                         {/* <p>Profession : {friend[3]}</p> */}
                                       </p>
                                     </div>
