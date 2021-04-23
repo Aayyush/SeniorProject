@@ -294,7 +294,7 @@ export default function Dashboard() {
                         {userDataDoc && (
                           <div>
                             <img
-                              src="https://bootdey.com/img/Content/avatar/avatar3.png"
+                              src="https://bootdey.com/img/Content/avatar/avatar5.png"
                               alt="Profile Picture"
                             ></img>
                             <br />
