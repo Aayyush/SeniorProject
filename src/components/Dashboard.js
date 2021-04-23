@@ -379,7 +379,10 @@ export default function Dashboard() {
                             </span>{" "}
                             <span> Duration: {event.Duration} </span>{" "}
                           </h6>
-                          <h6 class="location"> Location: {event.Address}</h6>
+                          <h6 class="location">
+                            {" "}
+                            Location: 2225 Georgia Ave NW Washington DC
+                          </h6>
                           <h6 class="author">
                             {" "}
                             Posted by:
