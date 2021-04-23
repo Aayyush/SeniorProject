@@ -5,6 +5,7 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import TextField from "@material-ui/core/TextField";
 import Navbar from "react-bootstrap/Navbar";
 import { Nav, NavDropdown } from "react-bootstrap";
+import { Link, useHistory } from "react-router-dom";
 
 firebase.app();
 
@@ -126,6 +127,11 @@ export class MapContainer extends Component {
     }
   };
 
+  // handleClick = () => {
+  //   const history = useHistory();
+  //   history.push('/create-event');
+  // };
+
   render() {
     return (
       <div>
@@ -165,17 +171,29 @@ export class MapContainer extends Component {
             </Nav>
           </Navbar.Collapse>
         </Navbar>
-        <Autocomplete
-          id="combo-box-demo"
-          options={this.state.events}
-          getOptionLabel={(event) => event.Name}
-          style={{ width: 700 }}
-          renderInput={(params) => (
-            <TextField {...params} label="Event Name" variant="outlined" />
-          )}
-          value={this.state.searchValue}
-          onChange={this.handleChange}
-        />
+        <ul class="event-header-tab nav nav-tabs">
+            <li class="nav-item flex-grow-1 bd-highlight">
+              <Autocomplete
+                id="combo-box-demo"
+                options={this.state.events}
+                getOptionLabel={(event) => event.Name}
+                style={{ width: 700 }}
+                renderInput={(params) => (
+                  <TextField {...params} label="Event Name" variant="outlined" />
+                )}
+                value={this.state.searchValue}
+                onChange={this.handleChange}
+              />
+            </li>
+            <li class="nav-item">
+              <Link to="./create-event">
+                <button class="button1 button2" style={{padding:'12px 10px', borderRadius:'5%'}}>
+                  Create Event
+                </button>
+              </Link>
+            </li>
+          </ul>
+
         <Map
           google={this.props.google}
           zoom={this.state.zoomLevel}
