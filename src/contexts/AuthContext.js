@@ -45,6 +45,12 @@ export function AuthProvider({ children }) {
     return db.collection("Users").doc(auth.currentUser.uid).get();
   }
 
+  function fetchUserDocumentById(uid) {
+    var db = firebase.firestore(app);
+    console.log("Fetching User data");
+    return db.collection("Users").doc(uid).get();
+  }
+
   function fetchUserDocumentByName(userName) {
     var db = firebase.firestore(app);
     return db.collection("Users").where("Name", "==", userName).get();
@@ -94,6 +100,11 @@ export function AuthProvider({ children }) {
     return db.collection("Events");
   }
 
+  function fetchEventWithID(eventId) {
+    var db = firebase.firestore(app);
+    return db.collection("Events").doc(eventId).get();
+  }
+
   function getDB() {
     return firebase.firestore(app);
   }
@@ -123,6 +134,8 @@ export function AuthProvider({ children }) {
     updatePassword,
     createNewEvent,
     updateUserDocument,
+    fetchEventWithID,
+    fetchUserDocumentById,
     getDB,
   };
 

@@ -132,9 +132,9 @@ export default function CreateEvent() {
       setLoading(true);
 
       var guests = [];
-      guestsList.forEach((uid) => {
+      guestsList.forEach((userName) => {
         var userObj = {};
-        userObj["UID"] = uid;
+        userObj["Name"] = userName;
         userObj["IsAccepted"] = false;
         guests.push(userObj);
       });
@@ -174,7 +174,7 @@ export default function CreateEvent() {
 
         // TODO: Invite all users to the event.
         newEvent.Guests.forEach((guest) => {
-          console.log("Inviting ", guest.Name);
+          console.log("Inviting ", guest);
           fetchUserDocumentByName(guest.Name).then((snapshot) => {
             if (snapshot.empty) {
               console.log("No matching documents");

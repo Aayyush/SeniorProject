@@ -13,6 +13,10 @@ import { Link, useHistory } from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
 import { makeStyles } from "@material-ui/core/styles";
 import "./Profile.css";
+import Geocode from "react-geocode";
+
+Geocode.setApiKey("AIzaSyCjnQ8RAq7v8WrfNSaMqD8LjiFSvpDzXRc");
+Geocode.setLanguage("en");
 
 const useStyles = makeStyles({
   root: {},
@@ -46,9 +50,11 @@ export default function Dashboard() {
     currentUser,
     logout,
     fetchUserDocument,
+    fetchUserDocumentById,
     fetchAllUsers,
     getUserID,
     addFriend,
+    fetchEventWithID,
   } = useAuth();
   const history = useHistory();
 
@@ -149,12 +155,49 @@ export default function Dashboard() {
     }
   }
 
+  async function getAddress(lat, lng) {
+    Geocode.fromLatLng(lat, lng).then((response) => {
+      return response.results[0].formatted_address;
+    });
+  }
+
   async function getUserData() {
     const doc = await fetchUserDocument();
     return doc;
   }
+
+  async function fetchEvents(eventIds) {
+    var events = [];
+    eventIds.forEach((event) => {
+      fetchEventWithID(event).then((event) => {
+        var ev = event.data();
+        fetchUserDocumentById(ev.CreatedBy).then((userDoc) => {
+          ev["CreatedBy"] = userDoc.data()["Name"];
+          getAddress(ev.Location.lat, ev.Location.lng).then((address) => {
+            ev["Address"] = address;
+            events.push(ev);
+          });
+
+          // Update Location object.
+        });
+      });
+    });
+    return events;
+  }
+
   if (!userDataDoc) {
-    getUserData().then((doc) => setUserDataDoc(doc.data()));
+    console.log("User Data Fetch ");
+    getUserData().then((doc) => {
+      var userData = doc.data();
+      const eventIDs = userData["EventsAttending"];
+
+      fetchEvents(eventIDs).then((events) => {
+        userData["EventsAttending"] = events;
+
+        console.log(userData);
+        setUserDataDoc(userData);
+      });
+    });
   }
 
   return (
@@ -295,166 +338,69 @@ export default function Dashboard() {
                   </h2>
                 </div>
               </div>
-              {/* <!-- post status start --> */}
-              <div class="card">
-                {/* <!-- post title start --> */}
-                <div class="post-title d-flex align-items-center">
-                  {/* <!-- profile picture end --> */}
-                  <div class="profile-thumb">
-                    <a href="#">
-                      <figure class="profile-thumb-middle">
-                        <img
-                          src="assets/images/profile/profile-small-1.jpg"
-                          alt="profile picture"
-                        />
-                      </figure>
-                    </a>
-                  </div>
-                  {/* <!-- profile picture end --> */}
-
-                  <div class="posted-author">
-                    <h6 class="author">
-                      <a href="profile.html">merry watson</a>
-                    </h6>
-                    <span class="post-time">20 min ago</span>
-                  </div>
-
-                  <div class="post-settings-bar">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <div class="post-settings arrow-shape">
-                      <ul>
-                        <li>
-                          <button>copy link to adda</button>
-                        </li>
-                        <li>
-                          <button>edit post</button>
-                        </li>
-                        <li>
-                          <button>embed adda</button>
-                        </li>
-                      </ul>
+              <div>
+                {userDataDoc.EventsAttending &&
+                  userDataDoc.EventsAttending.map((event, i) => (
+                    <div class="card">
+                      {/* <!-- event title start --> */}
+                      <div class="post-title d-flex align-items-center">
+                        {/* <!-- profile picture end --> */}
+                        <div class="profile-thumb media media-xs overflow-visible">
+                          <a href="#">
+                            <figure class="profile-thumb-middle">
+                              <img
+                                src="https://bootdey.com/img/Content/avatar/avatar3.png"
+                                alt="profile picture"
+                                class="media-object img-circle"
+                              />
+                            </figure>
+                          </a>
+                        </div>
+                        {/* <!-- profile picture end --> */}
+                        <div class="posted-author">
+                          <h6 class="event-name">
+                            <a href="/events"> {event.Name} </a>
+                          </h6>
+                          {/* <span class="post-time">20 min ago</span> */}
+                        </div>
+                      </div>
+                      {/* <!-- event title start --> */}
+                      <div class="post-content">
+                        <p class="post-desc">{event.Description}</p>
+                        <ul class="comment-share-meta">
+                          <h6 class="date">
+                            {" "}
+                            <span>
+                              {" "}
+                              Date:{" "}
+                              {new Date(
+                                event.Date.seconds * 1000
+                              ).toDateString()}
+                            </span>{" "}
+                            <span> Duration: {event.Duration} </span>{" "}
+                          </h6>
+                          <h6 class="location"> Location: {event.Address}</h6>
+                          <h6 class="author">
+                            {" "}
+                            Posted by:
+                            <a href="/profile-name"> {event.CreatedBy}</a>
+                          </h6>
+                          <h6 class="location">
+                            {" "}
+                            RSVP'd: <strong> {event.Guests.length} </strong>
+                          </h6>
+                        </ul>
+                        <button
+                          class="post-meta-rsvp-count button1 button2"
+                          style={{ textAlign: "center" }}
+                        >
+                          <i class="bi bi-heart-beat"></i>
+                          <span>Guests</span>
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                </div>
-                {/* <!-- post title start --> */}
-                <div class="post-content">
-                  <p class="post-desc">
-                    Many desktop publishing packages and web page editors now
-                    use Lorem Ipsum as their default model text, and a search
-                    for 'lorem ipsum' will uncover many web sites still in their
-                    infancy.
-                  </p>
-                  <div class="post-thumb-gallery">
-                    <figure class="post-thumb img-popup">
-                      <a href="assets/images/post/post-large-1.jpg">
-                        <img
-                          src="assets/images/post/post-1.jpg"
-                          alt="post image"
-                        />
-                      </a>
-                    </figure>
-                  </div>
-                  <div class="post-meta">
-                    <button class="post-meta-like">
-                      <i class="bi bi-heart-beat"></i>
-                      <span>You and 201 people like this</span>
-                      <strong>201</strong>
-                    </button>
-                    <ul class="comment-share-meta">
-                      <li>
-                        <button class="post-comment">
-                          <i class="bi bi-chat-bubble"></i>
-                          <span>41</span>
-                        </button>
-                      </li>
-                      <li>
-                        <button class="post-share">
-                          <i class="bi bi-share"></i>
-                          <span>07</span>
-                        </button>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
+                  ))}
               </div>
-              {/* <!-- post status end --> */}
-
-              {/* <!-- post status start --> */}
-              <div class="card">
-                {/* <!-- post title start --> */}
-                <div class="post-title d-flex align-items-center">
-                  {/* <!-- profile picture end --> */}
-                  <div class="profile-thumb">
-                    <a href="#">
-                      <figure class="profile-thumb-middle">
-                        <img
-                          src="assets/images/profile/profile-small-9.jpg"
-                          alt="profile picture"
-                        />
-                      </figure>
-                    </a>
-                  </div>
-                  {/* <!-- profile picture end --> */}
-
-                  <div class="posted-author">
-                    <h6 class="author">
-                      <a href="profile.html">Jon Wileyam</a>
-                    </h6>
-                    <span class="post-time">15 min ago</span>
-                  </div>
-
-                  <div class="post-settings-bar">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <div class="post-settings arrow-shape">
-                      <ul>
-                        <li>
-                          <button>copy link to adda</button>
-                        </li>
-                        <li>
-                          <button>edit post</button>
-                        </li>
-                        <li>
-                          <button>embed adda</button>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-                {/* <!-- post title start --> */}
-                <div class="post-content">
-                  <p class="post-desc pb-0">
-                    Many desktop publishing packages and web page editors now
-                    use Lorem Ipsum as their default model text, and a search
-                    for
-                  </p>
-                  <div class="post-meta">
-                    <button class="post-meta-like">
-                      <i class="bi bi-heart-beat"></i>
-                      <span>You and 206 people like this</span>
-                      <strong>206</strong>
-                    </button>
-                    <ul class="comment-share-meta">
-                      <li>
-                        <button class="post-comment">
-                          <i class="bi bi-chat-bubble"></i>
-                          <span>41</span>
-                        </button>
-                      </li>
-                      <li>
-                        <button class="post-share">
-                          <i class="bi bi-share"></i>
-                          <span>07</span>
-                        </button>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              {/* <!-- post status end --> */}
             </div>
 
             <div class="col-lg-3 order-3">
