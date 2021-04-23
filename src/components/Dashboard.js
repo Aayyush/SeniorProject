@@ -188,7 +188,7 @@ if (!suggestedFriends) {
                                         <div class="author">
                                         {userDataDoc && (
                                             <div>
-                                              <img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="Profile Picture"></img>
+                                              <img src="https://bootdey.com/img/Content/avatar/avatar5.png" alt="Profile Picture"></img>
                                               <br/>
                                               <h4><a href="/profile-about"> {userDataDoc["Name"]}</a></h4>
                                               <h6>{currentUser.email}
@@ -225,7 +225,7 @@ if (!suggestedFriends) {
                                 <div class="profile-thumb media media-xs overflow-visible">
                                     <a href="#">
                                         <figure class="profile-thumb-middle">
-                                            <img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="profile picture" class="media-object img-circle"/>
+                                            <img src="https://bootdey.com/img/Content/avatar/avatar.png" alt="profile picture" class="media-object img-circle"/>
                                         </figure>
                                     </a>
                                 </div>
