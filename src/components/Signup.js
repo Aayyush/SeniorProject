@@ -92,7 +92,9 @@ export default function Signup() {
           AgeRange: [minAgePreference, maxAgePreference],
           MaxDistance: maxDistancePreference,
         },
-        Events: {},
+        EventsAttending: [],
+        EventsCreated: [],
+        EventsInvited: [],
         Profession: professionref.current.value.split(","),
         Skills: skillsref.current.value.split(","),
       };
@@ -188,7 +190,7 @@ export default function Signup() {
                     onChange={(e) => setMaxAgePreference(e.target.value)}
                   />
                 </Form.Group>
-				<Form.Group id="max-distance-preference">
+                <Form.Group id="max-distance-preference">
                   <Form.Label>Max Distance Preference</Form.Label>
                   <RangeSlider
                     value={maxDistancePreference}

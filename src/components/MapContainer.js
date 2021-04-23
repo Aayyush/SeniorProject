@@ -55,12 +55,35 @@ export class MapContainer extends Component {
     });
   }
 
-  rsvpUser(event) {
-    // TODO:
-    // Add User to Events Guests.
-    // Add Event to User's Events
-    console.log("User RSVPed");
-    console.log(this.state.eventOnDisplay);
+  rsvpUser() {
+    // Get the current logged in user.
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+    const currUser = auth.currentUser;
+    const event = this.state.eventOnDisplay;
+
+    // Add the event to the user's attending field.
+    db.collection("Users")
+      .doc(currUser.uid)
+      .update({
+        EventsAttending: firebase.firestore.FieldValue.arrayUnion(event.id),
+      })
+      .then(() => {
+        console.log("Added to eventsAttending");
+
+        // Add the user to the guests list.
+        db.collection("Events")
+          .doc(event.id)
+          .update({
+            Guests: firebase.firestore.FieldValue.arrayUnion({
+              IsAccepted: true,
+              UID: currUser.uid,
+            }),
+          })
+          .then(() => {
+            console.log("Added user to the event's guest list.");
+          });
+      });
   }
 
   handleChange = (_, newValue) => {
@@ -91,6 +114,10 @@ export class MapContainer extends Component {
 
   onClose = (_) => {
     if (this.state.showingInfoWindow) {
+      // Hack: Button on click not working.
+      // RSVP User.
+      this.rsvpUser();
+
       this.setState({
         showingInfoWindow: false,
         activeMarker: null,
@@ -114,7 +141,9 @@ export class MapContainer extends Component {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
               <Nav.Link href="/">Home</Nav.Link>
-              <Nav.Link href="/events" active>Events</Nav.Link>
+              <Nav.Link href="/events" active>
+                Events
+              </Nav.Link>
               <Nav.Link href="chat-room"> Chat Room </Nav.Link>
               <Nav.Link href="/find-friends">Find Friends</Nav.Link>
               <NavDropdown title="Profile" id="basic-nav-dropdown">
@@ -204,7 +233,14 @@ export class MapContainer extends Component {
               <h6>Created By: {this.state.eventOnDisplay?.createdByName}</h6>
               <h6>Duration {this.state.eventOnDisplay?.Duration}</h6>
               <h6>Attendance {this.state.eventOnDisplay?.Attendance}</h6>
-              <button type="submit">RSVP</button>
+              <button
+                type="submit"
+                onClick={(event) => {
+                  console.log(event);
+                }}
+              >
+                RSVP
+              </button>
               {/* TODO: Add RSVP logic to button. */}
             </div>
           </InfoWindow>

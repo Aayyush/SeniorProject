@@ -12,6 +12,7 @@ import Geocode from "react-geocode";
 import { useHistory } from "react-router-dom";
 import { Nav, NavDropdown } from "react-bootstrap";
 import Navbar from "react-bootstrap/Navbar";
+import firebase from "firebase/app";
 
 // Geocode Configurations
 Geocode.setLanguage("en");
@@ -55,40 +56,6 @@ class GuestBox extends React.Component {
   render() {
     return (
       <div>
-        <Navbar bg="light" expand="lg">
-          <Navbar.Brand href="/">Wassup</Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="mr-auto">
-              <Nav.Link href="/">Home</Nav.Link>
-              <Nav.Link href="/events" active>Events</Nav.Link>
-              <Nav.Link href="chat-room"> Chat Room </Nav.Link>
-              <Nav.Link href="/find-friends">Find Friends</Nav.Link>
-              <NavDropdown title="Profile" id="basic-nav-dropdown">
-                <NavDropdown.Item href="/profile-about">About</NavDropdown.Item>
-                <NavDropdown.Item href="/profile-interests">
-                  Interests
-                </NavDropdown.Item>
-                <NavDropdown.Item href="/profile-preferences">
-                  Preferences
-                </NavDropdown.Item>
-                <NavDropdown.Item href="/profile-friends">
-                  Friends
-                </NavDropdown.Item>
-                <NavDropdown.Item href="/profile-events">
-                  Events
-                </NavDropdown.Item>
-                <NavDropdown.Item href="/profile-photos">
-                  Photos
-                </NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item href="/update-profile">
-                  Update Profile
-                </NavDropdown.Item>
-              </NavDropdown>
-            </Nav>
-          </Navbar.Collapse>
-        </Navbar>
         <Autocomplete
           id="combo-box-demo"
           options={this.props.users}
@@ -122,7 +89,13 @@ export default function CreateEvent() {
 
   const history = useHistory();
 
-  const { fetchAllUsers, currentUser, createNewEvent } = useAuth();
+  const {
+    fetchAllUsers,
+    fetchUserDocumentByName,
+    currentUser,
+    createNewEvent,
+    updateUserDocument,
+  } = useAuth();
 
   useEffect(() => {
     async function fetchData() {
@@ -131,7 +104,9 @@ export default function CreateEvent() {
         .get()
         .then((userDocs) => {
           userDocs.forEach((userDoc) => {
-            users.push(userDoc.data());
+            if (userDoc.id !== currentUser.uid) {
+              users.push(userDoc.data());
+            }
           });
         });
       return users;
@@ -157,9 +132,9 @@ export default function CreateEvent() {
       setLoading(true);
 
       var guests = [];
-      guestsList.forEach((guestName) => {
+      guestsList.forEach((userName) => {
         var userObj = {};
-        userObj["Name"] = guestName;
+        userObj["Name"] = userName;
         userObj["IsAccepted"] = false;
         guests.push(userObj);
       });
@@ -189,12 +164,34 @@ export default function CreateEvent() {
         Attendance: 1, // Admin User
       };
 
-      createNewEvent(newEvent).then((_) => {
-        console.log("Event Created");
+      createNewEvent(newEvent).then((docRef) => {
+        console.log("Event Created", docRef.id);
 
         // TODO: Add this event to user's list.
+        updateUserDocument(currentUser.uid, {
+          EventsCreated: firebase.firestore.FieldValue.arrayUnion(docRef.id),
+        });
 
         // TODO: Invite all users to the event.
+        newEvent.Guests.forEach((guest) => {
+          console.log("Inviting ", guest);
+          fetchUserDocumentByName(guest.Name).then((snapshot) => {
+            if (snapshot.empty) {
+              console.log("No matching documents");
+              return;
+            }
+
+            snapshot.forEach((user) => {
+              updateUserDocument(user.id, {
+                EventsInvited: firebase.firestore.FieldValue.arrayUnion(
+                  docRef.id
+                ),
+              });
+            });
+          });
+        });
+
+        console.log("Invited all guests");
       });
       history.push("/events");
     } catch (err) {
@@ -206,66 +203,101 @@ export default function CreateEvent() {
   }
 
   return (
-    <Card>
-      <Card.Body>
-        <h2 className="text-center mb-4">Create New Event</h2>
-        <Form onSubmit={handleSubmit}>
-          <Form.Group id="event-name">
-            <Form.Label>Event Name</Form.Label>
-            <Form.Control
-              type="text"
-              value={eventName}
-              onChange={(event) => {
-                setEventName(event.target.value);
-              }}
-              required
-            />
-          </Form.Group>
-          <Form.Group id="description">
-            <Form.Label>Description</Form.Label>
-            <Form.Control type="text" ref={descriptionRef} required />
-          </Form.Group>
-          <Form.Group id="event-date">
-            <Form.Label>Event Date</Form.Label>
-            <DatePicker
-              selected={eventDate}
-              onChange={(date) => setEventDate(date)}
-              timeInputLabel="Time:"
-              dateFormat="MM/dd/yyyy h:mm aa"
-              showTimeInput
-            />
-            <Form.Group>
-              <label>Duration</label>
-              <Form.Control type="text" ref={durationRef} required />
+    <div>
+      <Navbar bg="light" expand="lg">
+        <Navbar.Brand href="/">Wassup</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="mr-auto">
+            <Nav.Link href="/">Home</Nav.Link>
+            <Nav.Link href="/events" active>
+              Events
+            </Nav.Link>
+            <Nav.Link href="chat-room"> Chat Room </Nav.Link>
+            <Nav.Link href="/find-friends">Find Friends</Nav.Link>
+            <NavDropdown title="Profile" id="basic-nav-dropdown">
+              <NavDropdown.Item href="/profile-about">About</NavDropdown.Item>
+              <NavDropdown.Item href="/profile-interests">
+                Interests
+              </NavDropdown.Item>
+              <NavDropdown.Item href="/profile-preferences">
+                Preferences
+              </NavDropdown.Item>
+              <NavDropdown.Item href="/profile-friends">
+                Friends
+              </NavDropdown.Item>
+              <NavDropdown.Item href="/profile-events">Events</NavDropdown.Item>
+              <NavDropdown.Item href="/profile-photos">Photos</NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item href="/update-profile">
+                Update Profile
+              </NavDropdown.Item>
+            </NavDropdown>
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
+
+      <Card>
+        <Card.Body>
+          <h2 className="text-center mb-4">Create New Event</h2>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group id="event-name">
+              <Form.Label>Event Name</Form.Label>
+              <Form.Control
+                type="text"
+                value={eventName}
+                onChange={(event) => {
+                  setEventName(event.target.value);
+                }}
+                required
+              />
             </Form.Group>
-          </Form.Group>
-          <Form.Group>
-            <label>Location</label>
-            <LocationSearchBox
-              parentCallback={(eventLocation) =>
-                setEventLocation(eventLocation)
-              }
-            />
-          </Form.Group>
-          <Form.Group controlId="openToPublic">
-            <Form.Check
-              type="checkbox"
-              label="Open to Public?"
-              ref={openToPublicRef}
-              defaultValue="off"
-            />
-          </Form.Group>
-          <Form.Group>
-            <GuestBox
-              users={usersList}
-              onAddGuestCallback={(guestList) => setGuestsList(guestList)}
-            />
-          </Form.Group>
-          <Button disabled={loading} className="w-100" type="submit">
-            Submit
-          </Button>
-        </Form>
-      </Card.Body>
-    </Card>
+            <Form.Group id="description">
+              <Form.Label>Description</Form.Label>
+              <Form.Control type="text" ref={descriptionRef} required />
+            </Form.Group>
+            <Form.Group id="event-date">
+              <Form.Label>Event Date</Form.Label>
+              <DatePicker
+                selected={eventDate}
+                onChange={(date) => setEventDate(date)}
+                timeInputLabel="Time:"
+                dateFormat="MM/dd/yyyy h:mm aa"
+                showTimeInput
+              />
+              <Form.Group>
+                <label>Duration</label>
+                <Form.Control type="text" ref={durationRef} required />
+              </Form.Group>
+            </Form.Group>
+            <Form.Group>
+              <label>Location</label>
+              <LocationSearchBox
+                parentCallback={(eventLocation) =>
+                  setEventLocation(eventLocation)
+                }
+              />
+            </Form.Group>
+            <Form.Group controlId="openToPublic">
+              <Form.Check
+                type="checkbox"
+                label="Open to Public?"
+                ref={openToPublicRef}
+                defaultValue="off"
+              />
+            </Form.Group>
+            <Form.Group>
+              <GuestBox
+                users={usersList}
+                onAddGuestCallback={(guestList) => setGuestsList(guestList)}
+              />
+            </Form.Group>
+            <Button disabled={loading} className="w-100" type="submit">
+              Submit
+            </Button>
+          </Form>
+        </Card.Body>
+      </Card>
+    </div>
   );
 }
