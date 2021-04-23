@@ -1,4 +1,12 @@
-import { Card, Button, Alert, Nav, NavDropdown, Form, FormControl } from "react-bootstrap"
+import {
+  Card,
+  Button,
+  Alert,
+  Nav,
+  NavDropdown,
+  Form,
+  FormControl,
+} from "react-bootstrap";
 
 import "firebase/auth";
 import firebase from "firebase/app";
@@ -105,7 +113,10 @@ export default function ChatRoom() {
           <Nav className="mr-auto">
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="/events">Events</Nav.Link>
-            <Nav.Link href="chat-room" active> Chat Room </Nav.Link>
+            <Nav.Link href="chat-room" active>
+              {" "}
+              Chat Room{" "}
+            </Nav.Link>
             <Nav.Link href="/find-friends">Find Friends</Nav.Link>
             <NavDropdown title="Profile" id="basic-nav-dropdown">
               <NavDropdown.Item href="/profile-about">About</NavDropdown.Item>
@@ -138,7 +149,7 @@ export default function ChatRoom() {
       </Navbar>
       <div className="chat-app">
         <header>
-          <h2>Group Chat 💬</h2>
+          <h2>Graduation Ceremony 💬</h2>
         </header>
         <section>
           <ChatRoomBoard />

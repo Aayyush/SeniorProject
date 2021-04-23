@@ -150,6 +150,8 @@ export default function Dashboard() {
       console.log("Adding friend.");
       console.log(value);
       await addFriend(value);
+
+      window.location.reload();
     } catch {
       setError("Error trying to add friend.");
     }
